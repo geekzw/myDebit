@@ -1,0 +1,31 @@
+
+server:
+  servlet:
+    context-path: /
+
+spring:
+  #mysql
+  datasource:
+      url: jdbc:mysql://101.132.109.136:3306/debit?useUnicode=true&characterEncoding=utf-8&useSSL=true&allowMultiQueries=true
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+
+# mybatis
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.gzw.debit.dal.model
+  config-location: classpath:mybatis/mybatis-config.xml
+
+# redis
+#redis
+jedis:
+  pool:
+    host: 101.132.109.136
+    port: 6379
+    timeout: 2000
+    password: gujian
+    config:
+      maxTotal: 10
+      maxIdle: 100
+      maxWaitMillis: -1
