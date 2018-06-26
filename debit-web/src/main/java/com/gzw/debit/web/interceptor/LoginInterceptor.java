@@ -1,4 +1,4 @@
-package com.gzw.debitweb.interceptor;
+package com.gzw.debit.web.interceptor;
 
 import com.alibaba.fastjson.JSON;
 import com.gzw.debit.core.ao.RedisAO;

@@ -1,4 +1,4 @@
-package com.gzw.debitweb;
+package com.gzw.debit.web;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

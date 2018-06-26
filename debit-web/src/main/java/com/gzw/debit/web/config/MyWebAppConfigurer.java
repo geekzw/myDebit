@@ -1,6 +1,6 @@
-package com.gzw.debitweb.config;
+package com.gzw.debit.web.config;
 
-import com.gzw.debitweb.interceptor.LoginInterceptor;
+import com.gzw.debit.web.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

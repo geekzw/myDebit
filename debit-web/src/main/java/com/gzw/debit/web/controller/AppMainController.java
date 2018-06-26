@@ -1,4 +1,4 @@
-package com.gzw.debitweb.controller;
+package com.gzw.debit.web.controller;
 
 import com.gzw.debit.core.ao.AppMainAO;
 import com.gzw.debit.core.form.base.BaseResponse;
