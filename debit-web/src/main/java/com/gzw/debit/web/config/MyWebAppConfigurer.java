@@ -1,12 +1,13 @@
 package com.gzw.debit.web.config;
 
 import com.gzw.debit.web.interceptor.LoginInterceptor;
+import com.gzw.debit.web.interceptor.SmsInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * auth:gujian
@@ -16,10 +17,24 @@ import java.util.Arrays;
  */
 @Configuration
 public class MyWebAppConfigurer implements WebMvcConfigurer {
+    private List<String> excludePaths = new ArrayList<>();
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**")
-                .excludePathPatterns(new ArrayList<>(Arrays.asList("/login.json","/register.json")));
+
+        excludePaths.add("/getSmsCode.json");
+        excludePaths.add("/login.json");
+        excludePaths.add("/register.json");
+        excludePaths.add("/mainView.json");
+        excludePaths.add("/versionStatus.json");
+        excludePaths.add("/download.json");
+        excludePaths.add("/error");
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/**")
+                .excludePathPatterns(excludePaths);
+
+        registry.addInterceptor(new SmsInterceptor())
+                .addPathPatterns("/getSmsCode.json");
+
     }
 }

@@ -9,6 +9,7 @@
         <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="from_where" jdbcType="TINYINT" property="fromWhere" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -72,7 +73,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,username,nick_name,password,status
+        id,gmt_create,gmt_modified,username,nick_name,password,status,from_where
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.UserQuery" resultMap="BaseResultMap">
@@ -125,6 +126,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="fromWhere != null">
+                from_where,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -139,6 +143,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
+            </if>
+            <if test="fromWhere != null">
+                #{fromWhere,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -166,6 +173,9 @@
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
+            <if test="record.fromWhere != null">
+                from_where = #{record.fromWhere,jdbcType=TINYINT},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -178,6 +188,7 @@
         nick_name = #{record.nickName,jdbcType=VARCHAR},
         password = #{record.password,jdbcType=VARCHAR},
         status = #{record.status,jdbcType=TINYINT},
+        from_where = #{record.fromWhere,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -199,6 +210,9 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="fromWhere != null">
+                from_where = #{fromWhere,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

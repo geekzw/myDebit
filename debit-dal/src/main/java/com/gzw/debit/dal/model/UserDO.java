@@ -52,4 +52,10 @@ public class UserDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 注册来源：0.未知，1.android，2.ios，3.h5
+     * debit_user.from_where
+     */
+    private Integer fromWhere;
+
 }

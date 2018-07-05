@@ -1,11 +1,12 @@
 package com.gzw.debit.web.interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.gzw.debit.common.entry.User;
+import com.gzw.debit.common.utils.SpringContextUtil;
 import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.ao.impl.RedisAOImpl;
 import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.form.base.BaseResponse;
-import com.gzw.debit.core.utils.SpringContextUtil;
 import com.gzw.debit.core.utils.StringUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,8 +30,8 @@ public class LoginInterceptor implements HandlerInterceptor {
         }
         if(sessionId!=null){
             RedisAO redisAO = SpringContextUtil.getBean(RedisAOImpl.class);
-            String userDO = redisAO.get(sessionId);
-            if(userDO != null){
+            User user = (User) redisAO.get(sessionId);
+            if(user != null){
                 return true;
             }
         }

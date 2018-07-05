@@ -23,3 +23,18 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+#application
+*.yml
+debit-web/target/*
+debit-web/src/main/resources/*.yml
+debit-web/src/main/resources/static/apk/*

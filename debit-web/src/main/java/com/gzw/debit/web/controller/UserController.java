@@ -4,10 +4,7 @@ import com.gzw.debit.core.ao.UserAO;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,8 +30,13 @@ public class UserController {
         return userAO.register(form);
     }
 
-    @GetMapping(value = "/test.json")
-    public BaseResponse test(@RequestBody LoginForm form){
+    @GetMapping(value = "/getSmsCode.json")
+    public BaseResponse<String> getSmsCode(@RequestParam("phone") String phone){
+        return userAO.getSmsCode(phone);
+    }
+
+    @PostMapping(value = "/test.json")
+    public BaseResponse test(){
         return BaseResponse.create();
     }
 

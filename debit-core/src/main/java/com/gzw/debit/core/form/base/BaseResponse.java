@@ -3,6 +3,8 @@ package com.gzw.debit.core.form.base;
 import com.gzw.debit.core.enums.ErrorEnum;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * auth:gujian
  * time:2018/6/24
@@ -10,11 +12,13 @@ import lombok.Data;
  * describe:
  */
 @Data
-public class BaseResponse<T> {
+public class BaseResponse<T> implements Serializable{
 
     private int code;
 
     private String desc;
+
+    private boolean isSuccess;
 
     private T data;
 
@@ -22,6 +26,7 @@ public class BaseResponse<T> {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.code = errorEnum.getCode();
         baseResponse.desc = errorEnum.getDesc();
+        baseResponse.isSuccess = false;
         return baseResponse;
     }
 
@@ -29,6 +34,7 @@ public class BaseResponse<T> {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setCode(ErrorEnum.SUCCESS.getCode());
         baseResponse.setDesc(ErrorEnum.SUCCESS.getDesc());
+        baseResponse.isSuccess = true;
         baseResponse.data = data;
         return baseResponse;
     }
@@ -37,6 +43,7 @@ public class BaseResponse<T> {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.code = code;
         baseResponse.desc = desc;
+        baseResponse.isSuccess = false;
         return baseResponse;
     }
 
@@ -44,6 +51,7 @@ public class BaseResponse<T> {
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.setCode(ErrorEnum.SUCCESS.getCode());
         baseResponse.setDesc(ErrorEnum.SUCCESS.getDesc());
+        baseResponse.isSuccess = true;
         return baseResponse;
     }
 }

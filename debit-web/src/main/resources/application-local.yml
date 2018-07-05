@@ -2,6 +2,12 @@
 server:
   servlet:
     context-path: /
+  ssl:
+    key-alias: tomcat
+    key-store: classpath:keystore.p12
+    key-store-password: gujian1002
+    key-store-type: PKCS12
+  port: 8443
 
 spring:
   #mysql
@@ -10,8 +16,22 @@ spring:
       username: root
       password: root
       driver-class-name: com.mysql.jdbc.Driver
+
+  redis:
+    host: 101.132.109.136
+    password: gujian
+    port: 6379
+    jedis:
+      max-idle: 100
+      min-idle: 8
+      max-active: 10
+      max-wait: -1
+    timeout: 3000
+
   application:
       name: debit
+  resources:
+    static-locations: classpath:static
 
 # mybatis
 mybatis:
@@ -21,13 +41,16 @@ mybatis:
 
 # redis
 #redis
-jedis:
-  pool:
-    host: 101.132.109.136
-    port: 6379
-    timeout: 2000
-    password: gujian
-    config:
-      maxTotal: 10
-      maxIdle: 100
-      maxWaitMillis: -1
+#jedis:
+#  pool:
+#    host: 101.132.109.136
+#    port: 6379
+#    timeout: 2000
+#    password: gujian
+#    config:
+#      maxTotal: 10
+#      maxIdle: 100
+#      maxWaitMillis: -1
+
+#redis
+

@@ -37,7 +37,7 @@ public class BorrowVO implements Serializable{
     /**
      * borrow序号
      */
-    private Integer bannerOrder;
+    private Integer borrowOrder;
 
     /**
      * 产品名称
@@ -89,35 +89,4 @@ public class BorrowVO implements Serializable{
      */
     private java.math.BigDecimal monthyRate;
 
-    public static List<BorrowVO> createListByDO(List<BorrowDO> borrowDOS){
-        if(CollectionUtils.isEmpty(borrowDOS)){
-            return new ArrayList();
-        }
-        List<BorrowVO> borrowVOS = new ArrayList<>();
-        for(BorrowDO bannerDO: borrowDOS){
-            BorrowVO borrowVO = new BorrowVO();
-            BeanUtils.copyProperties(bannerDO,borrowVO);
-            borrowVOS.add(borrowVO);
-        }
-        Collections.sort(borrowVOS, (o1, o2)->{
-            if(o1.bannerOrder == null && o2.bannerOrder == null){
-                return 0;
-            }
-            if(o1.bannerOrder == null){
-                return -1;
-            }
-            if(o2.bannerOrder == null){
-                return 1;
-            }
-            if(o1.bannerOrder == o2.bannerOrder){
-                return 0;
-            }
-            if(o1.bannerOrder > o2.bannerOrder){
-                return 1;
-            }
-            return -1;
-        });
-        return borrowVOS;
-
-    }
 }

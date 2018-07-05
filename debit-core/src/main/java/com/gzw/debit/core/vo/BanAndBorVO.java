@@ -16,5 +16,5 @@ public class BanAndBorVO implements Serializable{
 
     private List<BannerVO> bannerVOList;
 
-    private List<BorrowVO> borrowVOList;
+    private List<BorrowListVO> borrowVOList;
 }

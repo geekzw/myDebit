@@ -27,4 +27,11 @@ public interface UserAO {
      */
     BaseResponse<String> register(LoginForm form);
 
+    /**
+     * 获取注册验证码
+     * @param phone
+     * @return
+     */
+    BaseResponse<String> getSmsCode(String phone);
+
 }

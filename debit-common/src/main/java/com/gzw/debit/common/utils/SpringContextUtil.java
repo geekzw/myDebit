@@ -1,4 +1,4 @@
-package com.gzw.debit.core.utils;
+package com.gzw.debit.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
