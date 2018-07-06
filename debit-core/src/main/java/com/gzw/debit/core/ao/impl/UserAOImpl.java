@@ -13,6 +13,7 @@ import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.UserManager;
+import com.gzw.debit.core.vo.UserInfoVO;
 import com.gzw.debit.dal.model.UserDO;
 import com.gzw.debit.dal.query.UserQuery;
 import org.slf4j.Logger;
@@ -147,5 +148,22 @@ public class UserAOImpl implements UserAO {
         redisAO.set(phone,smsResponse.getData(),RedisAOImpl.SMS_CODE_EXPR);
 
         return smsResponse;
+    }
+
+    @Override
+    public BaseResponse<UserInfoVO> getUserInfo(String sessionId) {
+
+        if(StringUtil.isEmpty(sessionId)){
+            return BaseResponse.create(Const.PARAMS_ERROR,"sessionId不能为空");
+        }
+
+        User user = (User) redisAO.get(sessionId);
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"session过期");
+        }
+        UserInfoVO userInfoVO = new UserInfoVO();
+        userInfoVO.setUsername(user.getUsername());
+
+        return BaseResponse.create(userInfoVO);
     }
 }

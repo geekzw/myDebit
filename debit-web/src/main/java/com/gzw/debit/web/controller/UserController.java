@@ -3,6 +3,7 @@ package com.gzw.debit.web.controller;
 import com.gzw.debit.core.ao.UserAO;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,5 +41,10 @@ public class UserController {
         return BaseResponse.create();
     }
 
+
+    @GetMapping(value = "/pc/getUserInfo.json")
+    public BaseResponse<UserInfoVO> getUserInfo(@RequestParam("sessionId") String sessionId,HttpServletRequest request){
+        return userAO.getUserInfo(sessionId);
+    }
 
 }

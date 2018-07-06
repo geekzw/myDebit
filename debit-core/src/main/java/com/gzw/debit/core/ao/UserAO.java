@@ -2,6 +2,7 @@ package com.gzw.debit.core.ao;
 
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.vo.UserInfoVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,5 +34,7 @@ public interface UserAO {
      * @return
      */
     BaseResponse<String> getSmsCode(String phone);
+
+    BaseResponse<UserInfoVO> getUserInfo(String sessionId);
 
 }
