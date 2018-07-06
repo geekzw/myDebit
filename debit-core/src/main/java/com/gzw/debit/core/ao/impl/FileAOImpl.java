@@ -8,6 +8,7 @@ import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.utils.FilePathUtil;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,11 @@ public class FileAOImpl implements FileAO {
         if(form.getType() == null){
             form.setType(1);
         }
+
+//        String fileName = "/myDebit.apk";
+//        File file = new File(FilePathUtil.getUpDownFilePath(fileName));
+//        return BaseResponse.create(file.getAbsolutePath());
+
 
         response.setCharacterEncoding(request.getCharacterEncoding());
         response.setContentType("application/octet-stream");
