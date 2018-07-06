@@ -38,7 +38,7 @@ public class AppMainController {
         return appMainAO.getMainData();
     }
 
-    @GetMapping(value = "/borrowDetail.json")
+    @GetMapping(value = "/auth/borrowDetail.json")
     public BaseResponse<BorrowVO> getBorrowDetail(@ModelAttribute BorDetailForm form){
         return appMainAO.getBorrowDetail(form);
     }
@@ -50,6 +50,11 @@ public class AppMainController {
 
     @GetMapping(value = "/download.json")
     public BaseResponse<String> download(@ModelAttribute DownLoadForm form, HttpServletRequest request, HttpServletResponse response){
-        return fileAO.downLoadAndroidFile(form,request,response);
+        return fileAO.downLoadAndroidFile(request,response);
+    }
+
+    @GetMapping(value = "/getDownloadUrl.json")
+    public BaseResponse<String> getDownloadUrl(@ModelAttribute DownLoadForm form){
+        return fileAO.getDownLoadUrl(form);
     }
 }

@@ -14,5 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface FileAO {
 
-    BaseResponse<String> downLoadAndroidFile(DownLoadForm form, HttpServletRequest request, HttpServletResponse response);
+    BaseResponse<String> downLoadAndroidFile(HttpServletRequest request, HttpServletResponse response);
+
+    BaseResponse<String> getDownLoadUrl(DownLoadForm form);
 }

@@ -17,21 +17,12 @@ import java.util.List;
  */
 @Configuration
 public class MyWebAppConfigurer implements WebMvcConfigurer {
-    private List<String> excludePaths = new ArrayList<>();
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        excludePaths.add("/getSmsCode.json");
-        excludePaths.add("/login.json");
-        excludePaths.add("/register.json");
-        excludePaths.add("/mainView.json");
-        excludePaths.add("/versionStatus.json");
-        excludePaths.add("/download.json");
-        excludePaths.add("/error");
         registry.addInterceptor(new LoginInterceptor())
-                .addPathPatterns("/**")
-                .excludePathPatterns(excludePaths);
+                .addPathPatterns("/auth/**");
 
         registry.addInterceptor(new SmsInterceptor())
                 .addPathPatterns("/getSmsCode.json");

@@ -3,12 +3,18 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.core.ao.FileAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.ErrorEnum;
+import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.DownLoadForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.manager.DownUrlManager;
 import com.gzw.debit.core.utils.FilePathUtil;
+import com.gzw.debit.dal.model.DownUrlDO;
+import com.gzw.debit.dal.query.DownUrlQuery;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * auth:gujian
@@ -25,26 +32,17 @@ import java.io.IOException;
  */
 @Service
 public class FileAOImpl implements FileAO {
+
+    @Autowired
+    private DownUrlManager downUrlManager;
+
     @Override
-    public BaseResponse<String> downLoadAndroidFile(DownLoadForm form, HttpServletRequest request, HttpServletResponse response) {
-
-        if(form.getType() == null){
-            form.setType(1);
-        }
-
-//        String fileName = "/myDebit.apk";
-//        File file = new File(FilePathUtil.getUpDownFilePath(fileName));
-//        return BaseResponse.create(file.getAbsolutePath());
-
+    public BaseResponse<String> downLoadAndroidFile(HttpServletRequest request, HttpServletResponse response) {
 
         response.setCharacterEncoding(request.getCharacterEncoding());
         response.setContentType("application/octet-stream");
         FileInputStream fis = null;
-        String fileName;
-        if(form.getType() != 1){
-            return BaseResponse.create(Const.LOGIC_ERROR,"此类文件暂不支持");
-        }
-        fileName = "/myDebit.apk";
+        String fileName= "/myDebit.apk";
         try {
             File file = new File(FilePathUtil.getUpDownFilePath(fileName));
             fis = new FileInputStream(file);
@@ -64,5 +62,26 @@ public class FileAOImpl implements FileAO {
             }
         }
         return BaseResponse.create(ErrorEnum.SUCCESS);
+    }
+
+    @Override
+    public BaseResponse<String> getDownLoadUrl(DownLoadForm form) {
+
+        if(form.getType() == null){
+            return BaseResponse.create(Const.PARAMS_ERROR,"类型不能为空");
+        }
+        if(form.getType()!=1 && form.getType()!=2){
+            return BaseResponse.create(Const.PARAMS_ERROR,"非法的类型");
+        }
+
+        DownUrlQuery query = new DownUrlQuery();
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andTypeEqualTo(form.getType());
+
+        List<DownUrlDO> downUrlDOS = downUrlManager.selectByQuery(query);
+        if(CollectionUtils.isEmpty(downUrlDOS)){
+            return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的下载地址");
+        }
+        return BaseResponse.create(downUrlDOS.get(0).getUrl());
     }
 }
