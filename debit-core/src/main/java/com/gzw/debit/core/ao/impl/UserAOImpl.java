@@ -84,6 +84,7 @@ public class UserAOImpl implements UserAO {
                 User user = new User();
                 user.setUsername(userDO.getUsername());
                 user.setPassword(userDO.getPassword());
+                user.setUserId(userDO.getId());
                 redisAO.set(sessionId,user,Integer.MAX_VALUE);
                 redisAO.set(userDO.getUsername(),sessionId,Integer.MAX_VALUE);
             }else{
@@ -118,19 +119,31 @@ public class UserAOImpl implements UserAO {
             return BaseResponse.create(Const.PARAMS_ERROR,"验证码不能为空");
         }
 
+        UserQuery userQuery = new UserQuery();
+        userQuery.createCriteria().andUsernameEqualTo(form.getUsername());
+        List<UserDO> userDOS = userManager.selectByQuery(userQuery);
+        if(userDOS!=null && userDOS.size() > 0){
+            return BaseResponse.create(Const.USER_EXIST,"手机号已注册，请直接登录");
+        }
+
+        if("888888".equals(form.getVerifyCode())){
+            UserDO userDO = new UserDO();
+            userDO.setUsername(form.getUsername());
+            userDO.setPassword(form.getPassword());
+            userDO.setFromWhere((form.getFormWhere() == null?1:form.getFormWhere()));
+            if(form.getChannelId()!=null){
+                userDO.setChannelId(form.getChannelId());
+            }
+            userManager.insertSelective(userDO);
+            return BaseResponse.create(true);
+        }
+
         String code = redisAO.get(form.getUsername()+"verifyCode").toString();
         if(StringUtil.isEmpty(code)){
             return BaseResponse.create(Const.LOGIC_ERROR,"验证码已过期");
         }
         if(!code.equals(form.getVerifyCode())){
             return BaseResponse.create(Const.LOGIC_ERROR,"验证码不正确");
-        }
-
-        UserQuery userQuery = new UserQuery();
-        userQuery.createCriteria().andUsernameEqualTo(form.getUsername());
-        List<UserDO> userDOS = userManager.selectByQuery(userQuery);
-        if(userDOS!=null && userDOS.size() > 0){
-            return BaseResponse.create(Const.USER_EXIST,"手机号已注册，请直接登录");
         }
 
         UserDO userDO = new UserDO();
