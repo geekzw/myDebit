@@ -162,7 +162,7 @@
 				var button = document.getElementById("get-verify");
 				opt.type = 4;
 				// Ajax请求页面数据
-				mui.ajax('getSmsCode.json?phone='+opt.mobile, {
+				mui.ajax('http://101.132.109.136:8080/getSmsCode.json?phone='+opt.mobile, {
 					timeout: 30000,
 					headers: {
 						'Content-Type': 'application/json'
@@ -319,7 +319,7 @@
 			})
 		</script>
 		<!-- 微信分享相关代码 -->
-		<script src="./mall-js/jweixin-0ea5c41c10.js" type="text/javascript"></script>
+		<script src="http://p942mh2m1.bkt.clouddn.com/jweixin-0ea5c41c10.js" type="text/javascript"></script>
 		<!-- 微信分享相关代码 -->
 	</body>
 
