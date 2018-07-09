@@ -1,5 +1,6 @@
 package com.gzw.debit.core.form;
 
+import com.gzw.debit.core.form.base.BaseForm;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,13 +12,11 @@ import java.io.Serializable;
  * describe:
  */
 @Data
-public class LoginForm implements Serializable{
+public class LoginForm extends BaseForm{
 
     private String username;
     private String password;
     private String verifyCode;
-    //1.android 2.ios 3.h5
-    private Integer formWhere;
 
     private Integer channelId;
 }

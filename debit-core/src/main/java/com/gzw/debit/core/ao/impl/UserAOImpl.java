@@ -6,7 +6,6 @@ import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.ao.SendSmsAO;
 import com.gzw.debit.core.ao.UserAO;
 import com.gzw.debit.core.entry.Const;
-import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.LoginLogManager;
@@ -97,7 +96,7 @@ public class UserAOImpl implements UserAO {
 
         LoginLogDO loginLogDO = new LoginLogDO();
         loginLogDO.setId(userDO.getId());
-        loginLogDO.setFromWhere(form.getFormWhere() == null?1:form.getFormWhere());
+        loginLogDO.setFromWhere(form.getDeviceType() == null?1:form.getDeviceType());
         long col = loginLogManager.insertSelective(loginLogDO);
         if(col < 1){
             logger.error("登录日志插入失败，userid：{}",userDO.getId());
@@ -130,7 +129,7 @@ public class UserAOImpl implements UserAO {
             UserDO userDO = new UserDO();
             userDO.setUsername(form.getUsername());
             userDO.setPassword(form.getPassword());
-            userDO.setFromWhere((form.getFormWhere() == null?1:form.getFormWhere()));
+            userDO.setFromWhere((form.getDeviceType() == null?1:form.getDeviceType()));
             if(form.getChannelId()!=null){
                 userDO.setChannelId(form.getChannelId());
             }
@@ -149,7 +148,7 @@ public class UserAOImpl implements UserAO {
         UserDO userDO = new UserDO();
         userDO.setUsername(form.getUsername());
         userDO.setPassword(form.getPassword());
-        userDO.setFromWhere((form.getFormWhere() == null?1:form.getFormWhere()));
+        userDO.setFromWhere((form.getDeviceType() == null?1:form.getDeviceType()));
         if(form.getChannelId()!=null){
             userDO.setChannelId(form.getChannelId());
         }

@@ -14,4 +14,6 @@ import java.io.Serializable;
 public class BaseForm implements Serializable{
 
     private String sessionId;
+    //1.android 2.ios 3.h5
+    private Integer deviceType;
 }
