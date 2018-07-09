@@ -158,17 +158,21 @@ public class UserAOImpl implements UserAO {
         if(userDOS!=null && userDOS.size() > 0){
             return BaseResponse.create(Const.LOGIC_ERROR,"手机号已注册，请直接登录");
         }
-        String code = redisAO.get(phone+"verifyCode").toString();
+        Object object = redisAO.get(phone+"verifyCode");
+        String code = null;
+        if(object != null){
+            code = object.toString();
+        }
         if(StringUtil.isEmpty(code)){
             code = SmsCodeUtil.createRandomVcode();
+            BaseResponse<String> smsResponse = sendSmsAO.sendSms(phone,code);
+            if(!smsResponse.isSuccess()){
+                return smsResponse;
+            }
         }
-        BaseResponse<String> smsResponse = sendSmsAO.sendSms(phone,code);
-        if(!smsResponse.isSuccess()){
-            return smsResponse;
-        }
-        redisAO.set(phone+"verifyCode",smsResponse.getData(),RedisAOImpl.SMS_CODE_EXPR);
+        redisAO.set(phone+"verifyCode",code,RedisAOImpl.SMS_CODE_EXPR);
 
-        return smsResponse;
+        return BaseResponse.create(code);
     }
 
     @Override

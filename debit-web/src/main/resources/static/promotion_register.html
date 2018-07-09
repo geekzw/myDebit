@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>注册</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="./mall-js/163dun-1aa86f5143.js"></script>
+		<script src="./mall-js/geetest-5bf71af929.js"></script>
+		<script src="./mall-js/common-f04eea442d.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./mall-js/register-ceabe7e548.js" type="text/javascript" charset="utf-8"></script>
+		<link href="./mall-css/common-72050d5655.css" rel="stylesheet" />
+		<link href="./mall-css/register-a5145052f8.css" rel="stylesheet" />
+		<style>
+			a:last-of-type{
+				display: none;
+			}
+		</style>
+		<script>
+			var _hmt = _hmt || [];
+			(function() {
+				var hm = document.createElement("script");
+				hm.src = "https://hm.baidu.com/hm.js?47d49e92c52088b07640266e72496a10";
+				var s = document.getElementsByTagName("script")[0];
+				s.parentNode.insertBefore(hm, s);
+			})();
+		</script>
+	</head>
+
+	<body class="promotion g-layout">
+		<div class="g-content">
+			<div class="mui-content" id="app">
+				<div class="register-header">
+					<!--<img class="logo" src="./mall-fontImg/logo-9572543625.png">-->
+				</div>
+
+				<div class="register-content">
+					<div class="roll-ad">
+						<span>
+					<i class="icon iconfont icon-notice"></i>
+	                <marquee direction="up" scrollamount="1" id="maibei-merquee" class="maibei-merquee">
+	                </marquee>
+	            </span>
+					</div>
+					<div class="content">
+						<div class="item">
+							<i class="icon iconfont icon-phone"></i>
+							<input type="text" placeholder="请输入手机号" name="mobile" id="mobile">
+						</div>
+						<div id="captcha"></div>
+						<div class="item code">
+							<i class="icon iconfont icon-code"></i>
+							<input type="text" placeholder="请输入验证码" name="verify-code" id="verify-code">
+							<button id="get-verify">获取验证码</button>
+						</div>
+						<div class="item password">
+							<i class="icon iconfont icon-password"></i>
+							<input type="password" placeholder="请设置密码" name="password" id="password">
+						</div>
+						<button class="register-button" id="mall-register">去提现</button>
+						<!-- <div class="g-pact"><i v-bind:class="['icon', 'iconfont', 'icon-uncheck', checkPact ? 'active': '']" id="agreement"></i><span>已阅读并同意</span><a id="agreement_link">《用户注册协议》</a></div> -->
+					</div>
+				</div>
+				<div class="register-footer">
+					<!--<div class="custom-mobile"><i class="icon iconfont icon-mobile"></i><span>400 1182 802</span></div>-->
+				</div>
+			</div>
+		</div>
+		<div id="yzc-bg">
+			<div id="yzc">
+				<span class="title"></span>
+				<span class="desc">该账号已注册，请直接下载APP提现吧！</span>
+				<span id="downButton" class="down-link">去提现</span>
+			</div>
+		</div>
+		<div id="wx-ts"></div>
+		<div id="success">
+			<div class="content">
+				<p>恭喜您已获得<span class="red">10000</span>元的额度<br/>赶快下载APP提现吧！</p>
+				<button id="success-btn">下载APP提现</button>
+			</div>
+		</div>
+		<div class="setup-mask" id="setup">
+			<div class="content">
+				<div class="con">
+					<p class="tit">因App在应用商店正在审核，请按照如下 操作后打开应用（建议<span>截屏保存</span>）</p>
+					<p>1、安装成功后，依次打开<span>【设置】>【通用】 >【描述文件与设备管理】</span></p>
+					<p>2、在企业级应用，找到<span>“Shanghai Invision...”</span>并点击<span>信任</span>相关条目后即可正常使用</p>
+				</div>
+				<button id="link-btn" class="link-btn">明白了，去安装</button>
+			</div>
+		</div>
+		<script src="https://s13.cnzz.com/z_stat.php?id=1274114412&web_id=1274114412" language="JavaScript"></script>
+		<script>
+			//获取并设置窗体的高度
+			// document.getElementById("app").style.minHeight = '17rem';
+			var p = call.getArgs()
+			var channel_id = p.channel;
+			var successMask = document.getElementById("success");
+			var wxMask = document.getElementById("wx-ts");
+			var yzcMask = document.getElementById("yzc-bg");
+			var setupMask = document.getElementById("setup");
+
+			var appType = 1;
+			//  var packageName = 'com.a9maibei.hongye';
+			var browser = call.get_browser();
+			if(browser.ios === true) {
+				appType = 3
+					//      packageName = 'com.9maibei.RedLeaf';
+			}
+			//页面数据
+			var vm = new Vue({
+				el: '#app',
+				data: {
+					checkPact: true
+				}
+			});
+
+			//获取成功借款信息
+			var rsp = {
+				"code": "0",
+				"msg": "成功",
+				"data": [{
+					"msg": "恭喜 186****9008 成功借款 3400 元"
+				}, {
+					"msg": "恭喜 136****2289 成功借款 2000 元"
+				}, {
+					"msg": "恭喜 134****4943 成功借款 3600 元"
+				}, {
+					"msg": "恭喜 168****9008 成功借款 1800 元"
+				}, {
+					"msg": "恭喜 133****5434 成功借款 2500 元"
+				}, {
+					"msg": "恭喜 133****5558 成功借款 3000 元"
+				}, {
+					"msg": "恭喜 178****9008 成功借款 3200 元"
+				}, {
+					"msg": "恭喜 186****5678 成功借款 3100 元"
+				}, {
+					"msg": "恭喜 155****2378 成功借款 2900 元"
+				}, {
+					"msg": "恭喜 132****6834 成功借款 1700 元"
+				}, {
+					"msg": "恭喜 177****8836 成功借款 1000 元"
+				}, {
+					"msg": "恭喜 186****1419 成功借款 2400 元"
+				}, {
+					"msg": "恭喜 153****5555 成功借款 1900 元"
+				}]
+			}
+			var html = '';
+			var merquee = document.getElementById('maibei-merquee');
+			for(var key in rsp.data) {
+				html += '<span id="g_' + key + '">' + rsp.data[key].msg + '</span><br />';
+			}
+			merquee.innerHTML = html;
+
+			// 获取验证码
+			function getVerifyCode(opt) {
+				
+				opt.mobile = document.getElementById("mobile").value;
+				var button = document.getElementById("get-verify");
+				opt.type = 4;
+				// Ajax请求页面数据
+				mui.ajax('getSmsCode.json?phone='+opt.mobile, {
+					timeout: 30000,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(rsp) {
+						
+						if(rsp.code != 1000) {
+							if(rsp.code == '3000') { //手机号码已经注册过
+								call.countDown(button, 0);
+								// var button=document.getElementById("yzc");
+								document.querySelector('.g-content').scrollTop = 0;
+								yzcMask.style.display = 'block';
+								// mask.show();
+								return;
+							}
+							mui.toast(rsp.msg, {
+								duration: 'long',
+								type: 'div'
+							});
+							call.countDown(button, 0);
+							return;
+						}
+						call.countDown(button);
+					},
+					error: function(xhr, type, errorThrown) {
+						call.countDown(button, 0);
+					}
+				});
+			}
+			// 监听button的点击事件，弹出验证码
+			document.getElementById('get-verify').addEventListener('click', function() {
+				this.setAttribute("disabled", true);
+				if(!check()) {
+					this.removeAttribute("disabled");
+					return;
+				}
+				// 图形验证码渠道
+				getVerifyCode({})
+				
+			})
+
+			function check() {
+				var mobile = document.getElementById("mobile").value;
+				if(!mobile) {
+					mui.toast("请填写手机号码！");
+					return false;
+				} else if(!call.is_phone_num(mobile)) {
+					mui.toast("手机号码不正确！");
+					return false;
+				}
+				return true;
+			}
+
+			document.getElementById("success-btn").addEventListener("click", function() {
+				if(browser.weixin) {
+					successMask.style.display = 'none';
+					wxMask.style.display = 'block';
+					return;
+				}
+				// Ajax请求页面数据
+				getPackageUrl();
+			});
+
+		
+			// 获取安装包地址
+			function getPackageUrl() {
+				var packageUrl = "";
+				if(browser.ios && packageUrl.match(/^itms-services/)) { // cdn下载
+					yzcMask.style.display = 'none';
+					setupMask.style.display = 'block';
+					return;
+				}
+				window.location.href = packageUrl;
+			}
+			// 监听点击事件
+			document.getElementById("downButton").addEventListener("tap", function() {
+				if(browser.weixin) {
+					//跳转
+					yzcMask.style.display = 'none';
+					wxMask.style.display = 'block';
+					return;
+				}
+				// Ajax请求页面数据
+				getPackageUrl();
+			});
+			// 验证密码是否有效
+			function isValidPass(password) {
+				password = password.trim();
+				if(password.length >= 6) {
+					return true;
+				}
+				return false;
+			}
+			// 协议勾选
+			/*
+			document.getElementById("agreement").addEventListener("tap", function(){
+			    var checked = vm.checkPact;
+			    vm.checkPact = !checked;
+			})*/
+			// 点击注册
+			document.getElementById("mall-register").addEventListener("tap", function() {
+
+				var mobile = document.getElementById("mobile").value;
+				var verify_code = document.getElementById("verify-code").value;
+				var password = document.getElementById("password").value;
+				// var pact = document.getElementById("pact");
+				//       var ischecked = pact.classList.contains('active');
+				if(mobile == '') {
+					mui.toast('请填写手机号码！');
+					return;
+				} else if(!call.is_phone_num(mobile)) {
+					mui.toast('手机号码不正确！');
+					return;
+				} else if(verify_code == '') {
+					mui.toast('请填写验证码！');
+					return;
+				} else if(!isValidPass(password)) {
+					mui.toast("密码不能少于6位，请重新设置");
+					return false;
+				}
+				// else if(!ischecked){
+				//     mui.toast("如需继续操作，请勾选同意相关协议");
+				//     return false;
+				// }
+				mui.ajax('http://101.132.109.136:8080/register.json', {
+					data:{
+						username:mobile,
+						password:password,
+						verifyCode:verify_code
+					},
+					type: 'post',
+					timeout: 30000,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					success: function(rsp) {
+						if(rsp.code != 1000) {
+							mui.toast(rsp.msg, {
+								duration: 'long',
+								type: 'div'
+							});
+							return;
+						}
+						document.querySelector('.g-content').scrollTop = 0;
+						successMask.style.display = 'block';
+					},
+					error: function(xhr, type, errorThrown) {
+
+					}
+				});
+			});
+			document.getElementById('link-btn').addEventListener('tap', function() {
+				getPackageUrl();
+			})
+		</script>
+		<!-- 微信分享相关代码 -->
+		<script src="./mall-js/jweixin-0ea5c41c10.js" type="text/javascript"></script>
+		<!-- 微信分享相关代码 -->
+	</body>
+
+</html>
