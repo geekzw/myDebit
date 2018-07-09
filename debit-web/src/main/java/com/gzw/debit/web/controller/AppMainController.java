@@ -5,6 +5,7 @@ import com.gzw.debit.core.ao.FileAO;
 import com.gzw.debit.core.ao.VersionAO;
 import com.gzw.debit.core.form.BorDetailForm;
 import com.gzw.debit.core.form.DownLoadForm;
+import com.gzw.debit.core.form.VersionForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.BanAndBorVO;
 import com.gzw.debit.core.vo.BorrowVO;
@@ -44,8 +45,8 @@ public class AppMainController {
     }
 
     @GetMapping(value = "/versionStatus.json")
-    public BaseResponse<Boolean> versionStatus(@RequestParam("id") Integer id){
-        return versionAO.getVersionStatus(id);
+    public BaseResponse<Boolean> versionStatus(@ModelAttribute VersionForm form){
+        return versionAO.getVersionStatus(form);
     }
 
     @GetMapping(value = "/download.json")

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gzw.debit.dal.mapper.VersionSwitchMapper">
-    <resultMap id="BaseResultMap" type="com.gzw.debit.dal.model.VersionSwitchDO">
+<mapper namespace="com.gzw.debit.dal.mapper.ProductLogMapper">
+    <resultMap id="BaseResultMap" type="com.gzw.debit.dal.model.ProductLogDO">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-        <result column="version" jdbcType="INTEGER" property="version" />
-        <result column="from_where" jdbcType="INTEGER" property="fromWhere" />
-        <result column="open_online" jdbcType="TINYINT" property="openOnline" />
+        <result column="product_id" jdbcType="INTEGER" property="productId" />
+        <result column="user_id" jdbcType="BIGINT" property="userId" />
+        <result column="count" jdbcType="INTEGER" property="count" />
         <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
 
@@ -72,16 +72,16 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,version,from_where,open_online,status
+        id,gmt_create,gmt_modified,product_id,user_id,count,status
     </sql>
 
-    <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.VersionSwitchQuery" resultMap="BaseResultMap">
+    <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.ProductLogQuery" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         <include refid="Base_Column_List" />
-            from version_switch
+            from debit_product_log
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
@@ -92,35 +92,35 @@
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List" /> from version_switch where id = #{id,jdbcType=BIGINT}
+        select <include refid="Base_Column_List" /> from debit_product_log where id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from version_switch where id = #{id,jdbcType=BIGINT}
+        delete from debit_product_log where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <delete id="deleteByQuery" parameterType="com.gzw.debit.dal.query.VersionSwitchQuery">
-        delete from version_switch
+    <delete id="deleteByQuery" parameterType="com.gzw.debit.dal.query.ProductLogQuery">
+        delete from debit_product_log
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
     </delete>
 
-    <insert id="insertSelective" parameterType="com.gzw.debit.dal.model.VersionSwitchDO">
+    <insert id="insertSelective" parameterType="com.gzw.debit.dal.model.ProductLogDO">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into version_switch
+        insert into debit_product_log
         <trim prefix="(" suffix=")" suffixOverrides=",">
             gmt_create,gmt_modified,
-            <if test="version != null">
-                version,
+            <if test="productId != null">
+                product_id,
             </if>
-            <if test="fromWhere != null">
-                from_where,
+            <if test="userId != null">
+                user_id,
             </if>
-            <if test="openOnline != null">
-                open_online,
+            <if test="count != null">
+                count,
             </if>
             <if test="status != null">
                 status,
@@ -128,14 +128,14 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
-            <if test="version != null">
-                #{version,jdbcType=INTEGER},
+            <if test="productId != null">
+                #{productId,jdbcType=INTEGER},
             </if>
-            <if test="fromWhere != null">
-                #{fromWhere,jdbcType=INTEGER},
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
             </if>
-            <if test="openOnline != null">
-                #{openOnline,jdbcType=TINYINT},
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
@@ -143,25 +143,25 @@
         </trim>
     </insert>
 
-    <select id="countByQuery" parameterType="com.gzw.debit.dal.query.VersionSwitchQuery" resultType="java.lang.Integer">
-        select count(*) from version_switch
+    <select id="countByQuery" parameterType="com.gzw.debit.dal.query.ProductLogQuery" resultType="java.lang.Integer">
+        select count(*) from debit_product_log
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
     </select>
 
     <update id="updateByQuerySelective" parameterType="map">
-        update version_switch
+        update debit_product_log
         <set>
             gmt_modified=now(),
-            <if test="record.version != null">
-                version = #{record.version,jdbcType=INTEGER},
+            <if test="record.productId != null">
+                product_id = #{record.productId,jdbcType=INTEGER},
             </if>
-            <if test="record.fromWhere != null">
-                from_where = #{record.fromWhere,jdbcType=INTEGER},
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=BIGINT},
             </if>
-            <if test="record.openOnline != null">
-                open_online = #{record.openOnline,jdbcType=TINYINT},
+            <if test="record.count != null">
+                count = #{record.count,jdbcType=INTEGER},
             </if>
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
@@ -173,10 +173,10 @@
     </update>
 
     <update id="updateByQuery" parameterType="map">
-        update version_switch set
-        version = #{record.version,jdbcType=INTEGER},
-        from_where = #{record.fromWhere,jdbcType=INTEGER},
-        open_online = #{record.openOnline,jdbcType=TINYINT},
+        update debit_product_log set
+        product_id = #{record.productId,jdbcType=INTEGER},
+        user_id = #{record.userId,jdbcType=BIGINT},
+        count = #{record.count,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
@@ -184,18 +184,18 @@
         </if>
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.gzw.debit.dal.model.VersionSwitchDO">
-        update version_switch
+    <update id="updateByPrimaryKeySelective" parameterType="com.gzw.debit.dal.model.ProductLogDO">
+        update debit_product_log
         <set>
             gmt_modified=now(),
-            <if test="version != null">
-                version = #{version,jdbcType=INTEGER},
+            <if test="productId != null">
+                product_id = #{productId,jdbcType=INTEGER},
             </if>
-            <if test="fromWhere != null">
-                from_where = #{fromWhere,jdbcType=INTEGER},
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
             </if>
-            <if test="openOnline != null">
-                open_online = #{openOnline,jdbcType=TINYINT},
+            <if test="count != null">
+                count = #{count,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},

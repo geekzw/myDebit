@@ -1,19 +1,20 @@
 package com.gzw.debit.core.ao.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.utils.PhoneFormatCheckUtil;
-import com.gzw.debit.core.ao.SendSmsAO;
-import com.gzw.debit.core.utils.SmsCodeUtil;
-import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.ao.RedisAO;
+import com.gzw.debit.core.ao.SendSmsAO;
 import com.gzw.debit.core.ao.UserAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.manager.LoginLogManager;
 import com.gzw.debit.core.manager.UserManager;
+import com.gzw.debit.core.utils.SmsCodeUtil;
+import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.vo.UserInfoVO;
+import com.gzw.debit.dal.model.LoginLogDO;
 import com.gzw.debit.dal.model.UserDO;
 import com.gzw.debit.dal.query.UserQuery;
 import org.slf4j.Logger;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -42,6 +44,8 @@ public class UserAOImpl implements UserAO {
     private RedisAO redisAO;
     @Autowired
     private SendSmsAO sendSmsAO;
+    @Autowired
+    private LoginLogManager loginLogManager;
 
     @Override
     public BaseResponse<String> login(LoginForm form, HttpServletRequest request) {
@@ -64,6 +68,12 @@ public class UserAOImpl implements UserAO {
         if(!userDO.getPassword().equals(form.getPassword())){
             return BaseResponse.create(Const.LOGIC_ERROR,"密码错误");
         }
+        if(userDO.getIsLogin() == 0){
+            userDO.setIsLogin(1);
+            userDO.setFistLoginTime(LocalDateTime.now());
+        }
+
+        userManager.updateByPrimaryKeySelective(userDO);
 
         String sessionId;
 
@@ -79,17 +89,25 @@ public class UserAOImpl implements UserAO {
             }else{
                 sessionId = oldSession;
             }
-            return BaseResponse.create(sessionId);
-
         }catch (Exception e){
             logger.error("json解析错误",e);
             return BaseResponse.create(Const.LOGIC_ERROR,"登录失败");
         }
 
+        LoginLogDO loginLogDO = new LoginLogDO();
+        loginLogDO.setId(userDO.getId());
+        loginLogDO.setFromWhere(form.getFormWhere() == null?1:form.getFormWhere());
+        long col = loginLogManager.insertSelective(loginLogDO);
+        if(col < 1){
+            logger.error("登录日志插入失败，userid：{}",userDO.getId());
+        }
+
+        return BaseResponse.create(sessionId);
+
     }
 
     @Override
-    public BaseResponse<String> register(LoginForm form) {
+    public BaseResponse<Boolean> register(LoginForm form) {
         if(StringUtil.isEmpty(form.getUsername())){
             return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
         }
@@ -100,7 +118,7 @@ public class UserAOImpl implements UserAO {
             return BaseResponse.create(Const.PARAMS_ERROR,"验证码不能为空");
         }
 
-        String code = (String) redisAO.get(form.getUsername());
+        String code = redisAO.get(form.getUsername()+"verifyCode").toString();
         if(StringUtil.isEmpty(code)){
             return BaseResponse.create(Const.LOGIC_ERROR,"验证码已过期");
         }
@@ -118,9 +136,12 @@ public class UserAOImpl implements UserAO {
         UserDO userDO = new UserDO();
         userDO.setUsername(form.getUsername());
         userDO.setPassword(form.getPassword());
-        userDO.setFromWhere((form.getFormWhere() == null?0:form.getFormWhere()));
+        userDO.setFromWhere((form.getFormWhere() == null?1:form.getFormWhere()));
+        if(form.getChannelId()!=null){
+            userDO.setChannelId(form.getChannelId());
+        }
         userManager.insertSelective(userDO);
-        return BaseResponse.create(ErrorEnum.SUCCESS);
+        return BaseResponse.create(true);
     }
 
     @Override
@@ -137,7 +158,7 @@ public class UserAOImpl implements UserAO {
         if(userDOS!=null && userDOS.size() > 0){
             return BaseResponse.create(Const.LOGIC_ERROR,"手机号已注册，请直接登录");
         }
-        String code = (String) redisAO.get(phone);
+        String code = redisAO.get(phone+"verifyCode").toString();
         if(StringUtil.isEmpty(code)){
             code = SmsCodeUtil.createRandomVcode();
         }
@@ -145,7 +166,7 @@ public class UserAOImpl implements UserAO {
         if(!smsResponse.isSuccess()){
             return smsResponse;
         }
-        redisAO.set(phone,smsResponse.getData(),RedisAOImpl.SMS_CODE_EXPR);
+        redisAO.set(phone+"verifyCode",smsResponse.getData(),RedisAOImpl.SMS_CODE_EXPR);
 
         return smsResponse;
     }

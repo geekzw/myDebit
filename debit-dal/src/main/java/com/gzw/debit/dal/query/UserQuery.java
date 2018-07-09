@@ -437,76 +437,6 @@ public class UserQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andStatusIsNull() {
-            addCriterion("status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIsNotNull() {
-            addCriterion("status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusEqualTo(Integer value) {
-            addCriterion("status =", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotEqualTo(Integer value) {
-            addCriterion("status <>", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThan(Integer value) {
-            addCriterion("status >", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
-            addCriterion("status >=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThan(Integer value) {
-            addCriterion("status <", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLessThanOrEqualTo(Integer value) {
-            addCriterion("status <=", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusLike(Integer value) {
-            addCriterion("status like", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotLike(Integer value) {
-            addCriterion("status not like", value, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusIn(List<Integer> values) {
-            addCriterion("status in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotIn(List<Integer> values) {
-            addCriterion("status not in", values, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusBetween(Integer value1, Integer value2) {
-            addCriterion("status between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
-        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
-            addCriterion("status not between", value1, value2, "status");
-            return (Criteria) this;
-        }
-
         public Criteria andFromWhereIsNull() {
             addCriterion("from_where is null");
             return (Criteria) this;
@@ -574,6 +504,286 @@ public class UserQuery extends BaseQuery implements Serializable {
 
         public Criteria andFromWhereNotBetween(Integer value1, Integer value2) {
             addCriterion("from_where not between", value1, value2, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNull() {
+            addCriterion("channel_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIsNotNull() {
+            addCriterion("channel_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdEqualTo(Integer value) {
+            addCriterion("channel_id =", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotEqualTo(Integer value) {
+            addCriterion("channel_id <>", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThan(Integer value) {
+            addCriterion("channel_id >", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("channel_id >=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThan(Integer value) {
+            addCriterion("channel_id <", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLessThanOrEqualTo(Integer value) {
+            addCriterion("channel_id <=", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdLike(Integer value) {
+            addCriterion("channel_id like", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotLike(Integer value) {
+            addCriterion("channel_id not like", value, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdIn(List<Integer> values) {
+            addCriterion("channel_id in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotIn(List<Integer> values) {
+            addCriterion("channel_id not in", values, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdBetween(Integer value1, Integer value2) {
+            addCriterion("channel_id between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andChannelIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("channel_id not between", value1, value2, "channelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginIsNull() {
+            addCriterion("is_login is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginIsNotNull() {
+            addCriterion("is_login is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginEqualTo(Integer value) {
+            addCriterion("is_login =", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginNotEqualTo(Integer value) {
+            addCriterion("is_login <>", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginGreaterThan(Integer value) {
+            addCriterion("is_login >", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_login >=", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginLessThan(Integer value) {
+            addCriterion("is_login <", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginLessThanOrEqualTo(Integer value) {
+            addCriterion("is_login <=", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginLike(Integer value) {
+            addCriterion("is_login like", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginNotLike(Integer value) {
+            addCriterion("is_login not like", value, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginIn(List<Integer> values) {
+            addCriterion("is_login in", values, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginNotIn(List<Integer> values) {
+            addCriterion("is_login not in", values, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginBetween(Integer value1, Integer value2) {
+            addCriterion("is_login between", value1, value2, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsLoginNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_login not between", value1, value2, "isLogin");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeIsNull() {
+            addCriterion("fist_login_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeIsNotNull() {
+            addCriterion("fist_login_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeEqualTo(LocalDateTime value) {
+            addCriterion("fist_login_time =", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeNotEqualTo(LocalDateTime value) {
+            addCriterion("fist_login_time <>", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeGreaterThan(LocalDateTime value) {
+            addCriterion("fist_login_time >", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeGreaterThanOrEqualTo(LocalDateTime value) {
+            addCriterion("fist_login_time >=", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeLessThan(LocalDateTime value) {
+            addCriterion("fist_login_time <", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeLessThanOrEqualTo(LocalDateTime value) {
+            addCriterion("fist_login_time <=", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeLike(LocalDateTime value) {
+            addCriterion("fist_login_time like", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeNotLike(LocalDateTime value) {
+            addCriterion("fist_login_time not like", value, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeIn(List<LocalDateTime> values) {
+            addCriterion("fist_login_time in", values, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeNotIn(List<LocalDateTime> values) {
+            addCriterion("fist_login_time not in", values, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("fist_login_time between", value1, value2, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andFistLoginTimeNotBetween(LocalDateTime value1, LocalDateTime value2) {
+            addCriterion("fist_login_time not between", value1, value2, "fistLoginTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNull() {
+            addCriterion("status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIsNotNull() {
+            addCriterion("status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusEqualTo(Integer value) {
+            addCriterion("status =", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotEqualTo(Integer value) {
+            addCriterion("status <>", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThan(Integer value) {
+            addCriterion("status >", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("status >=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThan(Integer value) {
+            addCriterion("status <", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLessThanOrEqualTo(Integer value) {
+            addCriterion("status <=", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusLike(Integer value) {
+            addCriterion("status like", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotLike(Integer value) {
+            addCriterion("status not like", value, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusIn(List<Integer> values) {
+            addCriterion("status in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotIn(List<Integer> values) {
+            addCriterion("status not in", values, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusBetween(Integer value1, Integer value2) {
+            addCriterion("status between", value1, value2, "status");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
 

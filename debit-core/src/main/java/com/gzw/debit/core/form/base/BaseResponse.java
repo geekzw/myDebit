@@ -22,6 +22,12 @@ public class BaseResponse<T> implements Serializable{
 
     private T data;
 
+    private Integer pageSize;
+
+    private Integer pageNo;
+
+    private Integer totalCount;
+
     public static BaseResponse create(ErrorEnum errorEnum){
         BaseResponse baseResponse = new BaseResponse();
         baseResponse.code = errorEnum.getCode();

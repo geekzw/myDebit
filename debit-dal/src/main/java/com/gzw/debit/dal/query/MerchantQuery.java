@@ -12,10 +12,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VersionSwitchQuery extends BaseQuery implements Serializable {
+public class MerchantQuery extends BaseQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public VersionSwitchQuery() {
+    public MerchantQuery() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_merchant
      */
          protected abstract static class GeneratedCriteria extends BaseCriteria {
 
@@ -227,213 +227,143 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNull() {
-            addCriterion("version is null");
+        public Criteria andNameIsNull() {
+            addCriterion("name is null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNotNull() {
-            addCriterion("version is not null");
+        public Criteria andNameIsNotNull() {
+            addCriterion("name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionEqualTo(Integer value) {
-            addCriterion("version =", value, "version");
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("name =", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotEqualTo(Integer value) {
-            addCriterion("version <>", value, "version");
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("name <>", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThan(Integer value) {
-            addCriterion("version >", value, "version");
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("name >", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("version >=", value, "version");
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("name >=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThan(Integer value) {
-            addCriterion("version <", value, "version");
+        public Criteria andNameLessThan(String value) {
+            addCriterion("name <", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThanOrEqualTo(Integer value) {
-            addCriterion("version <=", value, "version");
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("name <=", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLike(Integer value) {
-            addCriterion("version like", value, "version");
+        public Criteria andNameLike(String value) {
+            addCriterion("name like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotLike(Integer value) {
-            addCriterion("version not like", value, "version");
+        public Criteria andNameNotLike(String value) {
+            addCriterion("name not like", value, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIn(List<Integer> values) {
-            addCriterion("version in", values, "version");
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("name in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotIn(List<Integer> values) {
-            addCriterion("version not in", values, "version");
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("name not in", values, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionBetween(Integer value1, Integer value2) {
-            addCriterion("version between", value1, value2, "version");
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("name between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotBetween(Integer value1, Integer value2) {
-            addCriterion("version not between", value1, value2, "version");
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("name not between", value1, value2, "name");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIsNull() {
-            addCriterion("from_where is null");
+        public Criteria andChannelIdIsNull() {
+            addCriterion("channel_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIsNotNull() {
-            addCriterion("from_where is not null");
+        public Criteria andChannelIdIsNotNull() {
+            addCriterion("channel_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereEqualTo(Integer value) {
-            addCriterion("from_where =", value, "fromWhere");
+        public Criteria andChannelIdEqualTo(String value) {
+            addCriterion("channel_id =", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotEqualTo(Integer value) {
-            addCriterion("from_where <>", value, "fromWhere");
+        public Criteria andChannelIdNotEqualTo(String value) {
+            addCriterion("channel_id <>", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereGreaterThan(Integer value) {
-            addCriterion("from_where >", value, "fromWhere");
+        public Criteria andChannelIdGreaterThan(String value) {
+            addCriterion("channel_id >", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereGreaterThanOrEqualTo(Integer value) {
-            addCriterion("from_where >=", value, "fromWhere");
+        public Criteria andChannelIdGreaterThanOrEqualTo(String value) {
+            addCriterion("channel_id >=", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLessThan(Integer value) {
-            addCriterion("from_where <", value, "fromWhere");
+        public Criteria andChannelIdLessThan(String value) {
+            addCriterion("channel_id <", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLessThanOrEqualTo(Integer value) {
-            addCriterion("from_where <=", value, "fromWhere");
+        public Criteria andChannelIdLessThanOrEqualTo(String value) {
+            addCriterion("channel_id <=", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLike(Integer value) {
-            addCriterion("from_where like", value, "fromWhere");
+        public Criteria andChannelIdLike(String value) {
+            addCriterion("channel_id like", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotLike(Integer value) {
-            addCriterion("from_where not like", value, "fromWhere");
+        public Criteria andChannelIdNotLike(String value) {
+            addCriterion("channel_id not like", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIn(List<Integer> values) {
-            addCriterion("from_where in", values, "fromWhere");
+        public Criteria andChannelIdIn(List<String> values) {
+            addCriterion("channel_id in", values, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotIn(List<Integer> values) {
-            addCriterion("from_where not in", values, "fromWhere");
+        public Criteria andChannelIdNotIn(List<String> values) {
+            addCriterion("channel_id not in", values, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereBetween(Integer value1, Integer value2) {
-            addCriterion("from_where between", value1, value2, "fromWhere");
+        public Criteria andChannelIdBetween(String value1, String value2) {
+            addCriterion("channel_id between", value1, value2, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotBetween(Integer value1, Integer value2) {
-            addCriterion("from_where not between", value1, value2, "fromWhere");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIsNull() {
-            addCriterion("open_online is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIsNotNull() {
-            addCriterion("open_online is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineEqualTo(Integer value) {
-            addCriterion("open_online =", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotEqualTo(Integer value) {
-            addCriterion("open_online <>", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineGreaterThan(Integer value) {
-            addCriterion("open_online >", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineGreaterThanOrEqualTo(Integer value) {
-            addCriterion("open_online >=", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLessThan(Integer value) {
-            addCriterion("open_online <", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLessThanOrEqualTo(Integer value) {
-            addCriterion("open_online <=", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLike(Integer value) {
-            addCriterion("open_online like", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotLike(Integer value) {
-            addCriterion("open_online not like", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIn(List<Integer> values) {
-            addCriterion("open_online in", values, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotIn(List<Integer> values) {
-            addCriterion("open_online not in", values, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineBetween(Integer value1, Integer value2) {
-            addCriterion("open_online between", value1, value2, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotBetween(Integer value1, Integer value2) {
-            addCriterion("open_online not between", value1, value2, "openOnline");
+        public Criteria andChannelIdNotBetween(String value1, String value2) {
+            addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }
 
@@ -510,7 +440,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_merchant
     */
     public  static class Criteria extends GeneratedCriteria{
         protected Criteria() {

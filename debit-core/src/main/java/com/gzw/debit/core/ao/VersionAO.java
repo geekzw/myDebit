@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao;
 
+import com.gzw.debit.core.form.VersionForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 
 /**
@@ -10,5 +11,5 @@ import com.gzw.debit.core.form.base.BaseResponse;
  */
 public interface VersionAO {
 
-    BaseResponse<Boolean> getVersionStatus(Integer version);
+    BaseResponse<Boolean> getVersionStatus(VersionForm version);
 }

@@ -56,6 +56,7 @@ public class SmsInterceptor implements HandlerInterceptor {
             logger.error("24小时内超过10次获取验证码:"+phone);
             baseResponse = BaseResponse.create(Const.SERVER_ERROR,"服务器异常");
             sendResponse(response,baseResponse);
+            return false;
         }else{
             count++;
             redisAO.set(countKey,count+"");

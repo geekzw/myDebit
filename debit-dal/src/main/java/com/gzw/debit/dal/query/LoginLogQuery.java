@@ -12,10 +12,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VersionSwitchQuery extends BaseQuery implements Serializable {
+public class LoginLogQuery extends BaseQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public VersionSwitchQuery() {
+    public LoginLogQuery() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_login_log
      */
          protected abstract static class GeneratedCriteria extends BaseCriteria {
 
@@ -227,73 +227,73 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNull() {
-            addCriterion("version is null");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNotNull() {
-            addCriterion("version is not null");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionEqualTo(Integer value) {
-            addCriterion("version =", value, "version");
+        public Criteria andUserIdEqualTo(Long value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotEqualTo(Integer value) {
-            addCriterion("version <>", value, "version");
+        public Criteria andUserIdNotEqualTo(Long value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThan(Integer value) {
-            addCriterion("version >", value, "version");
+        public Criteria andUserIdGreaterThan(Long value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("version >=", value, "version");
+        public Criteria andUserIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThan(Integer value) {
-            addCriterion("version <", value, "version");
+        public Criteria andUserIdLessThan(Long value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThanOrEqualTo(Integer value) {
-            addCriterion("version <=", value, "version");
+        public Criteria andUserIdLessThanOrEqualTo(Long value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLike(Integer value) {
-            addCriterion("version like", value, "version");
+        public Criteria andUserIdLike(Long value) {
+            addCriterion("user_id like", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotLike(Integer value) {
-            addCriterion("version not like", value, "version");
+        public Criteria andUserIdNotLike(Long value) {
+            addCriterion("user_id not like", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIn(List<Integer> values) {
-            addCriterion("version in", values, "version");
+        public Criteria andUserIdIn(List<Long> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotIn(List<Integer> values) {
-            addCriterion("version not in", values, "version");
+        public Criteria andUserIdNotIn(List<Long> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionBetween(Integer value1, Integer value2) {
-            addCriterion("version between", value1, value2, "version");
+        public Criteria andUserIdBetween(Long value1, Long value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotBetween(Integer value1, Integer value2) {
-            addCriterion("version not between", value1, value2, "version");
+        public Criteria andUserIdNotBetween(Long value1, Long value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
@@ -364,76 +364,6 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
 
         public Criteria andFromWhereNotBetween(Integer value1, Integer value2) {
             addCriterion("from_where not between", value1, value2, "fromWhere");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIsNull() {
-            addCriterion("open_online is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIsNotNull() {
-            addCriterion("open_online is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineEqualTo(Integer value) {
-            addCriterion("open_online =", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotEqualTo(Integer value) {
-            addCriterion("open_online <>", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineGreaterThan(Integer value) {
-            addCriterion("open_online >", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineGreaterThanOrEqualTo(Integer value) {
-            addCriterion("open_online >=", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLessThan(Integer value) {
-            addCriterion("open_online <", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLessThanOrEqualTo(Integer value) {
-            addCriterion("open_online <=", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineLike(Integer value) {
-            addCriterion("open_online like", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotLike(Integer value) {
-            addCriterion("open_online not like", value, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineIn(List<Integer> values) {
-            addCriterion("open_online in", values, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotIn(List<Integer> values) {
-            addCriterion("open_online not in", values, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineBetween(Integer value1, Integer value2) {
-            addCriterion("open_online between", value1, value2, "openOnline");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpenOnlineNotBetween(Integer value1, Integer value2) {
-            addCriterion("open_online not between", value1, value2, "openOnline");
             return (Criteria) this;
         }
 
@@ -510,7 +440,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_login_log
     */
     public  static class Criteria extends GeneratedCriteria{
         protected Criteria() {

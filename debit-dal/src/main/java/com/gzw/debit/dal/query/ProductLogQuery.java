@@ -12,10 +12,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VersionSwitchQuery extends BaseQuery implements Serializable {
+public class ProductLogQuery extends BaseQuery implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public VersionSwitchQuery() {
+    public ProductLogQuery() {
         super();
     }
 
@@ -39,7 +39,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_product_log
      */
          protected abstract static class GeneratedCriteria extends BaseCriteria {
 
@@ -227,213 +227,213 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNull() {
-            addCriterion("version is null");
+        public Criteria andProductIdIsNull() {
+            addCriterion("product_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIsNotNull() {
-            addCriterion("version is not null");
+        public Criteria andProductIdIsNotNull() {
+            addCriterion("product_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andVersionEqualTo(Integer value) {
-            addCriterion("version =", value, "version");
+        public Criteria andProductIdEqualTo(Integer value) {
+            addCriterion("product_id =", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotEqualTo(Integer value) {
-            addCriterion("version <>", value, "version");
+        public Criteria andProductIdNotEqualTo(Integer value) {
+            addCriterion("product_id <>", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThan(Integer value) {
-            addCriterion("version >", value, "version");
+        public Criteria andProductIdGreaterThan(Integer value) {
+            addCriterion("product_id >", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThanOrEqualTo(Integer value) {
-            addCriterion("version >=", value, "version");
+        public Criteria andProductIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("product_id >=", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThan(Integer value) {
-            addCriterion("version <", value, "version");
+        public Criteria andProductIdLessThan(Integer value) {
+            addCriterion("product_id <", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThanOrEqualTo(Integer value) {
-            addCriterion("version <=", value, "version");
+        public Criteria andProductIdLessThanOrEqualTo(Integer value) {
+            addCriterion("product_id <=", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLike(Integer value) {
-            addCriterion("version like", value, "version");
+        public Criteria andProductIdLike(Integer value) {
+            addCriterion("product_id like", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotLike(Integer value) {
-            addCriterion("version not like", value, "version");
+        public Criteria andProductIdNotLike(Integer value) {
+            addCriterion("product_id not like", value, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIn(List<Integer> values) {
-            addCriterion("version in", values, "version");
+        public Criteria andProductIdIn(List<Integer> values) {
+            addCriterion("product_id in", values, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotIn(List<Integer> values) {
-            addCriterion("version not in", values, "version");
+        public Criteria andProductIdNotIn(List<Integer> values) {
+            addCriterion("product_id not in", values, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionBetween(Integer value1, Integer value2) {
-            addCriterion("version between", value1, value2, "version");
+        public Criteria andProductIdBetween(Integer value1, Integer value2) {
+            addCriterion("product_id between", value1, value2, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotBetween(Integer value1, Integer value2) {
-            addCriterion("version not between", value1, value2, "version");
+        public Criteria andProductIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("product_id not between", value1, value2, "productId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIsNull() {
-            addCriterion("from_where is null");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIsNotNull() {
-            addCriterion("from_where is not null");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereEqualTo(Integer value) {
-            addCriterion("from_where =", value, "fromWhere");
+        public Criteria andUserIdEqualTo(Long value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotEqualTo(Integer value) {
-            addCriterion("from_where <>", value, "fromWhere");
+        public Criteria andUserIdNotEqualTo(Long value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereGreaterThan(Integer value) {
-            addCriterion("from_where >", value, "fromWhere");
+        public Criteria andUserIdGreaterThan(Long value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereGreaterThanOrEqualTo(Integer value) {
-            addCriterion("from_where >=", value, "fromWhere");
+        public Criteria andUserIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLessThan(Integer value) {
-            addCriterion("from_where <", value, "fromWhere");
+        public Criteria andUserIdLessThan(Long value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLessThanOrEqualTo(Integer value) {
-            addCriterion("from_where <=", value, "fromWhere");
+        public Criteria andUserIdLessThanOrEqualTo(Long value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereLike(Integer value) {
-            addCriterion("from_where like", value, "fromWhere");
+        public Criteria andUserIdLike(Long value) {
+            addCriterion("user_id like", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotLike(Integer value) {
-            addCriterion("from_where not like", value, "fromWhere");
+        public Criteria andUserIdNotLike(Long value) {
+            addCriterion("user_id not like", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereIn(List<Integer> values) {
-            addCriterion("from_where in", values, "fromWhere");
+        public Criteria andUserIdIn(List<Long> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotIn(List<Integer> values) {
-            addCriterion("from_where not in", values, "fromWhere");
+        public Criteria andUserIdNotIn(List<Long> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereBetween(Integer value1, Integer value2) {
-            addCriterion("from_where between", value1, value2, "fromWhere");
+        public Criteria andUserIdBetween(Long value1, Long value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andFromWhereNotBetween(Integer value1, Integer value2) {
-            addCriterion("from_where not between", value1, value2, "fromWhere");
+        public Criteria andUserIdNotBetween(Long value1, Long value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineIsNull() {
-            addCriterion("open_online is null");
+        public Criteria andCountIsNull() {
+            addCriterion("count is null");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineIsNotNull() {
-            addCriterion("open_online is not null");
+        public Criteria andCountIsNotNull() {
+            addCriterion("count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineEqualTo(Integer value) {
-            addCriterion("open_online =", value, "openOnline");
+        public Criteria andCountEqualTo(Integer value) {
+            addCriterion("count =", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineNotEqualTo(Integer value) {
-            addCriterion("open_online <>", value, "openOnline");
+        public Criteria andCountNotEqualTo(Integer value) {
+            addCriterion("count <>", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineGreaterThan(Integer value) {
-            addCriterion("open_online >", value, "openOnline");
+        public Criteria andCountGreaterThan(Integer value) {
+            addCriterion("count >", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineGreaterThanOrEqualTo(Integer value) {
-            addCriterion("open_online >=", value, "openOnline");
+        public Criteria andCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("count >=", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineLessThan(Integer value) {
-            addCriterion("open_online <", value, "openOnline");
+        public Criteria andCountLessThan(Integer value) {
+            addCriterion("count <", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineLessThanOrEqualTo(Integer value) {
-            addCriterion("open_online <=", value, "openOnline");
+        public Criteria andCountLessThanOrEqualTo(Integer value) {
+            addCriterion("count <=", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineLike(Integer value) {
-            addCriterion("open_online like", value, "openOnline");
+        public Criteria andCountLike(Integer value) {
+            addCriterion("count like", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineNotLike(Integer value) {
-            addCriterion("open_online not like", value, "openOnline");
+        public Criteria andCountNotLike(Integer value) {
+            addCriterion("count not like", value, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineIn(List<Integer> values) {
-            addCriterion("open_online in", values, "openOnline");
+        public Criteria andCountIn(List<Integer> values) {
+            addCriterion("count in", values, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineNotIn(List<Integer> values) {
-            addCriterion("open_online not in", values, "openOnline");
+        public Criteria andCountNotIn(List<Integer> values) {
+            addCriterion("count not in", values, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineBetween(Integer value1, Integer value2) {
-            addCriterion("open_online between", value1, value2, "openOnline");
+        public Criteria andCountBetween(Integer value1, Integer value2) {
+            addCriterion("count between", value1, value2, "count");
             return (Criteria) this;
         }
 
-        public Criteria andOpenOnlineNotBetween(Integer value1, Integer value2) {
-            addCriterion("open_online not between", value1, value2, "openOnline");
+        public Criteria andCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("count not between", value1, value2, "count");
             return (Criteria) this;
         }
 
@@ -510,7 +510,7 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
     }
 
     /**
-     * This class corresponds to the database table version_switch
+     * This class corresponds to the database table debit_product_log
     */
     public  static class Criteria extends GeneratedCriteria{
         protected Criteria() {

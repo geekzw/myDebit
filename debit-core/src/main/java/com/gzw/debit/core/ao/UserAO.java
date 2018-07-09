@@ -26,7 +26,7 @@ public interface UserAO {
      * @param form
      * @return
      */
-    BaseResponse<String> register(LoginForm form);
+    BaseResponse<Boolean> register(LoginForm form);
 
     /**
      * 获取注册验证码

@@ -3,6 +3,7 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.core.ao.VersionAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
+import com.gzw.debit.core.form.VersionForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.VersionSwitchManager;
 import com.gzw.debit.dal.model.VersionSwitchDO;
@@ -28,14 +29,18 @@ public class VersionAOImpl implements VersionAO {
 
     @Override
     @Cacheable(value = "VersionStatus",key = "1")
-    public BaseResponse<Boolean> getVersionStatus(Integer version) {
+    public BaseResponse<Boolean> getVersionStatus(VersionForm version) {
 
         if(version == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"版本号不能为空");
         }
+        if(version.getFromWhere() == null){
+            version.setFromWhere(1);
+        }
         VersionSwitchQuery query = new VersionSwitchQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andVersionEqualTo(version);
+                .andFromWhereEqualTo(version.getFromWhere())
+                .andVersionEqualTo(version.getId());
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(switchDOS)){

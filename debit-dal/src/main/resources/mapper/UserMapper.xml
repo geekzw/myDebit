@@ -8,8 +8,11 @@
         <result column="username" jdbcType="VARCHAR" property="username" />
         <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
         <result column="password" jdbcType="VARCHAR" property="password" />
-        <result column="status" jdbcType="TINYINT" property="status" />
         <result column="from_where" jdbcType="TINYINT" property="fromWhere" />
+        <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+        <result column="is_login" jdbcType="TINYINT" property="isLogin" />
+        <result column="fist_login_time" jdbcType="TIMESTAMP" property="fistLoginTime" />
+        <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -73,7 +76,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,username,nick_name,password,status,from_where
+        id,gmt_create,gmt_modified,username,nick_name,password,from_where,channel_id,is_login,fist_login_time,status
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.UserQuery" resultMap="BaseResultMap">
@@ -123,11 +126,20 @@
             <if test="password != null">
                 password,
             </if>
-            <if test="status != null">
-                status,
-            </if>
             <if test="fromWhere != null">
                 from_where,
+            </if>
+            <if test="channelId != null">
+                channel_id,
+            </if>
+            <if test="isLogin != null">
+                is_login,
+            </if>
+            <if test="fistLoginTime != null">
+                fist_login_time,
+            </if>
+            <if test="status != null">
+                status,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -141,11 +153,20 @@
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                #{status,jdbcType=TINYINT},
-            </if>
             <if test="fromWhere != null">
                 #{fromWhere,jdbcType=TINYINT},
+            </if>
+            <if test="channelId != null">
+                #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="isLogin != null">
+                #{isLogin,jdbcType=TINYINT},
+            </if>
+            <if test="fistLoginTime != null">
+                #{fistLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -170,11 +191,20 @@
             <if test="record.password != null">
                 password = #{record.password,jdbcType=VARCHAR},
             </if>
-            <if test="record.status != null">
-                status = #{record.status,jdbcType=TINYINT},
-            </if>
             <if test="record.fromWhere != null">
                 from_where = #{record.fromWhere,jdbcType=TINYINT},
+            </if>
+            <if test="record.channelId != null">
+                channel_id = #{record.channelId,jdbcType=INTEGER},
+            </if>
+            <if test="record.isLogin != null">
+                is_login = #{record.isLogin,jdbcType=TINYINT},
+            </if>
+            <if test="record.fistLoginTime != null">
+                fist_login_time = #{record.fistLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.status != null">
+                status = #{record.status,jdbcType=TINYINT},
             </if>
         </set>
         <if test="_parameter != null">
@@ -187,8 +217,11 @@
         username = #{record.username,jdbcType=VARCHAR},
         nick_name = #{record.nickName,jdbcType=VARCHAR},
         password = #{record.password,jdbcType=VARCHAR},
-        status = #{record.status,jdbcType=TINYINT},
         from_where = #{record.fromWhere,jdbcType=TINYINT},
+        channel_id = #{record.channelId,jdbcType=INTEGER},
+        is_login = #{record.isLogin,jdbcType=TINYINT},
+        fist_login_time = #{record.fistLoginTime,jdbcType=TIMESTAMP},
+        status = #{record.status,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -208,11 +241,20 @@
             <if test="password != null">
                 password = #{password,jdbcType=VARCHAR},
             </if>
-            <if test="status != null">
-                status = #{status,jdbcType=TINYINT},
-            </if>
             <if test="fromWhere != null">
                 from_where = #{fromWhere,jdbcType=TINYINT},
+            </if>
+            <if test="channelId != null">
+                channel_id = #{channelId,jdbcType=INTEGER},
+            </if>
+            <if test="isLogin != null">
+                is_login = #{isLogin,jdbcType=TINYINT},
+            </if>
+            <if test="fistLoginTime != null">
+                fist_login_time = #{fistLoginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

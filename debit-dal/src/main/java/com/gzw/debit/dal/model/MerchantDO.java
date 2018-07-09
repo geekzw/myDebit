@@ -6,49 +6,43 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class VersionSwitchDO implements Serializable {
+public class MerchantDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * log_id
-     * version_switch.id
+     * 商家id
+     * debit_merchant.id
      */
     private Long id;
 
     /**
-     * 版本号
-     * version_switch.version
+     * 商家名称
+     * debit_merchant.name
      */
-    private Integer version;
+    private String name;
 
     /**
-     * 来源：1android 2ios
-     * version_switch.from_where
+     * 商家channel
+     * debit_merchant.channel_id
      */
-    private Integer fromWhere;
-
-    /**
-     * 是否打开线上开关
-     * version_switch.open_online
-     */
-    private Integer openOnline;
+    private String channelId;
 
     /**
      * 逻辑状态。1有效。0无效。
-     * version_switch.status
+     * debit_merchant.status
      */
     private Integer status;
 
     /**
      * 创建时间
-     * version_switch.gmt_create
+     * debit_merchant.gmt_create
      */
     private LocalDateTime gmtCreate;
 
     /**
      * 最近一次的修改时间
-     * version_switch.gmt_modified
+     * debit_merchant.gmt_modified
      */
     private LocalDateTime gmtModified;
 
