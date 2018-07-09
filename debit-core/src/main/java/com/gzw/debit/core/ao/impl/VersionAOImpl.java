@@ -8,6 +8,8 @@ import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.VersionSwitchManager;
 import com.gzw.debit.dal.model.VersionSwitchDO;
 import com.gzw.debit.dal.query.VersionSwitchQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -24,26 +26,28 @@ import java.util.List;
 @Service
 public class VersionAOImpl implements VersionAO {
 
+    private Logger logger = LoggerFactory.getLogger(VersionAOImpl.class);
+
     @Autowired
     private VersionSwitchManager switchManager;
 
     @Override
-    @Cacheable(value = "VersionStatus",key = "1")
     public BaseResponse<Boolean> getVersionStatus(VersionForm version) {
 
-        if(version == null){
+        if(version.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"版本号不能为空");
         }
-        if(version.getFromWhere() == null){
-            version.setFromWhere(1);
+        if(version.getDevicesType() == null){
+            version.setDevicesType(1);
         }
         VersionSwitchQuery query = new VersionSwitchQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andFromWhereEqualTo(version.getFromWhere())
+                .andFromWhereEqualTo(version.getDevicesType())
                 .andVersionEqualTo(version.getId());
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(switchDOS)){
+            logger.error("找不到对应版本号 version:{},deviceType:{}",version.getId(),version.getDevicesType());
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应版本号");
         }
         VersionSwitchDO switchDO = switchDOS.get(0);

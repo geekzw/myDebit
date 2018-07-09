@@ -39,4 +39,22 @@ public class UserUtil {
         }
         return user;
     }
+
+    public static User getUser(String sessionId){
+        RedisAO redisAO = SpringContextUtil.getBean(RedisAOImpl.class);
+        User user = null;
+        try{
+            user = (User) redisAO.get(sessionId);
+            if(StringUtil.isEmpty(sessionId)){
+                logger.error("redis中获取不到用户信息");
+                return user;
+            }
+        }catch (Exception e){
+            logger.error("从redis解析用户信息出错",e);
+            return user;
+        }
+        return user;
+    }
+
+
 }

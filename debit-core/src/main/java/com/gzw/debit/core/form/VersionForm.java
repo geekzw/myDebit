@@ -16,5 +16,5 @@ public class VersionForm implements Serializable {
     private Integer id;
 
     //1android  2ios
-    private Integer fromWhere;
+    private Integer devicesType;
 }

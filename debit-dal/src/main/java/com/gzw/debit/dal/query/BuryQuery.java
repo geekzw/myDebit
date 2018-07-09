@@ -367,6 +367,76 @@ public class BuryQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andFormWhereIsNull() {
+            addCriterion("form_where is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereIsNotNull() {
+            addCriterion("form_where is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereEqualTo(Integer value) {
+            addCriterion("form_where =", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereNotEqualTo(Integer value) {
+            addCriterion("form_where <>", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereGreaterThan(Integer value) {
+            addCriterion("form_where >", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereGreaterThanOrEqualTo(Integer value) {
+            addCriterion("form_where >=", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereLessThan(Integer value) {
+            addCriterion("form_where <", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereLessThanOrEqualTo(Integer value) {
+            addCriterion("form_where <=", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereLike(Integer value) {
+            addCriterion("form_where like", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereNotLike(Integer value) {
+            addCriterion("form_where not like", value, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereIn(List<Integer> values) {
+            addCriterion("form_where in", values, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereNotIn(List<Integer> values) {
+            addCriterion("form_where not in", values, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereBetween(Integer value1, Integer value2) {
+            addCriterion("form_where between", value1, value2, "formWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFormWhereNotBetween(Integer value1, Integer value2) {
+            addCriterion("form_where not between", value1, value2, "formWhere");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("status is null");
             return (Criteria) this;
