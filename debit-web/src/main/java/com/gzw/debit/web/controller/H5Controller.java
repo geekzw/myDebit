@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class H5Controller {
 
 
-    @GetMapping(value = "/h5/register.html")
+    @GetMapping(value = "/h5/index.html")
     public String register(){
-        return "/promotion_register.html";
+        return "/index.html";
     }
 }
