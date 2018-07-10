@@ -100,7 +100,7 @@ public class UserAOImpl implements UserAO {
         }
 
         LoginLogDO loginLogDO = new LoginLogDO();
-        loginLogDO.setId(userDO.getId());
+        loginLogDO.setUserId(userDO.getId());
         loginLogDO.setFromWhere(form.getDeviceType() == null?1:form.getDeviceType());
         long col = loginLogManager.insertSelective(loginLogDO);
         if(col < 1){
