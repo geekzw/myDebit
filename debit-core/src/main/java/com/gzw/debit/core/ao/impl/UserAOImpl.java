@@ -13,7 +13,7 @@ import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.SmsCodeUtil;
 import com.gzw.debit.core.utils.StringUtil;
-import com.gzw.debit.core.vo.UserInfoVO;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.dal.model.LoginLogDO;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.model.UserDO;
@@ -194,7 +194,7 @@ public class UserAOImpl implements UserAO {
 
 
     @Override
-    public BaseResponse loginPc(LoginForm form, HttpServletRequest request) {
+    public BaseResponse<PcLoginInfoVO> loginPc(LoginForm form, HttpServletRequest request) {
 
         if(StringUtil.isEmpty(form.getUsername())){
             return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
@@ -235,15 +235,16 @@ public class UserAOImpl implements UserAO {
             return BaseResponse.create(Const.LOGIC_ERROR,"登录失败");
         }
 
-        LoginLogDO loginLogDO = new LoginLogDO();
-        loginLogDO.setId(userDO.getId());
-        loginLogDO.setFromWhere(form.getDeviceType() == null?1:form.getDeviceType());
-        long col = loginLogManager.insertSelective(loginLogDO);
-        if(col < 1){
-            logger.error("登录日志插入失败，userid：{}",userDO.getId());
-        }
+        PcLoginInfoVO infoVO = new PcLoginInfoVO();
+        infoVO.setChannelId(userDO.getChannelId());
+        infoVO.setId(userDO.getId());
+        infoVO.setName(userDO.getName());
+        infoVO.setPassword(userDO.getPassword());
+        infoVO.setUsername(userDO.getUsername());
+        infoVO.setType(userDO.getType());
+        infoVO.setSessionId(sessionId);
 
-        return BaseResponse.create(sessionId);
+        return BaseResponse.create(infoVO);
 
     }
 }

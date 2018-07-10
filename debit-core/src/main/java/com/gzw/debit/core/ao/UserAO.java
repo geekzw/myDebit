@@ -2,6 +2,7 @@ package com.gzw.debit.core.ao;
 
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.UserInfoVO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,11 +38,11 @@ public interface UserAO {
 
 
     /**
-     * 登录
+     * 登录pc
      * @param form
      * @return
      */
-    BaseResponse loginPc(LoginForm form, HttpServletRequest request);
+    BaseResponse<PcLoginInfoVO> loginPc(LoginForm form, HttpServletRequest request);
 
 
 
