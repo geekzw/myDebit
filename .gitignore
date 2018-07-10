@@ -44,6 +44,6 @@ debit-dal/target/*
 debit-mybatisgen/target/*
 debit-mybatisgen/src/main/resources/db.config
 
-#webBuild
+# webBuild
 debit-web/src/main/resources/static/admin/*
-debit-web/src/main/resources/react-admin/node_modules/
+debit-web/src/main/resources/react-admin/node_modules/*
