@@ -101,7 +101,7 @@ public class UserAOImpl implements UserAO {
 
         LoginLogDO loginLogDO = new LoginLogDO();
         loginLogDO.setUserId(userDO.getId());
-        loginLogDO.setFromWhere(form.getDeviceType() == null?1:form.getDeviceType());
+        loginLogDO.setFromWhere(form.getDevicesType() == null?1:form.getDevicesType());
         long col = loginLogManager.insertSelective(loginLogDO);
         if(col < 1){
             logger.error("登录日志插入失败，userid：{}",userDO.getId());
@@ -134,7 +134,7 @@ public class UserAOImpl implements UserAO {
             UserDO userDO = new UserDO();
             userDO.setUsername(form.getUsername());
             userDO.setPassword(form.getPassword());
-            userDO.setFromWhere((form.getDeviceType() == null?1:form.getDeviceType()));
+            userDO.setFromWhere((form.getDevicesType() == null?1:form.getDevicesType()));
             if(form.getChannelId()!=null){
                 userDO.setChannelId(form.getChannelId());
             }
@@ -153,7 +153,7 @@ public class UserAOImpl implements UserAO {
         UserDO userDO = new UserDO();
         userDO.setUsername(form.getUsername());
         userDO.setPassword(form.getPassword());
-        userDO.setFromWhere((form.getDeviceType() == null?1:form.getDeviceType()));
+        userDO.setFromWhere((form.getDevicesType() == null?1:form.getDevicesType()));
         if(form.getChannelId()!=null){
             userDO.setChannelId(form.getChannelId());
         }
