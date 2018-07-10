@@ -34,14 +34,11 @@
 *.ctxt
 
 #application
-.yml
-debit-web/target/
-debit-web/src/main/resources/*.yml
-debit-web/src/main/resources/static/apk/
-
-debit-core/target/
-debit-dal/target/
-debit-mybatisgen/target/
+*.yml
+*.jar
+*.properties
+*.lst
+**/target/
 debit-mybatisgen/src/main/resources/db.config
 
 # webBuild
