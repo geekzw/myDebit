@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao;
 
+import com.gzw.debit.core.form.DelMerchantForm;
 import com.gzw.debit.core.form.MerchantForm;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
@@ -28,5 +29,5 @@ public interface MerchantAO {
      * @param form
      * @return
      */
-    BaseResponse<Boolean> deleteMerchant(MerchantForm form);
+    BaseResponse<Boolean> deleteMerchant(DelMerchantForm form);
 }

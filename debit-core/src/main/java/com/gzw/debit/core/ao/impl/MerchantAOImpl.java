@@ -3,6 +3,7 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
+import com.gzw.debit.core.form.DelMerchantForm;
 import com.gzw.debit.core.form.MerchantForm;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
@@ -38,22 +39,17 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
-        if(StringUtil.isEmpty(form.getName())){
-            return BaseResponse.create(Const.PARAMS_ERROR,"商家名称不能为空");
-        }
-
-        MerchantQuery query = new MerchantQuery();
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andNameEqualTo(form.getName());
-        List<MerchantDO> merchantDOS = merchantManager.selectByQuery(query);
-
-        if(!CollectionUtils.isEmpty(merchantDOS)){
-            return BaseResponse.create(Const.LOGIC_ERROR,"商家名称不能重复");
+        BaseResponse paramResponse = checkParams(form);
+        if(!paramResponse.isSuccess()){
+            return paramResponse;
         }
         String channel = SmsCodeUtil.createRandomVcode();
         MerchantDO merchantDO = new MerchantDO();
         merchantDO.setName(form.getName());
         merchantDO.setChannelId(channel);
+        merchantDO.setUsername(form.getUsername());
+        merchantDO.setPassword(form.getPassword());
+        merchantDO.setType(form.getType());
         long col = merchantManager.insertSelective(merchantDO);
         if(col < 1){
             logger.error("插入商家失败,商家名称：{}",form.getName());
@@ -61,6 +57,41 @@ public class MerchantAOImpl implements MerchantAO {
         }
 
         return BaseResponse.create(true);
+    }
+
+    private BaseResponse<Boolean> checkParams(MerchantForm form){
+
+        if(StringUtil.isEmpty(form.getUsername())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"商家用户名不能为空");
+        }
+
+        if(StringUtil.isEmpty(form.getPassword())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"商家密码不能为空");
+        }
+
+        if(StringUtil.isEmpty(form.getName())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"商家名称不能为空");
+        }
+
+        MerchantQuery query = new MerchantQuery();
+        MerchantQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        query.createCriteria()
+                .andNameEqualTo(form.getName());
+        query.or().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andUsernameEqualTo(form.getUsername());
+        List<MerchantDO> merchantDOS = merchantManager.selectByQuery(query);
+
+        if(!CollectionUtils.isEmpty(merchantDOS)){
+            return BaseResponse.create(Const.LOGIC_ERROR,"商家名称或账号已存在");
+        }
+
+        if(form.getType() == null){
+            form.setType(1);
+        }
+
+        return BaseResponse.create(true);
+
     }
 
     @Override
@@ -87,6 +118,9 @@ public class MerchantAOImpl implements MerchantAO {
             merchantVO.setId(merchantDO.getId());
             merchantVO.setName(merchantDO.getName());
             merchantVO.setChannelId(merchantDO.getChannelId());
+            merchantVO.setPassword(merchantDO.getPassword());
+            merchantVO.setUsername(merchantDO.getUsername());
+            merchantVO.setType(merchantDO.getType());
             merchantVOS.add(merchantVO);
         }
 
@@ -99,7 +133,7 @@ public class MerchantAOImpl implements MerchantAO {
     }
 
     @Override
-    public BaseResponse<Boolean> deleteMerchant(MerchantForm form) {
+    public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
         }

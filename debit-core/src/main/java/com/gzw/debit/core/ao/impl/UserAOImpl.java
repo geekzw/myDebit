@@ -9,12 +9,15 @@ import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.form.LoginForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.LoginLogManager;
+import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.SmsCodeUtil;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.vo.UserInfoVO;
 import com.gzw.debit.dal.model.LoginLogDO;
+import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.model.UserDO;
+import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.UserQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +48,8 @@ public class UserAOImpl implements UserAO {
     private SendSmsAO sendSmsAO;
     @Autowired
     private LoginLogManager loginLogManager;
+    @Autowired
+    private MerchantManager merchantManager;
 
     @Override
     public BaseResponse<String> login(LoginForm form, HttpServletRequest request) {
@@ -202,5 +207,59 @@ public class UserAOImpl implements UserAO {
         userInfoVO.setUsername(user.getUsername());
 
         return BaseResponse.create(userInfoVO);
+    }
+
+    @Override
+    public BaseResponse loginPc(LoginForm form, HttpServletRequest request) {
+
+        if(StringUtil.isEmpty(form.getUsername())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
+        }
+        if(StringUtil.isEmpty(form.getPassword())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"密码不能为空");
+        }
+
+        MerchantQuery userQuery = new MerchantQuery();
+        userQuery.createCriteria().andUsernameEqualTo(form.getUsername());
+        List<MerchantDO> userDOS = merchantManager.selectByQuery(userQuery);
+        if(CollectionUtils.isEmpty(userDOS)){
+            return BaseResponse.create(Const.LOGIC_ERROR,"用户不存在");
+        }
+
+        MerchantDO userDO = userDOS.get(0);
+        if(!userDO.getPassword().equals(form.getPassword())){
+            return BaseResponse.create(Const.LOGIC_ERROR,"密码错误");
+        }
+
+        String sessionId;
+
+        try{
+            String oldSession = (String) redisAO.get(userDO.getUsername());
+            if(StringUtil.isEmpty(oldSession)){
+                sessionId = request.getSession().getId();
+                User user = new User();
+                user.setUsername(userDO.getUsername());
+                user.setPassword(userDO.getPassword());
+                user.setUserId(userDO.getId());
+                redisAO.set(sessionId,user,Integer.MAX_VALUE);
+                redisAO.set(userDO.getUsername(),sessionId,Integer.MAX_VALUE);
+            }else{
+                sessionId = oldSession;
+            }
+        }catch (Exception e){
+            logger.error("json解析错误",e);
+            return BaseResponse.create(Const.LOGIC_ERROR,"登录失败");
+        }
+
+        LoginLogDO loginLogDO = new LoginLogDO();
+        loginLogDO.setId(userDO.getId());
+        loginLogDO.setFromWhere(form.getDeviceType() == null?1:form.getDeviceType());
+        long col = loginLogManager.insertSelective(loginLogDO);
+        if(col < 1){
+            logger.error("登录日志插入失败，userid：{}",userDO.getId());
+        }
+
+        return BaseResponse.create(sessionId);
+
     }
 }

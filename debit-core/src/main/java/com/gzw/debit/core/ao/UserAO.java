@@ -37,4 +37,13 @@ public interface UserAO {
 
     BaseResponse<UserInfoVO> getUserInfo(String sessionId);
 
+    /**
+     * 登录
+     * @param form
+     * @return
+     */
+    BaseResponse loginPc(LoginForm form, HttpServletRequest request);
+
+
+
 }

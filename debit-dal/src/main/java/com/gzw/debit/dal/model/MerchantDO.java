@@ -46,4 +46,22 @@ public class MerchantDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 商家用户名
+     * debit_merchant.username
+     */
+    private String username;
+
+    /**
+     * 商家密码
+     * debit_merchant.password
+     */
+    private String password;
+
+    /**
+     * 商家类型，0是超级管理员，1是普通商家
+     * debit_merchant.type
+     */
+    private Integer type;
+
 }

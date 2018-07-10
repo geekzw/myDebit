@@ -16,4 +16,10 @@ public class MerchantForm implements Serializable {
     private String name;
 
     private Long id;
+
+    private String username;
+
+    private String password;
+
+    private Integer type;
 }

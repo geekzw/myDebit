@@ -8,6 +8,9 @@
         <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
         <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="type" jdbcType="TINYINT" property="type" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -71,7 +74,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,name,channel_id,status
+        id,gmt_create,gmt_modified,name,channel_id,status,username,password,type
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.MerchantQuery" resultMap="BaseResultMap">
@@ -121,6 +124,15 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -132,6 +144,15 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -156,6 +177,15 @@
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
+            <if test="record.username != null">
+                username = #{record.username,jdbcType=VARCHAR},
+            </if>
+            <if test="record.password != null">
+                password = #{record.password,jdbcType=VARCHAR},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -167,6 +197,9 @@
         name = #{record.name,jdbcType=VARCHAR},
         channel_id = #{record.channelId,jdbcType=VARCHAR},
         status = #{record.status,jdbcType=TINYINT},
+        username = #{record.username,jdbcType=VARCHAR},
+        password = #{record.password,jdbcType=VARCHAR},
+        type = #{record.type,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -185,6 +218,15 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

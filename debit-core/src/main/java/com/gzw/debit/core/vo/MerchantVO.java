@@ -18,4 +18,10 @@ public class MerchantVO implements Serializable {
     private String channelId;
 
     private String name;
+
+    private String username;
+
+    private String password;
+
+    private Integer type;
 }
