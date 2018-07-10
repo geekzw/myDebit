@@ -14,5 +14,5 @@ import java.io.Serializable;
 public class DownLoadForm implements Serializable{
 
     //1表示android，2表示ios
-    private Integer type;
+    private Integer devicesType;
 }

@@ -42,3 +42,4 @@ debit-web/src/main/resources/static/apk/*
 debit-core/target/*
 debit-dal/target/*
 debit-mybatisgen/target/*
+debit-mybatisgen/src/main/resources/db.config

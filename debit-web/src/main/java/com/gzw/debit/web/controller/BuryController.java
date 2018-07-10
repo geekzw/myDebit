@@ -22,6 +22,6 @@ public class BuryController {
 
     @PostMapping(value = "/postBury.json")
     public BaseResponse<Boolean> insertBury(@RequestBody BuryForm form){
-        return buryAO.insertBury(form.getProductId());
+        return buryAO.insertBury(form);
     }
 }

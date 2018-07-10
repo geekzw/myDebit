@@ -29,6 +29,12 @@ public class BuryDO implements Serializable {
     private Long productId;
 
     /**
+     * 来源
+     * debit_bury.form_where
+     */
+    private Integer formWhere;
+
+    /**
      * 逻辑状态。1有效。0无效。
      * debit_bury.status
      */

@@ -7,6 +7,7 @@
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
         <result column="user_id" jdbcType="BIGINT" property="userId" />
         <result column="product_id" jdbcType="BIGINT" property="productId" />
+        <result column="form_where" jdbcType="INTEGER" property="formWhere" />
         <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
 
@@ -71,7 +72,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,product_id,status
+        id,gmt_create,gmt_modified,user_id,product_id,form_where,status
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery" resultMap="BaseResultMap">
@@ -118,6 +119,9 @@
             <if test="productId != null">
                 product_id,
             </if>
+            <if test="formWhere != null">
+                form_where,
+            </if>
             <if test="status != null">
                 status,
             </if>
@@ -129,6 +133,9 @@
             </if>
             <if test="productId != null">
                 #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="formWhere != null">
+                #{formWhere,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
@@ -153,6 +160,9 @@
             <if test="record.productId != null">
                 product_id = #{record.productId,jdbcType=BIGINT},
             </if>
+            <if test="record.formWhere != null">
+                form_where = #{record.formWhere,jdbcType=INTEGER},
+            </if>
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
@@ -166,6 +176,7 @@
         update debit_bury set
         user_id = #{record.userId,jdbcType=BIGINT},
         product_id = #{record.productId,jdbcType=BIGINT},
+        form_where = #{record.formWhere,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
@@ -182,6 +193,9 @@
             </if>
             <if test="productId != null">
                 product_id = #{productId,jdbcType=BIGINT},
+            </if>
+            <if test="formWhere != null">
+                form_where = #{formWhere,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},

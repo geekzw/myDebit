@@ -67,16 +67,16 @@ public class FileAOImpl implements FileAO {
     @Override
     public BaseResponse<String> getDownLoadUrl(DownLoadForm form) {
 
-        if(form.getType() == null){
+        if(form.getDevicesType() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"类型不能为空");
         }
-        if(form.getType()!=1 && form.getType()!=2){
+        if(form.getDevicesType()!=1 && form.getDevicesType()!=2){
             return BaseResponse.create(Const.PARAMS_ERROR,"非法的类型");
         }
 
         DownUrlQuery query = new DownUrlQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andTypeEqualTo(form.getType());
+                .andTypeEqualTo(form.getDevicesType());
 
         List<DownUrlDO> downUrlDOS = downUrlManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(downUrlDOS)){

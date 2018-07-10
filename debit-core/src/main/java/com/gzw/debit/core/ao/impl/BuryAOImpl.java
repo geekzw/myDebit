@@ -3,6 +3,7 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.core.ao.BuryAO;
 import com.gzw.debit.core.entry.Const;
+import com.gzw.debit.core.form.BuryForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.utils.UserUtil;
@@ -27,23 +28,24 @@ public class BuryAOImpl implements BuryAO{
     private BuryManager buryManager;
 
     @Override
-    public BaseResponse<Boolean> insertBury(Long productId) {
-        User user = UserUtil.getUser();
+    public BaseResponse<Boolean> insertBury(BuryForm form) {
+        User user = UserUtil.getUser(form.getSessionId());
         if(user == null){
             logger.error("找不到登录信息");
-            return BaseResponse.create(Const.PARAMS_ERROR,"产品id不能为空");
+            return BaseResponse.create(Const.PARAMS_ERROR,"找不到登录信息");
         }
-        if(productId == null){
+        if(form.getProductId() == null){
             logger.error("产品id不能为空");
             return BaseResponse.create(Const.PARAMS_ERROR,"产品id不能为空");
         }
 
         BuryDO buryDO = new BuryDO();
-        buryDO.setProductId(productId);
+        buryDO.setProductId(form.getProductId());
         buryDO.setUserId(user.getUserId());
+        buryDO.setFormWhere(form.getDeviceType() == null?1:form.getDeviceType());
         long col = buryManager.insertSelective(buryDO);
         if(col < 1){
-            logger.error("插入埋点失败,userid:{},productId:{}",user.getUserId(),productId);
+            logger.error("插入埋点失败,userid:{},productId:{}",user.getUserId(),form.getProductId());
             return BaseResponse.create(Const.PARAMS_ERROR,"插入埋点失败");
         }
         return BaseResponse.create(true);
