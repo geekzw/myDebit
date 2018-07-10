@@ -7,6 +7,7 @@ import com.gzw.debit.core.form.MerchantForm;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +51,7 @@ public class UserController {
 
 
     @PostMapping(value = "/merchant/loginPc.json")
-    public BaseResponse<String> loginPc(@RequestBody LoginForm form, HttpServletRequest request){
+    public BaseResponse<PcLoginInfoVO> loginPc(@RequestBody LoginForm form, HttpServletRequest request){
         return userAO.loginPc(form,request);
     }
 
@@ -59,7 +60,7 @@ public class UserController {
         return merchantAO.createMerchant(form);
     }
 
-    @GetMapping(value = "/merchant/getMerchantList.json")
+    @GetMapping(value = "/auth/merchant/getMerchantList.json")
     public BaseResponse<List<MerchantVO>> getMerchantList(@ModelAttribute BasePageRequest form){
         return merchantAO.getMerchantList(form);
     }

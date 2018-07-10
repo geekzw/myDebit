@@ -24,7 +24,7 @@ public class AnalyzeController {
     private AnalyzeAO analyzeAO;
 
 
-    @GetMapping(value = "/admin/getRegisterInfo.json")
+    @GetMapping(value = "/auth/getRegisterInfo.json")
     public BaseResponse<List<UserInfoVO>> getRegisterInfo(@RequestBody UserInfoForm form){
         return analyzeAO.getRegister(form);
     }

@@ -20,7 +20,7 @@ public class BuryController {
     @Autowired
     private BuryAO buryAO;
 
-    @PostMapping(value = "/postBury.json")
+    @PostMapping(value = "/admin/postBury.json")
     public BaseResponse<Boolean> insertBury(@RequestBody BuryForm form){
         return buryAO.insertBury(form);
     }
