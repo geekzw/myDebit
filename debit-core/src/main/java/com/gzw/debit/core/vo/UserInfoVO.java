@@ -15,31 +15,10 @@ public class UserInfoVO implements Serializable{
 
     private String username;
 
-    private Content content;
+    private Integer devicesType;
 
+    private String registerTime;
 
-    @Data
-    public static class Content implements Serializable{
-
-        private Integer totalVisitCount;
-
-        private Integer androidVisit;
-
-        private Integer iosVisit;
-
-        private Integer h5Visit;
-
-        private Integer downAndroidCount;
-
-        private Integer downIosCount;
-
-        private Integer totalDown;
-
-        private Integer androidDetailCount;
-
-        private Integer iosDetailCount;
-
-        private Integer totalDetailCount;
-    }
+    private Integer fromWhere;
 
 }

@@ -192,22 +192,6 @@ public class UserAOImpl implements UserAO {
         return BaseResponse.create(code);
     }
 
-    @Override
-    public BaseResponse<UserInfoVO> getUserInfo(String sessionId) {
-
-        if(StringUtil.isEmpty(sessionId)){
-            return BaseResponse.create(Const.PARAMS_ERROR,"sessionId不能为空");
-        }
-
-        User user = (User) redisAO.get(sessionId);
-        if(user == null){
-            return BaseResponse.create(Const.LOGIC_ERROR,"session过期");
-        }
-        UserInfoVO userInfoVO = new UserInfoVO();
-        userInfoVO.setUsername(user.getUsername());
-
-        return BaseResponse.create(userInfoVO);
-    }
 
     @Override
     public BaseResponse loginPc(LoginForm form, HttpServletRequest request) {

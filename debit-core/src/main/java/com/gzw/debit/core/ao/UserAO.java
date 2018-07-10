@@ -35,7 +35,6 @@ public interface UserAO {
      */
     BaseResponse<String> getSmsCode(String phone);
 
-    BaseResponse<UserInfoVO> getUserInfo(String sessionId);
 
     /**
      * 登录

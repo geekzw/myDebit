@@ -49,11 +49,6 @@ public class UserController {
     }
 
 
-    @GetMapping(value = "/pc/getUserInfo.json")
-    public BaseResponse<UserInfoVO> getUserInfo(@RequestParam("sessionId") String sessionId,HttpServletRequest request){
-        return userAO.getUserInfo(sessionId);
-    }
-
     @PostMapping(value = "/merchant/loginPc.json")
     public BaseResponse<String> loginPc(@RequestBody LoginForm form, HttpServletRequest request){
         return userAO.loginPc(form,request);
