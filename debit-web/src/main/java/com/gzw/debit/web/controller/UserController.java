@@ -60,7 +60,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/merchant/getMerchantList.json")
-    public BaseResponse<List<MerchantVO>> getMerchantList(@RequestBody BasePageRequest form){
+    public BaseResponse<List<MerchantVO>> getMerchantList(@ModelAttribute BasePageRequest form){
         return merchantAO.getMerchantList(form);
     }
 
