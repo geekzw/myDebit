@@ -33,4 +33,13 @@ export const weibo = () => axios.get('./weibo.json').then(res => res.data).catch
 
 // 接口
 // 登录
-export const login = () => post({url: 'http://localhost:8080/merchant/loginPc.json' });
+// export const login = (params) => post({url: 'merchant/loginPc.json', params: params });
+export const login = () => axios.post('http://localhost:8080/merchant/loginPc.json', {
+    username: "admin",
+    password: "admin"
+}).then(function (response) {
+    console.log(response);
+    return response.data;
+}).catch(function (error) {
+    console.log(error);
+});
