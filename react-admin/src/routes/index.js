@@ -31,13 +31,16 @@ export default class CRouter extends Component {
     };
     requireLogin = (component, permission) => {
         const { auth } = this.props;
-        const { permissions } = auth.data;
-        console.log(permissions);
-        // if (process.env.NODE_ENV === 'production' && !permissions && !permissions.sessionId) { // 线上环境判断是否登录
-        //     return <Redirect to={'/login'} />;
-        // }
-        if (!permissions || !permissions.sessionId) { // 线上环境判断是否登录
-            return <Redirect to={'/login'} />;
+        const { respData } = auth.data;
+        var permissions;
+        if (respData){
+            permissions = respData.data;
+            // if (process.env.NODE_ENV === 'production' && !permissions && !permissions.sessionId) { // 线上环境判断是否登录
+            //     return <Redirect to={'/login'} />;
+            // }
+            if (!permissions || !permissions.sessionId) { // 线上环境判断是否登录
+                return <Redirect to={'/login'} />;
+            }
         }
         return permission ? this.requireAuth(permission, component) : component;
     };
