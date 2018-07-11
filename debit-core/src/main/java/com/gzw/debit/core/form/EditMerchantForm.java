@@ -1,5 +1,6 @@
 package com.gzw.debit.core.form;
 
+import com.gzw.debit.core.form.base.BaseForm;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * describe:
  */
 @Data
-public class EditMerchantForm implements Serializable{
+public class EditMerchantForm extends BaseForm{
 
     private Long id;
 

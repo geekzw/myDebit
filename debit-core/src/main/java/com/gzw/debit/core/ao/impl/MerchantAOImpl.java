@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.entry.User;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
@@ -11,6 +12,7 @@ import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.utils.SmsCodeUtil;
 import com.gzw.debit.core.utils.StringUtil;
+import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.query.MerchantQuery;
@@ -135,6 +137,16 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
+        User user = UserUtil.getUser(form.getSessionId());
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
+        }
+
+        if(user.getType()!=null && user.getType()!=0){
+            return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
+        }
+
+
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
         }
@@ -158,6 +170,15 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> editMerchant(EditMerchantForm form) {
+
+        User user = UserUtil.getUser(form.getSessionId());
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
+        }
+
+        if(user.getType()!=null && user.getType()!=0){
+            return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
+        }
 
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");

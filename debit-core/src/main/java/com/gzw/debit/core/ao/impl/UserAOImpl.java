@@ -225,6 +225,7 @@ public class UserAOImpl implements UserAO {
                 user.setUsername(userDO.getUsername());
                 user.setPassword(userDO.getPassword());
                 user.setUserId(userDO.getId());
+                user.setType(userDO.getType());
                 redisAO.set(sessionId,user,Integer.MAX_VALUE);
                 redisAO.set(userDO.getUsername(),sessionId,Integer.MAX_VALUE);
             }else{

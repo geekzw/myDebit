@@ -18,4 +18,6 @@ public class User implements Serializable{
     private String password;
 
     private Long userId;
+
+    private Integer type;
 }
