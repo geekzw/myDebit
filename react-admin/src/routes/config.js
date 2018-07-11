@@ -1,9 +1,9 @@
 export default {
     menus: [    // 菜单相关路由
         { key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard' },
-        {
-            key: '/app/table', title: '商家列表', icon: 'copy',component: 'MerchantList',
-        },
+        // {
+        //     key: '/app/merchantList', title: '商家列表', icon: 'copy',component: 'MerchantList',
+        // },
         // {
         //     key: '/app/ui', title: 'UI', icon: 'scan',
         //     subs: [
