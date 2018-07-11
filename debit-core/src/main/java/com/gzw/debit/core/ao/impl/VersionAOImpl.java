@@ -47,7 +47,7 @@ public class VersionAOImpl implements VersionAO {
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(switchDOS)){
-            logger.error("找不到对应版本号 version:{},deviceType:{}",version.getId(),version.getDevicesType());
+            logger.error("找不到对应版本号 version:{}, deviceType:{}",version.getId(),version.getDevicesType());
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应版本号");
         }
         VersionSwitchDO switchDO = switchDOS.get(0);
