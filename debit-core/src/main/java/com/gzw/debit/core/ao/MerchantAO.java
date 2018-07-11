@@ -1,6 +1,7 @@
 package com.gzw.debit.core.ao;
 
 import com.gzw.debit.core.form.DelMerchantForm;
+import com.gzw.debit.core.form.EditMerchantForm;
 import com.gzw.debit.core.form.MerchantForm;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
@@ -22,6 +23,11 @@ public interface MerchantAO {
      */
     BaseResponse<Boolean> createMerchant(MerchantForm form);
 
+    /**
+     * 获取商家列表
+     * @param request
+     * @return
+     */
     BaseResponse<List<MerchantVO>> getMerchantList(BasePageRequest request);
 
     /**
@@ -30,4 +36,11 @@ public interface MerchantAO {
      * @return
      */
     BaseResponse<Boolean> deleteMerchant(DelMerchantForm form);
+
+    /**
+     * 编辑商家信息
+     * @param form
+     * @return
+     */
+    BaseResponse<Boolean> editMerchant(EditMerchantForm form);
 }
