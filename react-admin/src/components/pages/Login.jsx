@@ -10,12 +10,15 @@ import { fetchData, receiveData } from '@/action';
 const FormItem = Form.Item;
 
 class Login extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            loading: false
+        }
+    }
     componentWillMount() {
         const { receiveData } = this.props;
         receiveData(null, 'resp');
-    }
-    state = {
-        loading: false
     }
     // componentWillReceiveProps(nextProps) {
     //     const { auth: nextAuth = {} } = nextProps;

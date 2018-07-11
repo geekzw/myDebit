@@ -66,6 +66,20 @@ class SiderCustom extends Component {
             firstHide: false,
         })
     };
+    getMenus(){
+        var user = JSON.parse(localStorage.getItem("user"));
+        var menus = [];
+        for(var i=0;i<routes.menus.length;i++){
+            var r = routes.menus[i];
+            if(r.id == "merchantList"){
+                if(!user || user.type != 0){
+                    break;
+                }
+            }
+            menus.push(routes.menus[i]);
+        }
+        return menus;
+    }
     render() {
         return (
             <Sider
@@ -76,7 +90,7 @@ class SiderCustom extends Component {
             >
                 <div className="logo" />
                 <SiderMenu
-                    menus={routes.menus}
+                    menus={this.getMenus()}
                     onClick={this.menuClick}
                     theme="dark"
                     mode="inline"

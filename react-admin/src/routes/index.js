@@ -7,21 +7,6 @@ import AllComponents from '../components';
 import routesConfig from './config';
 
 export default class CRouter extends Component {
-    state = {
-
-    }
-    componentWillMount() {
-        var user = JSON.parse(localStorage.getItem("user"));
-        console.log(user.type == 0);
-        if (user && user.type == 0){
-            routesConfig["menus"] = routesConfig["menus"].concat([
-                {   key: '/app/merchantList', title: '商家列表', icon: 'copy',component: 'MerchantList'    }
-            ]);
-        }
-        this.setState({
-            configs: routesConfig
-        });
-    }
     requireAuth = (permission, component) => {
         const { auth } = this.props;
         const { permissions } = auth.data;
@@ -45,12 +30,11 @@ export default class CRouter extends Component {
         return permission ? this.requireAuth(permission, component) : component;
     };
     render() {
-        const { configs } = this.state;
         return (
             <Switch>
                 {
-                    Object.keys(configs).map(key => 
-                        configs[key].map(r => {
+                    Object.keys(routesConfig).map(key => 
+                        routesConfig[key].map(r => {
                             const route = r => {
                                 const Component = AllComponents[r.component];
                                 return (
@@ -68,7 +52,6 @@ export default class CRouter extends Component {
                         })
                     )
                 }
-
                 <Route render={() => <Redirect to="/404" />} />
             </Switch>
         )
