@@ -16,9 +16,9 @@ class App extends Component {
     componentWillMount() {
         const { receiveData } = this.props;
         const user = JSON.parse(localStorage.getItem('user'));
-        user && receiveData(user, 'auth');
+        user && receiveData(user, 'resp');
         // receiveData({a: 213}, 'auth');
-        fetchData({funcName: 'login', stateName: 'auth'});
+        fetchData({funcName: 'login', stateName: 'resp'});
         this.getClientWidth();
         window.onresize = () => {
             console.log('屏幕变化了');
@@ -60,16 +60,16 @@ class App extends Component {
         });
     };
     render() {
-        // console.log(this.props.auth);
+        // console.log(this.props);
         // console.log(this.props.responsive);
-        const { auth, responsive } = this.props;
+        const { resp, responsive } = this.props;
         return (
             <Layout>
                 {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
                 <Layout style={{flexDirection: 'column'}}>
-                    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={auth.data || {}} />
+                    <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={resp.data || {}} />
                     <Content style={{ margin: '0 16px', overflow: 'initial' }}>
-                        <Routes auth={auth} />
+                        <Routes auth={resp} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
                     React-Admin ©{new Date().getFullYear()} Created by 管家记账
@@ -93,8 +93,8 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-    const { auth = {data: {}}, responsive = {data: {}} } = state.httpData;
-    return {auth, responsive};
+    const { resp = {data: {}}, responsive = {data: {}} } = state.httpData;
+    return {resp, responsive};
 };
 const mapDispatchToProps = dispatch => ({
     receiveData: bindActionCreators(receiveData, dispatch)

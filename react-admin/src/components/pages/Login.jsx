@@ -12,7 +12,10 @@ const FormItem = Form.Item;
 class Login extends React.Component {
     componentWillMount() {
         const { receiveData } = this.props;
-        receiveData(null, 'auth');
+        receiveData(null, 'resp');
+    }
+    state = {
+        loading: false
     }
     // componentWillReceiveProps(nextProps) {
     //     const { auth: nextAuth = {} } = nextProps;
@@ -23,14 +26,16 @@ class Login extends React.Component {
     //     }
     // }
     componentDidUpdate(prevProps) { // React 16.3+弃用componentWillReceiveProps
-        const { auth: nextAuth = {}, history } = this.props;
+        const { resp: resp = {}, history } = this.props;
+        var respData = resp.data;
         // const { history } = this.props;
-        if (nextAuth.data && nextAuth.data.code === 1000) {   // 判断是否登陆
-            localStorage.setItem('user', JSON.stringify(nextAuth.data));
+        if (respData && respData.code === 1000) {   // 判断是否登陆
+            localStorage.setItem('user', JSON.stringify(respData.data));
             history.push('/');
         }
     }
     handleSubmit = (e) => {
+        this.setState({loading:true});
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -42,7 +47,7 @@ class Login extends React.Component {
                         username: values.userName,
                         password: values.password
                     },
-                    stateName: 'auth'
+                    stateName: 'resp'
                 })
             }
         });
@@ -52,6 +57,7 @@ class Login extends React.Component {
     };
     render() {
         const { getFieldDecorator } = this.props.form;
+        var loading = this.state.loading;
         return (
             <div className="login">
                 <div className="login-form" >
@@ -81,7 +87,7 @@ class Login extends React.Component {
                                 <Checkbox>记住我</Checkbox>
                             )}
                             {/* <a className="login-form-forgot" href="" style={{float: 'right'}}>忘记密码</a> */}
-                            <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%'}}>
+                            <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%'}} disabled={loading} loading={loading}>
                                 登录
                             </Button>
                             {/* <p style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -98,9 +104,9 @@ class Login extends React.Component {
 }
 
 const mapStateToPorps = state => {
-    const { auth } = state.httpData;
+    const { resp } = state.httpData;
     console.log(state.httpData);
-    return { auth };
+    return { resp };
 };
 const mapDispatchToProps = dispatch => ({
     fetchData: bindActionCreators(fetchData, dispatch),
