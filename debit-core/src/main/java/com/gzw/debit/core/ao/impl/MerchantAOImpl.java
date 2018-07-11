@@ -79,8 +79,7 @@ public class MerchantAOImpl implements MerchantAO {
         MerchantQuery query = new MerchantQuery();
         MerchantQuery.Criteria criteria = query.createCriteria();
         criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
-        query.createCriteria()
-                .andNameEqualTo(form.getName());
+        criteria.andNameEqualTo(form.getName());
         query.or().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
                 .andUsernameEqualTo(form.getUsername());
         List<MerchantDO> merchantDOS = merchantManager.selectByQuery(query);
