@@ -12,10 +12,10 @@ export default class CRouter extends Component {
     }
     componentWillMount() {
         var user = JSON.parse(localStorage.getItem("user"));
+        console.log(user.type == 0);
         if (user && user.type == 0){
-            routesConfig["menus"].concat([
-                {   key: '/app/merchantList', title: '商家列表', icon: 'copy',component: 'MerchantList'    },
-                {   key: '/app/table', title: '编辑商家', icon: 'copy',component: 'MerchantList'    },
+            routesConfig["menus"] = routesConfig["menus"].concat([
+                {   key: '/app/merchantList', title: '商家列表', icon: 'copy',component: 'MerchantList'    }
             ]);
         }
         this.setState({
