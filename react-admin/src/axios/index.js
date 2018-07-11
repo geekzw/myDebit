@@ -34,12 +34,17 @@ export const weibo = () => axios.get('./weibo.json').then(res => res.data).catch
 // 接口
 // 登录
 // export const login = (params) => post({url: 'merchant/loginPc.json', params: params });
-export const login = () => axios.post('http://localhost:8080/merchant/loginPc.json', {
-    username: "admin",
-    password: "admin"
-}).then(function (response) {
-    console.log(response);
+export const login = (params) => 
+axios.post('http://localhost:8080/merchant/loginPc.json', params).then(function (response) {
     return response.data;
 }).catch(function (error) {
     console.log(error);
 });
+
+// 商家列表
+export const getMerchant = (params) => 
+    axios.get('http://localhost:8080/auth/merchant/getMerchantList.json', {params: params}).then(function (response) {
+        return response.data;
+    }).catch(function (error) {
+        console.log(error);
+    });
