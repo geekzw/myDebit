@@ -55,31 +55,23 @@ export const login = (params) =>
     axios.post(
         'http://localhost:8080/merchant/loginPc.json', 
         params
-    ).then(function (response) {
-        return response.data;
-    }).catch(err => err);
+    ).then(response=>response.data).catch(err => err);
 
 // 商家列表
 export const getMerchant = (params) => 
     axios.get(
         'http://localhost:8080/auth/merchant/getMerchantList.json', 
         {params: params}
-    ).then(function (response) {
-        return response.data;
-    }).catch(err => err);
+    ).then(response=>response.data).catch(err => err);
 
 export const editMerchant = (params) =>
     axios.post(
         'http://localhost:8080/auth/merchant/editMerchant.json', 
         params
-    ).then(function (response) {
-        return response.data;
-    }).catch(err => err);
+    ).then(response=>response.data).catch(err => err);
 
 export const deleteMerchant = (params) =>
     axios.post(
         'http://localhost:8080/auth/merchant/deleteMerchant.json', 
         params
-    ).then(function (response) {
-        return response.data;
-    }).catch(err => err);
+    ).then(response=>response.data).catch(err => err);
