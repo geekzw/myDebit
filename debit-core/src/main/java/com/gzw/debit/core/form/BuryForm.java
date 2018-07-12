@@ -14,4 +14,6 @@ import lombok.Data;
 public class BuryForm extends BaseForm {
 
     private Long productId;
+
+    private Integer type;
 }

@@ -43,6 +43,7 @@ public class BuryAOImpl implements BuryAO{
         buryDO.setProductId(form.getProductId());
         buryDO.setUserId(user.getUserId());
         buryDO.setFormWhere(form.getDevicesType() == null?1:form.getDevicesType());
+        buryDO.setType(form.getType() == null?1:form.getType());
         long col = buryManager.insertSelective(buryDO);
         if(col < 1){
             logger.error("插入埋点失败,userid:{},productId:{}",user.getUserId(),form.getProductId());

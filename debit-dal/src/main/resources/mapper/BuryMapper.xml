@@ -9,6 +9,7 @@
         <result column="product_id" jdbcType="BIGINT" property="productId" />
         <result column="form_where" jdbcType="INTEGER" property="formWhere" />
         <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="type" jdbcType="TINYINT" property="type" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -72,7 +73,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,product_id,form_where,status
+        id,gmt_create,gmt_modified,user_id,product_id,form_where,status,type
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery" resultMap="BaseResultMap">
@@ -125,6 +126,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="type != null">
+                type,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -139,6 +143,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -166,6 +173,9 @@
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=TINYINT},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -178,6 +188,7 @@
         product_id = #{record.productId,jdbcType=BIGINT},
         form_where = #{record.formWhere,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
+        type = #{record.type,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -199,6 +210,9 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

@@ -52,4 +52,10 @@ public class ProductLogDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 点击的列表还是详情1是列表 2是详情
+     * debit_product_log.type
+     */
+    private Integer type;
+
 }

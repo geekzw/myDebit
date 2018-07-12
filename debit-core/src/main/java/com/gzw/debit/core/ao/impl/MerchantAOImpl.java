@@ -254,7 +254,12 @@ public class MerchantAOImpl implements MerchantAO {
             streamInfos.add(info);
         });
 
-        return BaseResponse.create(streamInfos);
+        BaseResponse<List<StreamInfo>> response = BaseResponse.create(streamInfos);
+        response.setPageNo(form.getPageNo());
+        response.setPageSize(form.getPageSize());
+        response.setTotalCount(userManager.countByQuery(query));
+
+        return response;
 
     }
 }
