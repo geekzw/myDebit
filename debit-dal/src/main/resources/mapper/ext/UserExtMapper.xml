@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gzw.debit.dal.mapper.ext.UserExtMapper">
+
+    <resultMap id="BaseResultMap" type="com.gzw.debit.dal.model.ext.UserDOExt">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="from_where" jdbcType="TINYINT" property="fromWhere" />
+        <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
+        <result column="is_login" jdbcType="TINYINT" property="isLogin" />
+        <result column="fist_login_time" jdbcType="TIMESTAMP" property="fistLoginTime" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+    </resultMap>
+
+    <select id="getUserDOExt" resultMap="BaseResultMap" parameterType="com.gzw.debit.dal.query.ext.UserQueryExt">
+        SELECT a.*,b.type,b.count FROM debit_user as a LEFT JOIN debit_bury as b ON
+        a.id = b.user_id
+        <where>
+            AND a.status = 1
+            AND b.status = 1
+            <if test="channelId!=null">
+                AND a.channel = #{channelId}
+            </if>
+        </where>
+        ORDER BY a.gmt_create DESC LIMIT #{pageOffSet},#{pageSize}
+
+    </select>
+
 </mapper>

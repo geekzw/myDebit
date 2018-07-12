@@ -18,5 +18,5 @@ public class LoginForm extends BaseForm{
     private String password;
     private String verifyCode;
 
-    private Integer channelId;
+    private String channelId;
 }

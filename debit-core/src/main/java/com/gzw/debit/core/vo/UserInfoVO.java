@@ -19,6 +19,6 @@ public class UserInfoVO implements Serializable{
 
     private String registerTime;
 
-    private Integer fromWhere;
+    private String fromWhere;
 
 }

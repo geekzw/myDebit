@@ -10,6 +10,7 @@ import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.utils.StringUtil;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,8 +27,19 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String sessionId = request.getParameter(SESSION_ID);
         if(StringUtil.isEmpty(sessionId)){
-            request.getHeader(SESSION_ID);
+            sessionId =request.getHeader(SESSION_ID);
         }
+
+        if(StringUtil.isEmpty(sessionId)){
+            Cookie[] cookies = request.getCookies();
+            for(int i=0;i<cookies.length;i++){
+                if(cookies[i].getName().equals(SESSION_ID)){
+                    sessionId = cookies[i].getValue();
+                }
+            }
+        }
+
+
         if(sessionId!=null){
             RedisAO redisAO = SpringContextUtil.getBean(RedisAOImpl.class);
             User user = (User) redisAO.get(sessionId);
