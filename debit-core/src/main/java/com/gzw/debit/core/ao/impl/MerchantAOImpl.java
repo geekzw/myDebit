@@ -202,10 +202,10 @@ public class MerchantAOImpl implements MerchantAO {
             merchantDO.setName(form.getName());
         }
         if(!StringUtil.isEmpty(form.getUsername())){
-            merchantDO.setName(form.getUsername());
+            merchantDO.setUsername(form.getUsername());
         }
         if(!StringUtil.isEmpty(form.getPassword())){
-            merchantDO.setName(form.getPassword());
+            merchantDO.setPassword(form.getPassword());
         }
 
         int col = merchantManager.updateByPrimaryKeySelective(merchantDO);
