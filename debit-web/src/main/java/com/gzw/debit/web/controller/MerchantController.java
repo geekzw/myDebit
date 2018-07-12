@@ -1,12 +1,10 @@
 package com.gzw.debit.web.controller;
 
 import com.gzw.debit.core.ao.MerchantAO;
-import com.gzw.debit.core.form.DelMerchantForm;
-import com.gzw.debit.core.form.EditMerchantForm;
-import com.gzw.debit.core.form.MerchantForm;
-import com.gzw.debit.core.form.MerchantListForm;
+import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.StreamInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,5 +40,10 @@ public class MerchantController {
     @PostMapping(value = "/auth/merchant/deleteMerchant.json")
     public BaseResponse<Boolean> deleteMerchant(@RequestBody DelMerchantForm form){
         return merchantAO.deleteMerchant(form);
+    }
+
+    @PostMapping(value = "/auth/merchant/getMerchantStream.json")
+    public BaseResponse<List<StreamInfo>> getMerchantStream(@RequestBody MerchantStreamForm form){
+        return merchantAO.getMerchantStream(form);
     }
 }

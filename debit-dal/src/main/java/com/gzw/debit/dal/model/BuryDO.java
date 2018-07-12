@@ -58,4 +58,10 @@ public class BuryDO implements Serializable {
      */
     private Integer type;
 
+    /**
+     * 点击数量
+     * debit_bury.count
+     */
+    private Integer count;
+
 }

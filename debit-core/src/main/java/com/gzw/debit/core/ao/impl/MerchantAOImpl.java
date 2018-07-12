@@ -7,6 +7,7 @@ import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.DateUtil;
@@ -15,8 +16,10 @@ import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.core.vo.StreamInfo;
+import com.gzw.debit.dal.model.BuryDO;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.model.UserDO;
+import com.gzw.debit.dal.query.BuryQuery;
 import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.UserQuery;
 import org.slf4j.Logger;
@@ -29,6 +32,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * auth:gujian
@@ -45,6 +49,8 @@ public class MerchantAOImpl implements MerchantAO {
     private MerchantManager merchantManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private BuryManager buryManager;
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
@@ -155,7 +161,6 @@ public class MerchantAOImpl implements MerchantAO {
             return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
         }
 
-
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
         }
@@ -252,7 +257,8 @@ public class MerchantAOImpl implements MerchantAO {
             info.setGmtCreate(DateUtil.dateISO8601Format(item.getGmtCreate()));
             streamInfos.add(info);
         });
-
+        List<Long> userIds = userDOS.stream().map(UserDO::getId).collect(Collectors.toList());
+        setStreamInfoCount(userIds,streamInfos);
         BaseResponse<List<StreamInfo>> response = BaseResponse.create(streamInfos);
         response.setPageNo(form.getPageNo());
         response.setPageSize(form.getPageSize());
@@ -260,5 +266,27 @@ public class MerchantAOImpl implements MerchantAO {
 
         return response;
 
+    }
+
+    private void setStreamInfoCount(List<Long> userIds, List<StreamInfo> streamInfos) {
+
+        BuryQuery query = new BuryQuery();
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andUserIdIn(userIds);
+        List<BuryDO> buryDOS = buryManager.selectByQuery(query);
+        if(CollectionUtils.isEmpty(buryDOS)){
+            return;
+        }
+        streamInfos.forEach(info->{
+            buryDOS.forEach(buryDO -> {
+                if(buryDO.getUserId().equals(info.getId())){
+                    if(buryDO.getType().equals(1)){
+                        info.setListCount(buryDO.getCount());
+                    }else{
+                        info.setDetailCount(buryDO.getCount());
+                    }
+                }
+            });
+        });
     }
 }
