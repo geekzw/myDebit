@@ -6,6 +6,7 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchData, receiveData } from '@/action';
+import { notifyPop } from '../../axios';
 
 const FormItem = Form.Item;
 
@@ -32,9 +33,14 @@ class Login extends React.Component {
         const { resp: resp = {}, history } = this.props;
         var respData = resp.data;
         // const { history } = this.props;
+        if (!resp.isFetching && this.state.loading){
+            this.setState({loading:false});
+        }
         if (respData && respData.code === 1000) {   // 判断是否登陆
             localStorage.setItem('user', JSON.stringify(respData.data));
             history.push('/');
+        }else if(prevProps && prevProps.resp && prevProps.resp.isFetching && respData){
+            notifyPop('提示',respData.desc,<Icon type="smile-circle" style={{ color: 'red' }} />);
         }
     }
     handleSubmit = (e) => {
@@ -108,7 +114,6 @@ class Login extends React.Component {
 
 const mapStateToPorps = state => {
     const { resp } = state.httpData;
-    console.log(state.httpData);
     return { resp };
 };
 const mapDispatchToProps = dispatch => ({
