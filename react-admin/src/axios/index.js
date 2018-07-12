@@ -2,8 +2,10 @@
  * Created by hao.cheng on 2017/4/16.
  */
 import axios from 'axios';
-import { get, post } from './tools';
-import * as config from './config';
+import React from 'react';
+// import { get, post } from './tools';
+// import * as config from './config';
+import { notification, Icon } from 'antd';
 
 export const getPros = () => axios.post('http://api.xitu.io/resources/github', {
     category: "trending",
@@ -31,20 +33,53 @@ export const weibo = () => axios.get('./weibo.json').then(res => res.data).catch
 //     url: 'https://api.github.com/user?access_token=' + access_token,
 // }).then(res => res.data).catch(err => console.log(err));
 
+export const notifyPop = (title,desc,icon,duration=3) => {
+    notification.open({
+        message: title,
+        description: (
+            <div>
+                <p>
+                    { desc }
+                </p>
+            </div>
+        ),
+        icon: icon,
+        duration: duration,
+      });
+};
+
 // 接口
 // 登录
 // export const login = (params) => post({url: 'merchant/loginPc.json', params: params });
 export const login = (params) => 
-axios.post('http://localhost:8080/merchant/loginPc.json', params).then(function (response) {
-    return response.data;
-}).catch(function (error) {
-    console.log(error);
-});
+    axios.post(
+        'http://localhost:8080/merchant/loginPc.json', 
+        params
+    ).then(function (response) {
+        return response.data;
+    }).catch(err => err);
 
 // 商家列表
 export const getMerchant = (params) => 
-    axios.get('http://localhost:8080/auth/merchant/getMerchantList.json', {params: params}).then(function (response) {
+    axios.get(
+        'http://localhost:8080/auth/merchant/getMerchantList.json', 
+        {params: params}
+    ).then(function (response) {
         return response.data;
-    }).catch(function (error) {
-        console.log(error);
-    });
+    }).catch(err => err);
+
+export const editMerchant = (params) =>
+    axios.post(
+        'http://localhost:8080/auth/merchant/editMerchant.json', 
+        params
+    ).then(function (response) {
+        return response.data;
+    }).catch(err => err);
+
+export const deleteMerchant = (params) =>
+    axios.post(
+        'http://localhost:8080/auth/merchant/deleteMerchant.json', 
+        params
+    ).then(function (response) {
+        return response.data;
+    }).catch(err => err);
