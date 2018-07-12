@@ -37,10 +37,9 @@ class Login extends React.Component {
             this.setState({loading:false});
         }
         if (respData && respData.code === 1000) {   // 判断是否登陆
-            document.cookie="sessionId="+respData.data.sessionId;
             localStorage.setItem('user', JSON.stringify(respData.data));
             history.push('/');
-        }else if(prevProps.resp.isFetching && respData){
+        }else if(prevProps && prevProps.resp && prevProps.resp.isFetching && respData){
             notifyPop('提示',respData.desc,<Icon type="smile-circle" style={{ color: 'red' }} />);
         }
     }

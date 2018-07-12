@@ -49,13 +49,21 @@ export const notifyPop = (title,desc,icon,duration=3) => {
 };
 
 const post = (url,datas) => {
-    return axios.post(url,datas).then(response=>response.data).catch(err => err);
+    return axios.post(url,datas,getHeader()).then(response=>response.data).catch(err => err);
 };
 const get = (url,params) => {
     return axios.get(url,{params: params}).then(response=>response.data).catch(err => err);
 };
 
 const baseURL = 'http://localhost:8080/';
+
+var user;
+const getHeader = () => {
+    if(!user){
+        user = JSON.parse(localStorage.getItem('user'));
+    }
+    return {sessionId:user.sessionId};
+}
 
 // 接口
 // 登录
