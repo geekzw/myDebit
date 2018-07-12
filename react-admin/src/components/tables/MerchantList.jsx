@@ -184,7 +184,20 @@ class MerchantList extends React.Component {
             }
             deleteMerchant(params).then(
                 resp => {
+                    console.log(params);
                     console.log(resp);
+                    notifyPop('提示',resp.desc);
+                    if (resp.success){
+                        const newData = [...this.state.data];
+                        const index = newData.findIndex(item => key === item.key);
+                        if (index > -1) {
+                            newData.splice(index, 1);
+                            this.setState({ data: newData, editingKey: '' });
+                        } else {
+                            // newData.push(data);
+                            this.setState({ data: newData, editingKey: '' });
+                        }
+                    }
                 }
             ).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
         }
