@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.entry.User;
 import com.gzw.debit.core.ao.AnalyzeAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
@@ -11,6 +12,7 @@ import com.gzw.debit.core.manager.AnalyzeRuleManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.DateUtil;
 import com.gzw.debit.core.utils.StringUtil;
+import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.AnalyzeRuleVO;
 import com.gzw.debit.core.vo.UserInfoVO;
 import com.gzw.debit.dal.model.AnalyzeRuleDO;
@@ -113,7 +115,13 @@ public class AnalyzeAOImpl implements AnalyzeAO {
 
     @Override
     public BaseResponse<Boolean> editAnalyzeRule(EditAnalyzeRuleForm form) {
-
+        User user = UserUtil.getUser();
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"找不到用户信息，请重新登录");
+        }
+        if(user.getType()!=0){
+            return BaseResponse.create(Const.LOGIC_ERROR,"无权限");
+        }
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"规则id不能为空");
         }
