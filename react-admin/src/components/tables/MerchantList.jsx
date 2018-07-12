@@ -145,7 +145,6 @@ class MerchantList extends React.Component {
             }
             var params = {
                 ...row,
-                sessionId: JSON.parse(localStorage.getItem('user')).sessionId,
                 id: oldRow.id
             }
             editMerchant(params).then(
@@ -175,12 +174,10 @@ class MerchantList extends React.Component {
     cancel = () => {
         this.setState({ editingKey: '' });
     };
-    delete = (key) => {
-        var row = this.state.data[key-1];
+    delete = (row) => {
         if(row){
             var params = {
                 id:row.id,
-                sessionId: JSON.parse(localStorage.getItem('user')).sessionId,
             }
             deleteMerchant(params).then(
                 resp => {
@@ -189,7 +186,7 @@ class MerchantList extends React.Component {
                     notifyPop('提示',resp.desc);
                     if (resp.success){
                         const newData = [...this.state.data];
-                        const index = newData.findIndex(item => key === item.key);
+                        const index = newData.findIndex(item => row.key === item.key);
                         if (index > -1) {
                             newData.splice(index, 1);
                             this.setState({ data: newData, editingKey: '' });
@@ -283,7 +280,7 @@ class MerchantList extends React.Component {
                         type="primary" icon="edit" ></Button>
                     <Popconfirm
                       title="确认删除吗?"
-                      onConfirm={() => this.delete(record.key)}
+                      onConfirm={() => this.delete(record)}
                     >
                         <Button type="danger" icon="delete" />
                     </Popconfirm>
