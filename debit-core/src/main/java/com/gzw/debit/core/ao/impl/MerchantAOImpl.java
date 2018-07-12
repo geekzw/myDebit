@@ -198,13 +198,13 @@ public class MerchantAOImpl implements MerchantAO {
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的商家");
         }
 
-        if(StringUtil.isEmpty(form.getName())){
+        if(!StringUtil.isEmpty(form.getName())){
             merchantDO.setName(form.getName());
         }
-        if(StringUtil.isEmpty(form.getUsername())){
+        if(!StringUtil.isEmpty(form.getUsername())){
             merchantDO.setName(form.getUsername());
         }
-        if(StringUtil.isEmpty(form.getPassword())){
+        if(!StringUtil.isEmpty(form.getPassword())){
             merchantDO.setName(form.getPassword());
         }
 

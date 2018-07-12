@@ -30,15 +30,6 @@ public class LoginInterceptor implements HandlerInterceptor {
             sessionId =request.getHeader(SESSION_ID);
         }
 
-        if(StringUtil.isEmpty(sessionId)){
-            Cookie[] cookies = request.getCookies();
-            for(int i=0;i<cookies.length;i++){
-                if(cookies[i].getName().equals(SESSION_ID)){
-                    sessionId = cookies[i].getValue();
-                }
-            }
-        }
-
 
         if(sessionId!=null){
             RedisAO redisAO = SpringContextUtil.getBean(RedisAOImpl.class);
