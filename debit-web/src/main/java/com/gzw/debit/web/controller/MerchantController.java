@@ -42,8 +42,8 @@ public class MerchantController {
         return merchantAO.deleteMerchant(form);
     }
 
-    @PostMapping(value = "/auth/merchant/getMerchantStream.json")
-    public BaseResponse<List<StreamInfo>> getMerchantStream(@RequestBody MerchantStreamForm form){
+    @GetMapping(value = "/auth/merchant/getMerchantStream.json")
+    public BaseResponse<List<StreamInfo>> getMerchantStream(@ModelAttribute MerchantStreamForm form){
         return merchantAO.getMerchantStream(form);
     }
 }

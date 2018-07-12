@@ -117,27 +117,49 @@ class MerchantList extends React.Component {
     edit(key) {
         this.setState({ editingKey: key });
     }
+    isRecordChange(record,oldRecord) {
+        if(!oldRecord){
+            for(var i=0;i<this.state.data.length;i++){
+                if(this.state.data[i].id==record.id){
+                    oldRecord = this.state.data[i];
+                    break;
+                }
+            }
+        }
+        if(!oldRecord){ return false; }
+        var isSameData = Object.keys(record).reduce(
+            (rs,k) => {
+                var r = true;
+                if(k){
+                    if (typeof(rs)=='string'){
+                        r = record[rs] == oldRecord[rs];
+                    }else{
+                        r = rs;
+                    }
+                    return r && (record[k] == oldRecord[k]);
+                }else{
+                    return rs;
+                }
+            }
+        );
+        return isSameData;
+    }
     save(form, key) {
         form.validateFields((error, row) => {
             if (error) {
                 return;
             }
-            var oldRow = this.state.data[key-1];
-            var isSameData = Object.keys(row).reduce(
-                (rs,k) => {
-                    var r = true;
-                    if(k){
-                        if (typeof(rs)=='string'){
-                            r = row[rs] == oldRow[rs];
-                        }else{
-                            r = rs;
-                        }
-                        return r && (row[k] == oldRow[k]);
-                    }else{
-                        return rs;
-                    }
+            var oldRow;
+            for(var i=0;i<this.state.data.length;i++){
+                if (this.state.data[i].key == key){
+                    oldRow = this.state.data[i];
+                    break;
                 }
-            );
+            }
+            if(!oldRow){
+                notifyPop('警告','数据出错，请刷新',<Icon type="frown" style={{ color: 'red' }} />);
+            }
+            var isSameData = this.isRecordChange(row,oldRow);
             if (isSameData){
                 notifyPop('提示','数据无变更',<Icon type="smile-circle" style={{ color: 'blue' }} />);
                 this.setState({ editingKey: '' });
