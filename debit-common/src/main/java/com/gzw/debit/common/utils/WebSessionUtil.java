@@ -17,15 +17,7 @@ public class WebSessionUtil {
     }
 
     public static String getSessionId() {
-        Cookie[] cookies = NetWorkUtil.getRequest().getCookies();
-        if (null != cookies && cookies.length > 0) {
-            for (Cookie cookie : cookies) {
-                if (SESSION_ID.equals(cookie.getName())) {
-                    return cookie.getValue();
-                }
-            }
-        }
-        return null;
+        return NetWorkUtil.getRequest().getHeader(SESSION_ID);
     }
 
     public static String generSession() {

@@ -146,7 +146,7 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
-        User user = UserUtil.getUser(form.getSessionId());
+        User user = UserUtil.getUser();
         if(user == null){
             return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
         }
@@ -179,8 +179,7 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> editMerchant(EditMerchantForm form) {
-
-        User user = UserUtil.getUser(form.getSessionId());
+        User user = UserUtil.getUser();
         if(user == null){
             return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
         }
