@@ -48,30 +48,39 @@ export const notifyPop = (title,desc,icon,duration=3) => {
       });
 };
 
+const post = (url,datas) => {
+    return axios.post(url,datas).then(response=>response.data).catch(err => err);
+};
+const get = (url,params) => {
+    return axios.get(url,{params: params}).then(response=>response.data).catch(err => err);
+};
+
+const baseURL = 'http://localhost:8080/';
+
 // 接口
 // 登录
 // export const login = (params) => post({url: 'merchant/loginPc.json', params: params });
 export const login = (params) => 
-    axios.post(
-        'http://localhost:8080/merchant/loginPc.json', 
+    post(
+        baseURL+'merchant/loginPc.json', 
         params
-    ).then(response=>response.data).catch(err => err);
+    );
 
 // 商家列表
 export const getMerchant = (params) => 
-    axios.get(
-        'http://localhost:8080/auth/merchant/getMerchantList.json', 
-        {params: params}
-    ).then(response=>response.data).catch(err => err);
+    get(
+        baseURL+'auth/merchant/getMerchantList.json', 
+        params
+    );
 
 export const editMerchant = (params) =>
-    axios.post(
-        'http://localhost:8080/auth/merchant/editMerchant.json', 
+    post(
+        baseURL+'auth/merchant/editMerchant.json', 
         params
-    ).then(response=>response.data).catch(err => err);
+    );
 
 export const deleteMerchant = (params) =>
-    axios.post(
-        'http://localhost:8080/auth/merchant/deleteMerchant.json', 
+    post(
+        baseURL+'auth/merchant/deleteMerchant.json', 
         params
-    ).then(response=>response.data).catch(err => err);
+    );
