@@ -28,8 +28,7 @@ public class UserController {
 
     @Autowired
     private UserAO userAO;
-    @Autowired
-    private MerchantAO merchantAO;
+
 
     @PostMapping(value = "/login.json")
     public BaseResponse login(@RequestBody LoginForm form, HttpServletRequest request){
@@ -46,35 +45,11 @@ public class UserController {
         return userAO.getSmsCode(phone);
     }
 
-    @PostMapping(value = "/test.json")
-    public BaseResponse test(){
-        return BaseResponse.create();
-    }
-
-
     @PostMapping(value = "/merchant/loginPc.json")
     public BaseResponse<PcLoginInfoVO> loginPc(@RequestBody LoginForm form, HttpServletRequest request){
         return userAO.loginPc(form,request);
     }
 
-    @PostMapping(value = "/merchant/create.json")
-    public BaseResponse<Boolean> create(@RequestBody MerchantForm form){
-        return merchantAO.createMerchant(form);
-    }
 
-    @GetMapping(value = "/auth/merchant/getMerchantList.json")
-    public BaseResponse<List<MerchantVO>> getMerchantList(@ModelAttribute BasePageRequest form){
-        return merchantAO.getMerchantList(form);
-    }
-
-    @PostMapping(value = "/auth/merchant/editMerchant.json")
-    public BaseResponse<Boolean> editMerchant(@RequestBody EditMerchantForm form){
-        return merchantAO.editMerchant(form);
-    }
-
-    @PostMapping(value = "/auth/merchant/deleteMerchant.json")
-    public BaseResponse<Boolean> deleteMerchant(@RequestBody DelMerchantForm form){
-        return merchantAO.deleteMerchant(form);
-    }
 
 }
