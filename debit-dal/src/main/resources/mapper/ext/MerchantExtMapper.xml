@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gzw.debit.dal.mapper.ext.MerchantExtMapper">
+
+    <select id="getAnalyzeInfo" resultType="int" parameterType="com.gzw.debit.dal.query.ext.AnalyzeQuery">
+        SELECT count(*) FROM debit_user as a LEFT JOIN debit_bury as b
+        ON a.id = b.user_id
+        <where>
+            AND a.status = 1
+            AND b.status = 1
+            and a.channel_id = #{channelId}
+            and b.list_count &gt;= #{listCount}
+            and b.detail_count &gt;= #{detailCount}
+        </where>
+    </select>
 </mapper>

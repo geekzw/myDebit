@@ -4,6 +4,7 @@ import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.core.vo.StreamInfo;
+import com.gzw.debit.core.vo.StreamInfoWrep;
 
 import java.util.List;
 
@@ -45,5 +46,5 @@ public interface MerchantAO {
     /**
      * 获取商家引流的用户
      */
-    BaseResponse<List<StreamInfo>> getMerchantStream(MerchantStreamForm form);
+    BaseResponse<StreamInfoWrep> getMerchantStream(MerchantStreamForm form);
 }

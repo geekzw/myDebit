@@ -5,6 +5,7 @@ import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.core.vo.StreamInfo;
+import com.gzw.debit.core.vo.StreamInfoWrep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,7 @@ public class MerchantController {
     }
 
     @GetMapping(value = "/auth/merchant/getMerchantStream.json")
-    public BaseResponse<List<StreamInfo>> getMerchantStream(@ModelAttribute MerchantStreamForm form){
+    public BaseResponse<StreamInfoWrep> getMerchantStream(@ModelAttribute MerchantStreamForm form){
         return merchantAO.getMerchantStream(form);
     }
 }

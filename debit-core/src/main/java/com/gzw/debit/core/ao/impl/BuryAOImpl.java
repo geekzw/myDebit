@@ -3,15 +3,20 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.core.ao.BuryAO;
 import com.gzw.debit.core.entry.Const;
+import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.BuryForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.dal.model.BuryDO;
+import com.gzw.debit.dal.query.BuryQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * auth:gujian
@@ -39,15 +44,37 @@ public class BuryAOImpl implements BuryAO{
             return BaseResponse.create(Const.PARAMS_ERROR,"产品id不能为空");
         }
 
-        BuryDO buryDO = new BuryDO();
-        buryDO.setProductId(form.getProductId());
-        buryDO.setUserId(user.getUserId());
-        buryDO.setFormWhere(form.getDevicesType() == null?1:form.getDevicesType());
-        buryDO.setType(form.getType() == null?1:form.getType());
-        long col = buryManager.insertSelective(buryDO);
-        if(col < 1){
-            logger.error("插入埋点失败,userid:{},productId:{}",user.getUserId(),form.getProductId());
-            return BaseResponse.create(Const.PARAMS_ERROR,"插入埋点失败");
+        BuryQuery query = new BuryQuery();
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        List<BuryDO> buryDOS = buryManager.selectByQuery(query);
+        BuryDO buryDO;
+        int type = form.getType() == null?1:form.getType();
+        if(CollectionUtils.isEmpty(buryDOS)){
+            buryDO = new BuryDO();
+            buryDO.setUserId(user.getUserId());
+            if(type == 1){
+                buryDO.setListCount(1);
+            }else{
+                buryDO.setDetailCount(1);
+            }
+            Long col = buryManager.insertSelective(buryDO);
+            if(col < 1){
+                logger.error("插入埋点信息出错，userId={}",user.getUserId());
+                return BaseResponse.create(Const.LOGIC_ERROR,"插入埋点信息出错");
+            }
+
+        }else{
+            buryDO = buryDOS.get(0);
+            if(type == 1){
+                buryDO.setListCount(buryDO.getListCount()+1);
+            }else{
+                buryDO.setDetailCount(buryDO.getDetailCount()+1);
+            }
+            int col = buryManager.updateByPrimaryKeySelective(buryDO);
+            if(col < 1){
+                logger.error("更新埋点信息出错，userId={}",user.getUserId());
+                return BaseResponse.create(Const.LOGIC_ERROR,"插入埋点信息出错");
+            }
         }
         return BaseResponse.create(true);
     }

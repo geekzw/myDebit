@@ -1,5 +1,6 @@
 package com.gzw.debit.core.manager;
 
+import com.gzw.debit.dal.query.ext.AnalyzeQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.query.MerchantQuery;
@@ -61,4 +62,6 @@ public interface MerchantManager {
      * update by primary key selective.
      */
     int updateByPrimaryKeySelective(MerchantDO record);
+
+    Integer getAnalyzeInfo(AnalyzeQuery query);
 }
