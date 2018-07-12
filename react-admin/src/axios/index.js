@@ -65,7 +65,7 @@ const getHeader = () => {
     if(user && user.sessionId){ 
         return {sessionId:user.sessionId}; 
     }
-    return {};
+    return { };
 }
 
 // 接口
