@@ -44,7 +44,7 @@ public class UserDO implements Serializable {
      * 用户来源：三方channelID,0表示自己平台
      * debit_user.channel_id
      */
-    private Integer channelId;
+    private String channelId;
 
     /**
      * 是否登录过：1是，0不是

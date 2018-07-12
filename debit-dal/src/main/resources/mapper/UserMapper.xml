@@ -9,7 +9,7 @@
         <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
         <result column="password" jdbcType="VARCHAR" property="password" />
         <result column="from_where" jdbcType="TINYINT" property="fromWhere" />
-        <result column="channel_id" jdbcType="INTEGER" property="channelId" />
+        <result column="channel_id" jdbcType="VARCHAR" property="channelId" />
         <result column="is_login" jdbcType="TINYINT" property="isLogin" />
         <result column="fist_login_time" jdbcType="TIMESTAMP" property="fistLoginTime" />
         <result column="status" jdbcType="TINYINT" property="status" />
@@ -157,7 +157,7 @@
                 #{fromWhere,jdbcType=TINYINT},
             </if>
             <if test="channelId != null">
-                #{channelId,jdbcType=INTEGER},
+                #{channelId,jdbcType=VARCHAR},
             </if>
             <if test="isLogin != null">
                 #{isLogin,jdbcType=TINYINT},
@@ -195,7 +195,7 @@
                 from_where = #{record.fromWhere,jdbcType=TINYINT},
             </if>
             <if test="record.channelId != null">
-                channel_id = #{record.channelId,jdbcType=INTEGER},
+                channel_id = #{record.channelId,jdbcType=VARCHAR},
             </if>
             <if test="record.isLogin != null">
                 is_login = #{record.isLogin,jdbcType=TINYINT},
@@ -218,7 +218,7 @@
         nick_name = #{record.nickName,jdbcType=VARCHAR},
         password = #{record.password,jdbcType=VARCHAR},
         from_where = #{record.fromWhere,jdbcType=TINYINT},
-        channel_id = #{record.channelId,jdbcType=INTEGER},
+        channel_id = #{record.channelId,jdbcType=VARCHAR},
         is_login = #{record.isLogin,jdbcType=TINYINT},
         fist_login_time = #{record.fistLoginTime,jdbcType=TIMESTAMP},
         status = #{record.status,jdbcType=TINYINT},
@@ -245,7 +245,7 @@
                 from_where = #{fromWhere,jdbcType=TINYINT},
             </if>
             <if test="channelId != null">
-                channel_id = #{channelId,jdbcType=INTEGER},
+                channel_id = #{channelId,jdbcType=VARCHAR},
             </if>
             <if test="isLogin != null">
                 is_login = #{isLogin,jdbcType=TINYINT},

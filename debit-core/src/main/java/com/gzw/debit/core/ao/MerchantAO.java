@@ -1,11 +1,9 @@
 package com.gzw.debit.core.ao;
 
-import com.gzw.debit.core.form.DelMerchantForm;
-import com.gzw.debit.core.form.EditMerchantForm;
-import com.gzw.debit.core.form.MerchantForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.StreamInfo;
 
 import java.util.List;
 
@@ -28,7 +26,7 @@ public interface MerchantAO {
      * @param request
      * @return
      */
-    BaseResponse<List<MerchantVO>> getMerchantList(BasePageRequest request);
+    BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request);
 
     /**
      * 删除商家
@@ -43,4 +41,9 @@ public interface MerchantAO {
      * @return
      */
     BaseResponse<Boolean> editMerchant(EditMerchantForm form);
+
+    /**
+     * 获取商家引流的用户
+     */
+    BaseResponse<List<StreamInfo>> getMerchantStream(MerchantStreamForm form);
 }

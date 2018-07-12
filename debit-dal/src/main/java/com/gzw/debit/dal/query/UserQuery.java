@@ -517,62 +517,62 @@ public class UserQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdEqualTo(Integer value) {
+        public Criteria andChannelIdEqualTo(String value) {
             addCriterion("channel_id =", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdNotEqualTo(Integer value) {
+        public Criteria andChannelIdNotEqualTo(String value) {
             addCriterion("channel_id <>", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdGreaterThan(Integer value) {
+        public Criteria andChannelIdGreaterThan(String value) {
             addCriterion("channel_id >", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andChannelIdGreaterThanOrEqualTo(String value) {
             addCriterion("channel_id >=", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdLessThan(Integer value) {
+        public Criteria andChannelIdLessThan(String value) {
             addCriterion("channel_id <", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdLessThanOrEqualTo(Integer value) {
+        public Criteria andChannelIdLessThanOrEqualTo(String value) {
             addCriterion("channel_id <=", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdLike(Integer value) {
+        public Criteria andChannelIdLike(String value) {
             addCriterion("channel_id like", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdNotLike(Integer value) {
+        public Criteria andChannelIdNotLike(String value) {
             addCriterion("channel_id not like", value, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdIn(List<Integer> values) {
+        public Criteria andChannelIdIn(List<String> values) {
             addCriterion("channel_id in", values, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdNotIn(List<Integer> values) {
+        public Criteria andChannelIdNotIn(List<String> values) {
             addCriterion("channel_id not in", values, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdBetween(Integer value1, Integer value2) {
+        public Criteria andChannelIdBetween(String value1, String value2) {
             addCriterion("channel_id between", value1, value2, "channelId");
             return (Criteria) this;
         }
 
-        public Criteria andChannelIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andChannelIdNotBetween(String value1, String value2) {
             addCriterion("channel_id not between", value1, value2, "channelId");
             return (Criteria) this;
         }

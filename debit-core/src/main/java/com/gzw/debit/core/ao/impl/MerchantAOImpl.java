@@ -4,25 +4,30 @@ import com.gzw.debit.common.entry.User;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
-import com.gzw.debit.core.form.DelMerchantForm;
-import com.gzw.debit.core.form.EditMerchantForm;
-import com.gzw.debit.core.form.MerchantForm;
+import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.MerchantManager;
+import com.gzw.debit.core.manager.UserManager;
+import com.gzw.debit.core.utils.DateUtil;
 import com.gzw.debit.core.utils.SmsCodeUtil;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.StreamInfo;
 import com.gzw.debit.dal.model.MerchantDO;
+import com.gzw.debit.dal.model.UserDO;
 import com.gzw.debit.dal.query.MerchantQuery;
+import com.gzw.debit.dal.query.UserQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,7 +43,8 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Autowired
     private MerchantManager merchantManager;
-
+    @Autowired
+    private UserManager userManager;
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
@@ -97,7 +103,7 @@ public class MerchantAOImpl implements MerchantAO {
     }
 
     @Override
-    public BaseResponse<List<MerchantVO>> getMerchantList(BasePageRequest request) {
+    public BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request) {
         List<MerchantVO> merchantVOS = new ArrayList<>();
         if(request.getPageNo() == null){
             request.setPageNo(BasePageRequest.DEFAULT_NO);
@@ -109,7 +115,11 @@ public class MerchantAOImpl implements MerchantAO {
         MerchantQuery query = new MerchantQuery();
         query.setPageNo(request.getPageNo());
         query.setPageSize(request.getPageSize());
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        MerchantQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        if(!StringUtil.isEmpty(request.getSearchParam())){
+            criteria.andNameLike("%"+request.getSearchParam()+"%");
+        }
         List<MerchantDO> merchantDOS = merchantManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(merchantDOS)){
             return BaseResponse.create(merchantVOS);
@@ -205,5 +215,46 @@ public class MerchantAOImpl implements MerchantAO {
         }
 
         return BaseResponse.create(true);
+    }
+
+    @Override
+    public BaseResponse<List<StreamInfo>> getMerchantStream(MerchantStreamForm form) {
+        if(form.getMerchantId() == null){
+            return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
+        }
+
+        MerchantDO merchantDO = merchantManager.selectByPrimaryKey(form.getMerchantId());
+        if(merchantDO == null || merchantDO.getStatus() == StatusEnum.DELETE_STATUS.getCode()){
+            return BaseResponse.create(Const.LOGIC_ERROR,"找不当对应的商家");
+        }
+
+        if(form.getPageNo() == null){
+            form.setPageNo(BasePageRequest.DEFAULT_NO);
+        }
+        if(form.getPageSize() == null){
+            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+        }
+
+        UserQuery query = new UserQuery();
+        query.setPageNo(form.getPageNo());
+        query.setPageSize(form.getPageSize());
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andChannelIdEqualTo(merchantDO.getChannelId());
+
+        List<UserDO> userDOS = userManager.selectByQuery(query);
+        if(CollectionUtils.isEmpty(userDOS)){
+            return BaseResponse.create(Const.LOGIC_ERROR,"没有数据");
+        }
+        List<StreamInfo> streamInfos = new ArrayList<>();
+        userDOS.forEach(item->{
+            StreamInfo info = new StreamInfo();
+            BeanUtils.copyProperties(item,info);
+            info.setFistLoginTime(DateUtil.dateISO8601Format(item.getFistLoginTime()));
+            info.setGmtCreate(DateUtil.dateISO8601Format(item.getGmtCreate()));
+            streamInfos.add(info);
+        });
+
+        return BaseResponse.create(streamInfos);
+
     }
 }
