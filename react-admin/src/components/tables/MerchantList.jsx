@@ -169,7 +169,7 @@ class MerchantList extends React.Component {
                         }
                     }
                 }
-            );
+            ).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
         });
     }
     cancel = () => {
