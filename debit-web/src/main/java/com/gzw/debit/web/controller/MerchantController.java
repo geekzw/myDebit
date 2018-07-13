@@ -23,7 +23,7 @@ public class MerchantController {
     @Autowired
     private MerchantAO merchantAO;
 
-    @PostMapping(value = "/merchant/create.json")
+    @PostMapping(value = "/auth/merchant/create.json")
     public BaseResponse<Boolean> create(@RequestBody MerchantForm form){
         return merchantAO.createMerchant(form);
     }

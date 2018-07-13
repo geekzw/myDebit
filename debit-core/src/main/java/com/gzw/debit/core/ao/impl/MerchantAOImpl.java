@@ -1,6 +1,7 @@
 package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.common.entry.User;
+import com.gzw.debit.common.enums.UserRoleEnum;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
@@ -61,6 +62,12 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
+
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
+        }
+
         BaseResponse paramResponse = checkParams(form);
         if(!paramResponse.isSuccess()){
             return paramResponse;
@@ -117,6 +124,10 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request) {
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
+        }
         List<MerchantVO> merchantVOS = new ArrayList<>();
         if(request.getPageNo() == null){
             request.setPageNo(BasePageRequest.DEFAULT_NO);
@@ -159,13 +170,9 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
-        User user = UserUtil.getUser();
-        if(user == null){
-            return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
-        }
-
-        if(user.getType()!=null && user.getType()!=0){
-            return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
         }
 
         if(form.getId() == null){
@@ -336,6 +343,17 @@ public class MerchantAOImpl implements MerchantAO {
         list.add(analyzeIntent);
         list.add(analyzesp);
         return list;
+    }
+
+    private BaseResponse<Boolean> checkPermision(){
+        User user = UserUtil.getUser();
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"找不到登录信息，请登录");
+        }
+        if(user.getType()!= UserRoleEnum.ROLE_ADMIN.getCode()){
+            return BaseResponse.create(Const.LOGIC_ERROR,"无权限");
+        }
+        return BaseResponse.create(true);
     }
 
 
