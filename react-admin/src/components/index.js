@@ -8,6 +8,7 @@ import BasicTable from './tables/BasicTables';
 import AdvancedTable from './tables/AdvancedTables';
 import AsynchronousTable from './tables/AsynchronousTable';
 import MerchantList from './tables/MerchantList';
+import MerchantDetail from './tables/MerchantDetail';
 import Echarts from './charts/Echarts';
 import Recharts from './charts/Recharts';
 import Icons from './ui/Icons';
@@ -36,7 +37,7 @@ const WysiwygBundle = (props) => (
 );
 
 export default {
-    BasicForm, BasicTable, AdvancedTable, AsynchronousTable, MerchantList,
+    BasicForm, BasicTable, AdvancedTable, AsynchronousTable, MerchantList, MerchantDetail,
     Echarts, Recharts, Icons, Buttons, Spins, Modals, Notifications,
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,

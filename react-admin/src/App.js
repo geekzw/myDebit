@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, notification, Icon } from 'antd';
+import { Layout, BackTop } from 'antd';
 import './style/index.less';
 import SiderCustom from './components/SiderCustom';
 import HeaderCustom from './components/HeaderCustom';
@@ -66,16 +66,16 @@ class App extends Component {
         return (
             <Layout>
                 {!responsive.data.isMobile && <SiderCustom collapsed={this.state.collapsed} />}
-                <Layout style={{flexDirection: 'column'}}>
+                <Layout style={{flexDirection: 'column'}} id="rightScroll" >
                     <HeaderCustom toggle={this.toggle} collapsed={this.state.collapsed} user={resp.data || {}} />
                     <Content style={{ margin: '0 16px', overflow: 'initial' }}>
                         <Routes auth={resp} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
                     React-Admin ©{new Date().getFullYear()} Created by 管家记账
-                    </Footer>
+                    </Footer>        
                 </Layout>
-                
+                <BackTop target={()=>document.getElementById('rightScroll')} />
                 {/* {
                     responsive.data.isMobile && (   // 手机端对滚动很慢的处理
                         <style>

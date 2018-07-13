@@ -2,7 +2,7 @@ export default {
     menus: [    // 菜单相关路由
         { key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard' },
         {
-            key: '/app/merchantList', title: '商家列表', icon: 'copy',component: 'MerchantList', id: 'merchantList'
+            key: '/app/merchantList', title: '商家列表', icon: 'bank',component: 'MerchantList', id: 'merchantList',
         },
         // {
         //     key: '/app/ui', title: 'UI', icon: 'scan',
@@ -66,5 +66,9 @@ export default {
         //     key: '/app/cssModule', title: 'cssModule', icon: 'star', component: 'Cssmodule'
         // },
     ],
-    others: []  // 非菜单相关路由
+    others: [
+        {
+            key: '/app/merchantList/merchantDetail/:id', title: '商家', icon: 'bank',component: 'MerchantDetail',
+        }
+    ]  // 非菜单相关路由
 }

@@ -3,10 +3,10 @@
  */
 import React from 'react';
 import { 
-    Table, Input, InputNumber, Pagination,
+    Table, Input, InputNumber,
     Popconfirm, Form, Button, 
     Row, Col, Card,
-    notification, Icon
+    Icon, BackTop
 } from 'antd';
 import { getMerchant, editMerchant, deleteMerchant, notifyPop } from '../../axios';
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -91,42 +91,23 @@ class MerchantList extends React.Component {
     componentWillUnmount() {
         
     }
-    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize) => {
-        this.setState({ loading: true });
-        const { sessionId } = JSON.parse(localStorage.getItem('user'));
-        var params = {
-            sessionId: sessionId,
-            pageNo: pageNo,
-            pageSize: pageSize,
-        }
-        console.log(params);
-        getMerchant(params).then(res => {
-            if(res.data){
-                console.log(res);
-                this.setState({
-                    data: [...res.data.map(val => {
-                        val.key = val.id;
-                        return val;
-                    })],
-                    loading: false,
-                    totalCount: res.totalCount,
-                    pageNo: res.pageNo,
-                    pageSize: res.pageSize,
-                });
-            }else{
-                this.setState({
-                    data: [],
-                    loading: false
-                });
-            }
-        });
-    };
+    // 属性相关
+    breadcrumbCustom() {
+        return (<BreadcrumbCustom first="商家列表" />);
+    }
+    tableTitle() {
+        return "商家列表";
+    }
+    // 编辑相关
     isEditing = (record) => {
         return record.key === this.state.editingKey;
     };
     edit(key) {
         this.setState({ editingKey: key });
     }
+    cancel = () => {
+        this.setState({ editingKey: '' });
+    };
     isRecordChange(record,oldRecord) {
         if(!oldRecord){
             for(var i=0;i<this.state.data.length;i++){
@@ -154,6 +135,45 @@ class MerchantList extends React.Component {
         );
         return isSameData;
     }
+    // 网络相关
+    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize,searchParam='') => {
+        (new BackTop({
+            target:()=>document.getElementById('rightScroll')
+        })).scrollToTop();
+        this.setState({ loading: true });
+        const { sessionId } = JSON.parse(localStorage.getItem('user'));
+        var params = {
+            sessionId: sessionId,
+            pageNo: pageNo,
+            pageSize: pageSize,
+            searchParam: searchParam
+        }
+        getMerchant(params).then(res => {
+            console.log(params);
+            if(res.data){
+                this.setState({
+                    data: [...res.data.map(val => {
+                        val.key = val.id;
+                        return val;
+                    })],
+                    loading: false,
+                    totalCount: res.totalCount,
+                    pageNo: res.pageNo,
+                    pageSize: res.pageSize,
+                });
+            }else{
+                this.setState({
+                    data: [],
+                    loading: false,
+                    totalCount: 0
+                });
+            }
+        }).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
+    };
+    reload = () => {
+        const { pageNo, pageSize, searchText } = this.state;
+        this.start(pageNo,pageSize,searchText||'');
+    };
     save(form, key) {
         form.validateFields((error, row) => {
             if (error) {
@@ -203,9 +223,6 @@ class MerchantList extends React.Component {
             ).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
         });
     }
-    cancel = () => {
-        this.setState({ editingKey: '' });
-    };
     delete = (row) => {
         if(row){
             var params = {
@@ -231,8 +248,13 @@ class MerchantList extends React.Component {
             ).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
         }
     };
-    onChange = (pagination, filters, sorter) => {
-        console.log(pagination, filters, sorter);
+    onSearch = () => {
+        const { searchText } = this.state;
+        this.start(null,null,searchText);
+    };
+    // 状态改变事件
+    onInputChange = (e) => {
+        this.setState({ searchText: e.target.value });
     };
     paginationOnChange = (page, pageSize) => {
         this.setState({
@@ -250,96 +272,124 @@ class MerchantList extends React.Component {
         });
         this.start(current,pageSize);
     };
+    // 页面跳转事件
+    toMerchant(text) {
+        this.props.history.push('/app/merchantList/merchantDetail/'+text);
+    }
+    columns = [{
+        title: '商家id',
+        dataIndex: 'id',
+        width: 80,
+        render: (text) => <a onClick={()=>this.toMerchant(text)}>{PrefixInteger(text,5)}</a>
+    }, {
+        title: '名称',
+        dataIndex: 'name',
+        width: 200,
+        editable: true
+    }, {
+        title: '用户名',
+        dataIndex: 'username',
+        width: 200,
+        editable: true
+    },{
+        title: '密码',
+        dataIndex: 'password',
+        width: 200,
+        editable: true
+    }, {
+        title: '权限类型',
+        dataIndex: 'type',
+        width: 200,
+        render: (text, record, index) => {
+            return (
+                <p>{ types[text] }</p>
+            );
+        }
+    },{
+        title: '渠道号',
+        dataIndex: 'channelId',
+        width: 100,
+        render: (text, record) => <a href={record.url} target="_blank">{text}</a>
+    }, 
+    {
+      title: '操作',
+      dataIndex: 'operation',
+      width: 200,
+      render: (text, record) => {
+        const editable = this.isEditing(record);
+        return (
+          <div>
+            {editable ? (
+              <span>
+                <EditableContext.Consumer>
+                  {form => (
+                    <a
+                      href="javascript:;"
+                      onClick={() => this.save(form, record.key)}
+                      style={{ marginRight: 8 }}
+                    >
+                      保存
+                    </a>
+                  )}
+                </EditableContext.Consumer>
+                <Popconfirm
+                  title="放弃修改吗?"
+                  onConfirm={() => this.cancel(record.key)}
+                >
+                  <a>取消</a>
+                </Popconfirm>
+              </span>
+            ) : (
+                <div>
+                <Button onClick={() => this.edit(record.key)} 
+                    type="primary" icon="edit" ></Button>
+                <Popconfirm
+                  title="确认删除吗?"
+                  onConfirm={() => this.delete(record)}
+                >
+                    <Button type="danger" icon="delete" />
+                </Popconfirm>
+                </div>
+            )}
+          </div>
+        );
+      },
+    }];
+    tableHeaderArea = (
+        <Row style={{ marginBottom: 16 }} type="flex" justify="space-between">
+            <Col span={16}>
+                <Row>
+                    <Col span={12}>
+                    <Input
+                        ref={ele => this.searchInput = ele}
+                        placeholder="根据名称搜索."
+                        value={this.state.searchText}
+                        onChange={this.onInputChange}
+                        onPressEnter={this.onSearch}
+                    />
+                    </Col>
+                    <Col span={12}>
+                    <Button type="primary" onClick={this.onSearch}>Search</Button>
+                    </Col>
+                </Row>
+            </Col>
+            <Col>
+            <Button type="primary" onClick={this.reload}
+                    disabled={this.state.loading} loading={this.state.loading}
+            >
+            {this.state.loading ? '正在加载' : '刷新'}
+            </Button>
+            </Col>
+        </Row>
+    );
     render() {
-        const { loading } = this.state;
         const components = {
             body: {
               row: EditableFormRow,
               cell: EditableCell,
             },
           };
-
-        const columns = [{
-            title: '商家id',
-            dataIndex: 'id',
-            width: 80,
-            render: (text) => <a>{PrefixInteger(text,5)}</a>
-        }, {
-            title: '名称',
-            dataIndex: 'name',
-            width: 200,
-            editable: true
-        }, {
-            title: '用户名',
-            dataIndex: 'username',
-            width: 200,
-            editable: true
-        },{
-            title: '密码',
-            dataIndex: 'password',
-            width: 200,
-            editable: true
-        }, {
-            title: '权限类型',
-            dataIndex: 'type',
-            width: 200,
-            render: (text, record, index) => {
-                return (
-                    <p>{ types[text] }</p>
-                );
-            }
-        },{
-            title: '渠道号',
-            dataIndex: 'channelId',
-            width: 100,
-            render: (text, record) => <a href={record.url} target="_blank">{text}</a>
-        }, 
-        {
-          title: '操作',
-          dataIndex: 'operation',
-          width: 200,
-          render: (text, record) => {
-            const editable = this.isEditing(record);
-            return (
-              <div>
-                {editable ? (
-                  <span>
-                    <EditableContext.Consumer>
-                      {form => (
-                        <a
-                          href="javascript:;"
-                          onClick={() => this.save(form, record.key)}
-                          style={{ marginRight: 8 }}
-                        >
-                          保存
-                        </a>
-                      )}
-                    </EditableContext.Consumer>
-                    <Popconfirm
-                      title="放弃修改吗?"
-                      onConfirm={() => this.cancel(record.key)}
-                    >
-                      <a>取消</a>
-                    </Popconfirm>
-                  </span>
-                ) : (
-                    <div>
-                    <Button onClick={() => this.edit(record.key)} 
-                        type="primary" icon="edit" ></Button>
-                    <Popconfirm
-                      title="确认删除吗?"
-                      onConfirm={() => this.delete(record)}
-                    >
-                        <Button type="danger" icon="delete" />
-                    </Popconfirm>
-                    </div>
-                )}
-              </div>
-            );
-          },
-        }];
-      
-          const editableColumns = columns.map((col) => {
+          const editableColumns = this.columns.map((col) => {
             if (!col.editable) {
               return col;
             }
@@ -355,19 +405,13 @@ class MerchantList extends React.Component {
             };
           });
         return (
-            <div className="gutter-example">
-                <BreadcrumbCustom first="商家列表"/>
+            <div className="gutter-example" >
+                { this.breadcrumbCustom() }
                 <Row gutter={16}>
                     <Col className="gutter-row" md={24}>
                         <div className="gutter-box">
-                            <Card title="商家列表" bordered={false}>
-                                <div style={{ marginBottom: 16 }}>
-                                    <Button type="primary" onClick={this.start}
-                                            disabled={loading} loading={loading}
-                                    >
-                                    {loading ? '正在加载' : '刷新'}
-                                    </Button>
-                                </div>
+                            <Card title={this.tableTitle()} bordered={false}>
+                                { this.tableHeaderArea }
                                 <Table 
                                     onRow={(record) => {
                                         return {

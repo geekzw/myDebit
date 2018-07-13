@@ -95,3 +95,9 @@ export const deleteMerchant = (params) =>
         baseURL+'auth/merchant/deleteMerchant.json', 
         params
     );
+// 商家流量
+export const getMerchantStream = (params) =>
+    get(
+        baseURL+'/auth/merchant/getMerchantStream.json',
+        params
+    );
