@@ -68,17 +68,18 @@ class SiderCustom extends Component {
     };
     getMenus(){
         var user = JSON.parse(localStorage.getItem("user"));
+        if(!user){ return []; }
         var menus = [];
         for(var i=0;i<routes.menus.length;i++){
             var r = routes.menus[i];
             if(r.id == "merchantList"){
-                if(!user || user.type != 0){
-                    break;
+                if(user.type != 0){
+                    continue;
                 }
             }
             if(r.id == "merchatDetail"){
-                if(!user || user.type == 0){
-                    break;
+                if(user.type == 0){
+                    continue;
                 }
             }
             menus.push(routes.menus[i]);
