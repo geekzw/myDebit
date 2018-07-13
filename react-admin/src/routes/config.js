@@ -4,6 +4,9 @@ export default {
         {
             key: '/app/merchantList', title: '商家列表', icon: 'bank',component: 'MerchantList', id: 'merchantList',
         },
+        {
+            key: '/app/merchantDetail', title: '流量详情', icon: 'bank',component: 'MerchantDetail', id: 'merchatDetail',
+        },
         // {
         //     key: '/app/ui', title: 'UI', icon: 'scan',
         //     subs: [

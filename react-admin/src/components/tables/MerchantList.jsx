@@ -80,7 +80,7 @@ class EditableCell extends React.Component {
 class MerchantList extends React.Component {
     state = {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 20,
         totalCount: 0,
         loading: false,
         data: []
@@ -141,9 +141,7 @@ class MerchantList extends React.Component {
             target:()=>document.getElementById('rightScroll')
         })).scrollToTop();
         this.setState({ loading: true });
-        const { sessionId } = JSON.parse(localStorage.getItem('user'));
         var params = {
-            sessionId: sessionId,
             pageNo: pageNo,
             pageSize: pageSize,
             searchParam: searchParam
@@ -355,7 +353,7 @@ class MerchantList extends React.Component {
         );
       },
     }];
-    tableHeaderArea = (
+    tableHeaderArea = () => (
         <Row style={{ marginBottom: 16 }} type="flex" justify="space-between">
             <Col span={16}>
                 <Row>
@@ -411,7 +409,7 @@ class MerchantList extends React.Component {
                     <Col className="gutter-row" md={24}>
                         <div className="gutter-box">
                             <Card title={this.tableTitle()} bordered={false}>
-                                { this.tableHeaderArea }
+                                { this.tableHeaderArea() }
                                 <Table 
                                     onRow={(record) => {
                                         return {
@@ -431,9 +429,17 @@ class MerchantList extends React.Component {
                                             current:this.state.pageNo,
                                             pageSize:this.state.pageSize,
                                             onChange:this.paginationOnChange,
-                                            showSizeChanger: true,
-                                            onShowSizeChange: this.paginationOnPageSizeChange,
-                                            total: this.state.totalCount
+                                            showQuickJumper: true,
+                                            // showSizeChanger: true,
+                                            // onShowSizeChange: this.paginationOnPageSizeChange,
+                                            total: this.state.totalCount,
+                                            showTotal: (total, range) => {
+                                                return (
+                                                <div>
+                                                    共{total}条 当前显示{range[0]}-{range[1]}条
+                                                </div>
+                                                );
+                                            }
                                         }
                                     }
                                 />

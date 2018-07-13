@@ -39,6 +39,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String sessionId = request.getParameter(SESSION_ID);
         String dt = request.getParameter(DEVICESTYPE);
+
+
         int devicesType;
         if(StringUtil.isEmpty(dt)){
             devicesType = -1;
