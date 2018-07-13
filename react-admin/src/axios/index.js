@@ -62,11 +62,8 @@ const get = (url,params) => {
 
 const baseURL = 'http://localhost:8080/';
 
-var user;
 const getHeader = () => {
-    if(!user){
-        user = JSON.parse(localStorage.getItem('user'));
-    }
+    var user = JSON.parse(localStorage.getItem('user'));
     if(user && user.sessionId){ 
         return {'sessionId':user.sessionId}; 
     }

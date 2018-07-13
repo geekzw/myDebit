@@ -62,6 +62,7 @@ class MerchantDetail extends MerchantList {
         }
         getMerchantStream(params).then(res => {
             console.log(params);
+            console.log(res);
             if(res.data){
                 // this.setState({
                 //     data: [...res.data.map(val => {
