@@ -353,7 +353,7 @@ class MerchantList extends React.Component {
         );
       },
     }];
-    tableHeaderArea = (
+    tableHeaderArea = () => (
         <Row style={{ marginBottom: 16 }} type="flex" justify="space-between">
             <Col span={16}>
                 <Row>
@@ -409,7 +409,7 @@ class MerchantList extends React.Component {
                     <Col className="gutter-row" md={24}>
                         <div className="gutter-box">
                             <Card title={this.tableTitle()} bordered={false}>
-                                { this.tableHeaderArea }
+                                { this.tableHeaderArea() }
                                 <Table 
                                     onRow={(record) => {
                                         return {
