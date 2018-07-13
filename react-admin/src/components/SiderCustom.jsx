@@ -76,6 +76,11 @@ class SiderCustom extends Component {
                     break;
                 }
             }
+            if(r.id == "merchatDetail"){
+                if(!user || user.type == 0){
+                    break;
+                }
+            }
             menus.push(routes.menus[i]);
         }
         return menus;

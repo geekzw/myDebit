@@ -80,7 +80,7 @@ class EditableCell extends React.Component {
 class MerchantList extends React.Component {
     state = {
         pageNo: 1,
-        pageSize: 10,
+        pageSize: 20,
         totalCount: 0,
         loading: false,
         data: []
@@ -429,9 +429,17 @@ class MerchantList extends React.Component {
                                             current:this.state.pageNo,
                                             pageSize:this.state.pageSize,
                                             onChange:this.paginationOnChange,
-                                            showSizeChanger: true,
-                                            onShowSizeChange: this.paginationOnPageSizeChange,
-                                            total: this.state.totalCount
+                                            showQuickJumper: true,
+                                            // showSizeChanger: true,
+                                            // onShowSizeChange: this.paginationOnPageSizeChange,
+                                            total: this.state.totalCount,
+                                            showTotal: (total, range) => {
+                                                return (
+                                                <div>
+                                                    共{total}条 当前显示{range[0]}-{range[1]}条
+                                                </div>
+                                                );
+                                            }
                                         }
                                     }
                                 />

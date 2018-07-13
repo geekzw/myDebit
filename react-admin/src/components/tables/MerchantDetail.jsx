@@ -58,7 +58,6 @@ function GMTToStr(time){
 class MerchantDetail extends MerchantList {
     state = {
         ...this.state,
-        id: this.props.match.params.id,
         data: []
     };
     // 属性相关
@@ -154,7 +153,11 @@ class MerchantDetail extends MerchantList {
         },
     ];
     // 网络相关
-    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize,merchantId=this.props.match.params.id) => {
+    start = (
+        pageNo=this.state.pageNo,
+        pageSize=this.state.pageSize,
+        merchantId=this.props.match.params.id||JSON.parse(localStorage.getItem('user')).id
+    ) => {
         (new BackTop({
             target:()=>document.getElementById('rightScroll')
         })).scrollToTop();
