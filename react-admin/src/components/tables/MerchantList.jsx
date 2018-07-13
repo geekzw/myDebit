@@ -3,13 +3,14 @@
  */
 import React from 'react';
 import { 
-    Table, Input, InputNumber, 
+    Table, Input, InputNumber, Pagination,
     Popconfirm, Form, Button, 
     Row, Col, Card,
     notification, Icon
 } from 'antd';
 import { getMerchant, editMerchant, deleteMerchant, notifyPop } from '../../axios';
 import BreadcrumbCustom from '../BreadcrumbCustom';
+import '../../style/table.less';
 
 const types = {
     "0" : "超级管理员",
@@ -78,6 +79,9 @@ class EditableCell extends React.Component {
 
 class MerchantList extends React.Component {
     state = {
+        pageNo: 1,
+        pageSize: 10,
+        totalCount: 0,
         loading: false,
         data: []
     };
@@ -87,21 +91,27 @@ class MerchantList extends React.Component {
     componentWillUnmount() {
         
     }
-    start = () => {
+    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize) => {
         this.setState({ loading: true });
         const { sessionId } = JSON.parse(localStorage.getItem('user'));
-        getMerchant({
+        var params = {
             sessionId: sessionId,
-            pageNo: 1,
-            pageSize: 20
-        }).then(res => {
+            pageNo: pageNo,
+            pageSize: pageSize,
+        }
+        console.log(params);
+        getMerchant(params).then(res => {
             if(res.data){
+                console.log(res);
                 this.setState({
                     data: [...res.data.map(val => {
                         val.key = val.id;
                         return val;
                     })],
-                    loading: false
+                    loading: false,
+                    totalCount: res.totalCount,
+                    pageNo: res.pageNo,
+                    pageSize: res.pageSize,
                 });
             }else{
                 this.setState({
@@ -173,7 +183,7 @@ class MerchantList extends React.Component {
                 resp => {
                     console.log(params);
                     console.log(resp);
-                    notifyPop('提示',resp.desc);
+                    notifyPop('提示',resp.success ? '修改成功' : resp.desc);
                     if (resp.success){
                         const newData = [...this.state.data];
                         const index = newData.findIndex(item => key === item.key);
@@ -205,7 +215,7 @@ class MerchantList extends React.Component {
                 resp => {
                     console.log(params);
                     console.log(resp);
-                    notifyPop('提示',resp.desc);
+                    notifyPop('提示',resp.success ? '删除成功' : resp.desc);
                     if (resp.success){
                         const newData = [...this.state.data];
                         const index = newData.findIndex(item => row.key === item.key);
@@ -223,6 +233,22 @@ class MerchantList extends React.Component {
     };
     onChange = (pagination, filters, sorter) => {
         console.log(pagination, filters, sorter);
+    };
+    paginationOnChange = (page, pageSize) => {
+        this.setState({
+            pageNo: page,
+            pageSize: pageSize,
+            loading: true
+        });
+        this.start(page,pageSize);
+    };
+    paginationOnPageSizeChange = (current, pageSize) => {
+        this.setState({
+            pageNo: current,
+            pageSize: pageSize,
+            loading: true
+        });
+        this.start(current,pageSize);
     };
     render() {
         const { loading } = this.state;
@@ -343,11 +369,29 @@ class MerchantList extends React.Component {
                                     </Button>
                                 </div>
                                 <Table 
-                                onChange={this.onChange}
-                                components={components}
-                                columns={editableColumns} 
-                                dataSource={this.state.data}
-                                rowClassName="editable-row"
+                                    onRow={(record) => {
+                                        return {
+                                        onClick: () => {},       // 点击行
+                                        onMouseEnter: () => {},  // 鼠标移入行
+                                        };
+                                    }}
+                                    bordered
+                                    onChange={this.onChange}
+                                    loading={this.state.loading}
+                                    components={components}
+                                    columns={editableColumns} 
+                                    dataSource={this.state.data}
+                                    rowClassName="editable-row customRowHighlight"
+                                    pagination={
+                                        {
+                                            current:this.state.pageNo,
+                                            pageSize:this.state.pageSize,
+                                            onChange:this.paginationOnChange,
+                                            showSizeChanger: true,
+                                            onShowSizeChange: this.paginationOnPageSizeChange,
+                                            total: this.state.totalCount
+                                        }
+                                    }
                                 />
                             </Card>
                         </div>

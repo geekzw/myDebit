@@ -16,7 +16,7 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class HeaderCustom extends Component {
     state = {
-        user: '',
+        user: {},
         visible: false,
     };
     componentDidMount() {
@@ -37,8 +37,8 @@ class HeaderCustom extends Component {
         //         user: _user
         //     });
         // }
-        const _user = JSON.parse(localStorage.getItem('user')) || '测试';
-        if (!_user && QueryString.hasOwnProperty('code')) {
+        const _user = JSON.parse(localStorage.getItem('user')) || {};
+        // if (!_user && QueryString.hasOwnProperty('code')) {
             // gitOauthToken(QueryString.code).then(res => {
             //     gitOauthInfo(res.access_token).then(info => {
             //         this.setState({
@@ -47,7 +47,12 @@ class HeaderCustom extends Component {
             //         localStorage.setItem('user', JSON.stringify(info));
             //     });
             // });
-        } else {
+        // } else {
+            // this.setState({
+            //     user: _user
+            // });
+        // }
+        if(_user){
             this.setState({
                 user: _user
             });
@@ -107,7 +112,7 @@ class HeaderCustom extends Component {
                     </Menu.Item>
                     <SubMenu title={<span className="avatar"><img src={avater} alt="头像" /><i className="on bottom b-white" /></span>}>
                         <MenuItemGroup title="用户中心">
-                            <Menu.Item key="setting:1">你好 - {this.props.user.userName}</Menu.Item>
+                            <Menu.Item key="setting:1">你好 - {this.state.user.name}</Menu.Item>
                             <Menu.Item key="setting:2">个人信息</Menu.Item>
                             <Menu.Item key="logout"><span onClick={this.logout}>退出登录</span></Menu.Item>
                         </MenuItemGroup>
