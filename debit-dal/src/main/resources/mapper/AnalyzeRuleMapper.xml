@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gzw.debit.dal.mapper.BuryMapper">
-    <resultMap id="BaseResultMap" type="com.gzw.debit.dal.model.BuryDO">
+<mapper namespace="com.gzw.debit.dal.mapper.AnalyzeRuleMapper">
+    <resultMap id="BaseResultMap" type="com.gzw.debit.dal.model.AnalyzeRuleDO">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-        <result column="user_id" jdbcType="BIGINT" property="userId" />
-        <result column="product_id" jdbcType="BIGINT" property="productId" />
         <result column="list_count" jdbcType="INTEGER" property="listCount" />
         <result column="detail_count" jdbcType="INTEGER" property="detailCount" />
+        <result column="type" jdbcType="INTEGER" property="type" />
         <result column="status" jdbcType="TINYINT" property="status" />
     </resultMap>
 
@@ -73,16 +72,16 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,product_id,list_count,detail_count,status
+        id,gmt_create,gmt_modified,list_count,detail_count,type,status
     </sql>
 
-    <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery" resultMap="BaseResultMap">
+    <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.AnalyzeRuleQuery" resultMap="BaseResultMap">
         select
         <if test="distinct">
             distinct
         </if>
         <include refid="Base_Column_List" />
-            from debit_bury
+            from debit_analyze_rule
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
@@ -93,38 +92,35 @@
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List" /> from debit_bury where id = #{id,jdbcType=BIGINT}
+        select <include refid="Base_Column_List" /> from debit_analyze_rule where id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        delete from debit_bury where id = #{id,jdbcType=BIGINT}
+        delete from debit_analyze_rule where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <delete id="deleteByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery">
-        delete from debit_bury
+    <delete id="deleteByQuery" parameterType="com.gzw.debit.dal.query.AnalyzeRuleQuery">
+        delete from debit_analyze_rule
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
     </delete>
 
-    <insert id="insertSelective" parameterType="com.gzw.debit.dal.model.BuryDO">
+    <insert id="insertSelective" parameterType="com.gzw.debit.dal.model.AnalyzeRuleDO">
         <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into debit_bury
+        insert into debit_analyze_rule
         <trim prefix="(" suffix=")" suffixOverrides=",">
             gmt_create,gmt_modified,
-            <if test="userId != null">
-                user_id,
-            </if>
-            <if test="productId != null">
-                product_id,
-            </if>
             <if test="listCount != null">
                 list_count,
             </if>
             <if test="detailCount != null">
                 detail_count,
+            </if>
+            <if test="type != null">
+                type,
             </if>
             <if test="status != null">
                 status,
@@ -132,17 +128,14 @@
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
-            <if test="userId != null">
-                #{userId,jdbcType=BIGINT},
-            </if>
-            <if test="productId != null">
-                #{productId,jdbcType=BIGINT},
-            </if>
             <if test="listCount != null">
                 #{listCount,jdbcType=INTEGER},
             </if>
             <if test="detailCount != null">
                 #{detailCount,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
@@ -150,28 +143,25 @@
         </trim>
     </insert>
 
-    <select id="countByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery" resultType="java.lang.Integer">
-        select count(*) from debit_bury
+    <select id="countByQuery" parameterType="com.gzw.debit.dal.query.AnalyzeRuleQuery" resultType="java.lang.Integer">
+        select count(*) from debit_analyze_rule
         <if test="_parameter != null">
             <include refid="Query_Where_Clause" />
         </if>
     </select>
 
     <update id="updateByQuerySelective" parameterType="map">
-        update debit_bury
+        update debit_analyze_rule
         <set>
             gmt_modified=now(),
-            <if test="record.userId != null">
-                user_id = #{record.userId,jdbcType=BIGINT},
-            </if>
-            <if test="record.productId != null">
-                product_id = #{record.productId,jdbcType=BIGINT},
-            </if>
             <if test="record.listCount != null">
                 list_count = #{record.listCount,jdbcType=INTEGER},
             </if>
             <if test="record.detailCount != null">
                 detail_count = #{record.detailCount,jdbcType=INTEGER},
+            </if>
+            <if test="record.type != null">
+                type = #{record.type,jdbcType=INTEGER},
             </if>
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
@@ -183,11 +173,10 @@
     </update>
 
     <update id="updateByQuery" parameterType="map">
-        update debit_bury set
-        user_id = #{record.userId,jdbcType=BIGINT},
-        product_id = #{record.productId,jdbcType=BIGINT},
+        update debit_analyze_rule set
         list_count = #{record.listCount,jdbcType=INTEGER},
         detail_count = #{record.detailCount,jdbcType=INTEGER},
+        type = #{record.type,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
@@ -195,21 +184,18 @@
         </if>
     </update>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.gzw.debit.dal.model.BuryDO">
-        update debit_bury
+    <update id="updateByPrimaryKeySelective" parameterType="com.gzw.debit.dal.model.AnalyzeRuleDO">
+        update debit_analyze_rule
         <set>
             gmt_modified=now(),
-            <if test="userId != null">
-                user_id = #{userId,jdbcType=BIGINT},
-            </if>
-            <if test="productId != null">
-                product_id = #{productId,jdbcType=BIGINT},
-            </if>
             <if test="listCount != null">
                 list_count = #{listCount,jdbcType=INTEGER},
             </if>
             <if test="detailCount != null">
                 detail_count = #{detailCount,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},

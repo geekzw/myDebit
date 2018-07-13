@@ -1,12 +1,15 @@
 package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.common.entry.User;
+import com.gzw.debit.common.enums.UserRoleEnum;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.manager.AnalyzeRuleManager;
+import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.DateUtil;
@@ -15,10 +18,16 @@ import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.core.vo.StreamInfo;
+import com.gzw.debit.core.vo.StreamInfoWrep;
+import com.gzw.debit.dal.model.AnalyzeRuleDO;
+import com.gzw.debit.dal.model.BuryDO;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.model.UserDO;
+import com.gzw.debit.dal.query.AnalyzeRuleQuery;
+import com.gzw.debit.dal.query.BuryQuery;
 import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.UserQuery;
+import com.gzw.debit.dal.query.ext.AnalyzeQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -29,6 +38,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * auth:gujian
@@ -45,9 +55,19 @@ public class MerchantAOImpl implements MerchantAO {
     private MerchantManager merchantManager;
     @Autowired
     private UserManager userManager;
+    @Autowired
+    private BuryManager buryManager;
+    @Autowired
+    private AnalyzeRuleManager ruleManager;
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
+
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
+        }
+
         BaseResponse paramResponse = checkParams(form);
         if(!paramResponse.isSuccess()){
             return paramResponse;
@@ -104,6 +124,10 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request) {
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
+        }
         List<MerchantVO> merchantVOS = new ArrayList<>();
         if(request.getPageNo() == null){
             request.setPageNo(BasePageRequest.DEFAULT_NO);
@@ -146,15 +170,10 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
-        User user = UserUtil.getUser();
-        if(user == null){
-            return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
+        BaseResponse permissionResult = checkPermision();
+        if(!permissionResult.isSuccess()){
+            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
         }
-
-        if(user.getType()!=null && user.getType()!=0){
-            return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
-        }
-
 
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
@@ -217,7 +236,8 @@ public class MerchantAOImpl implements MerchantAO {
     }
 
     @Override
-    public BaseResponse<List<StreamInfo>> getMerchantStream(MerchantStreamForm form) {
+    public BaseResponse<StreamInfoWrep> getMerchantStream(MerchantStreamForm form) {
+        StreamInfoWrep infoWrep = new StreamInfoWrep();
         if(form.getMerchantId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
         }
@@ -252,13 +272,89 @@ public class MerchantAOImpl implements MerchantAO {
             info.setGmtCreate(DateUtil.dateISO8601Format(item.getGmtCreate()));
             streamInfos.add(info);
         });
-
-        BaseResponse<List<StreamInfo>> response = BaseResponse.create(streamInfos);
+        List<Long> userIds = userDOS.stream().map(UserDO::getId).collect(Collectors.toList());
+        setStreamInfoCount(userIds,streamInfos);
+        infoWrep.setStreamInfos(streamInfos);
+        if(form.getPageNo() == 1){
+            List<Integer> anaCount = getAnalyzeCount(merchantDO.getChannelId());
+            infoWrep.setIntentCount(anaCount.get(0));
+            infoWrep.setAccurateCount(anaCount.get(1));
+        }
+        int registerCount = userManager.countByQuery(query);
+        infoWrep.setRegisterCount(registerCount);
+        BaseResponse<StreamInfoWrep> response = BaseResponse.create(infoWrep);
         response.setPageNo(form.getPageNo());
         response.setPageSize(form.getPageSize());
-        response.setTotalCount(userManager.countByQuery(query));
+        response.setTotalCount(registerCount);
 
         return response;
 
     }
+    //设置用户的点击次数
+    private void setStreamInfoCount(List<Long> userIds, List<StreamInfo> streamInfos) {
+
+        BuryQuery query = new BuryQuery();
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andUserIdIn(userIds);
+        List<BuryDO> buryDOS = buryManager.selectByQuery(query);
+        if(CollectionUtils.isEmpty(buryDOS)){
+            return;
+        }
+        streamInfos.forEach(info->{
+            buryDOS.forEach(buryDO -> {
+                if(buryDO.getUserId().equals(info.getId())){
+                    info.setListCount(buryDO.getListCount());
+                    info.setDetailCount(buryDO.getDetailCount());
+                }
+            });
+        });
+    }
+
+    //获取意向用户和精准用户
+    private List<Integer> getAnalyzeCount(String channelId){
+        AnalyzeQuery analyzeIntentQuery = new AnalyzeQuery();
+        AnalyzeQuery analyzespQuery = new AnalyzeQuery();
+        analyzeIntentQuery.setChannelId(channelId);
+        analyzespQuery.setChannelId(channelId);
+        AnalyzeRuleQuery query = new AnalyzeRuleQuery();
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        List<AnalyzeRuleDO> ruleDOS = ruleManager.selectByQuery(query);
+        if(CollectionUtils.isEmpty(ruleDOS)){
+            analyzeIntentQuery.setDetailCount(0);
+            analyzeIntentQuery.setListCount(0);
+            analyzespQuery.setDetailCount(0);
+            analyzespQuery.setListCount(0);
+        }else{
+            ruleDOS.forEach(item->{
+                if(item.getType().equals(1)){
+                    analyzeIntentQuery.setListCount(item.getListCount());
+                    analyzeIntentQuery.setDetailCount(item.getDetailCount());
+                }else{
+                    analyzespQuery.setListCount(item.getListCount());
+                    analyzespQuery.setDetailCount(item.getDetailCount());
+                }
+            });
+
+        }
+
+        int analyzeIntent = merchantManager.getAnalyzeInfo(analyzeIntentQuery);
+        int analyzesp = merchantManager.getAnalyzeInfo(analyzespQuery);
+        List<Integer> list = new ArrayList<>();
+        list.add(analyzeIntent);
+        list.add(analyzesp);
+        return list;
+    }
+
+    private BaseResponse<Boolean> checkPermision(){
+        User user = UserUtil.getUser();
+        if(user == null){
+            return BaseResponse.create(Const.LOGIC_ERROR,"找不到登录信息，请登录");
+        }
+        if(user.getType()!= UserRoleEnum.ROLE_ADMIN.getCode()){
+            return BaseResponse.create(Const.LOGIC_ERROR,"无权限");
+        }
+        return BaseResponse.create(true);
+    }
+
+
 }

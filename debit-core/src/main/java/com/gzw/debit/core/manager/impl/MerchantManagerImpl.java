@@ -1,5 +1,6 @@
 package com.gzw.debit.core.manager.impl;
 
+import com.gzw.debit.dal.query.ext.AnalyzeQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 import com.gzw.debit.dal.model.MerchantDO;
 import com.gzw.debit.dal.query.MerchantQuery;
@@ -111,5 +112,10 @@ public class MerchantManagerImpl implements MerchantManager{
     @Override
     public int updateByPrimaryKeySelective(MerchantDO record){
         return merchantExtMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public Integer getAnalyzeInfo(AnalyzeQuery query) {
+        return merchantExtMapper.getAnalyzeInfo(query);
     }
 }

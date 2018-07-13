@@ -53,4 +53,14 @@ public class StreamInfo implements Serializable {
      */
     private String gmtCreate;
 
+    /**
+     * 列表点击count
+     */
+    private Integer listCount;
+
+    /**
+     * 详情点击count
+     */
+    private Integer detailCount;
+
 }

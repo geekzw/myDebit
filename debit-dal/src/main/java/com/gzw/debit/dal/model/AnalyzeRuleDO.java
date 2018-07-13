@@ -6,55 +6,49 @@ import lombok.Data;
 import java.time.LocalDate;
 
 @Data
-public class BuryDO implements Serializable {
+public class AnalyzeRuleDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * id
-     * debit_bury.id
+     * debit_analyze_rule.id
      */
     private Long id;
 
     /**
-     * 用户id
-     * debit_bury.user_id
-     */
-    private Long userId;
-
-    /**
-     * 产品id
-     * debit_bury.product_id
-     */
-    private Long productId;
-
-    /**
      * 列表点击次数
-     * debit_bury.list_count
+     * debit_analyze_rule.list_count
      */
     private Integer listCount;
 
     /**
      * 详情点击次数
-     * debit_bury.detail_count
+     * debit_analyze_rule.detail_count
      */
     private Integer detailCount;
 
     /**
+     * 类型：1是意向用户，2是精准用户
+     * debit_analyze_rule.type
+     */
+    private Integer type;
+
+    /**
      * 逻辑状态。1有效。0无效。
-     * debit_bury.status
+     * debit_analyze_rule.status
      */
     private Integer status;
 
     /**
      * 创建时间
-     * debit_bury.gmt_create
+     * debit_analyze_rule.gmt_create
      */
     private LocalDateTime gmtCreate;
 
     /**
      * 最近一次的修改时间
-     * debit_bury.gmt_modified
+     * debit_analyze_rule.gmt_modified
      */
     private LocalDateTime gmtModified;
 
