@@ -1194,4 +1194,22 @@ public class DateUtil {
         }
         return false;
     }
+
+    /**
+     * 获取当天0点时间
+     */
+
+    public static LocalDateTime getToday0Time(){
+        LocalDateTime time = LocalDateTime.now();
+        return LocalDateTime.of(time.getYear(),time.getMonth(),time.getDayOfMonth(),0,0,0);
+    }
+
+    /**
+     * 获取当天23:59点时间
+     */
+
+    public static LocalDateTime getTodayLastTime(){
+        LocalDateTime time = LocalDateTime.now();
+        return LocalDateTime.of(time.getYear(),time.getMonth(),time.getDayOfMonth(),23,59,59);
+    }
 }
