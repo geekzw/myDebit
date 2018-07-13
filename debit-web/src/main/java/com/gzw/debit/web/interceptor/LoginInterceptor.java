@@ -42,12 +42,14 @@ public class LoginInterceptor implements HandlerInterceptor {
         int devicesType;
         if(StringUtil.isEmpty(dt)){
             devicesType = -1;
+        }else{
+            try{
+                devicesType = Integer.valueOf(dt);
+            }catch (Exception e){
+                devicesType = -1;
+            }
         }
-        try{
-            devicesType = Integer.valueOf(dt);
-        }catch (Exception e){
-            devicesType = -1;
-        }
+
 
         if(StringUtil.isEmpty(sessionId)){
             sessionId =request.getHeader(SESSION_ID);

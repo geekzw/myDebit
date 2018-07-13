@@ -349,7 +349,7 @@ public class MerchantAOImpl implements MerchantAO {
         if(user == null){
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到登录信息，请登录");
         }
-        if(user.getType()!= UserRoleEnum.ROLE_ADMIN.getCode()){
+        if(UserRoleEnum.ROLE_ADMIN.getCode()!=user.getType()){
             return BaseResponse.create(Const.LOGIC_ERROR,"无权限");
         }
         return BaseResponse.create(true);

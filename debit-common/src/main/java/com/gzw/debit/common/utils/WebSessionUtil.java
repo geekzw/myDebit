@@ -1,6 +1,9 @@
 package com.gzw.debit.common.utils;
 
 
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +20,11 @@ public class WebSessionUtil {
     }
 
     public static String getSessionId() {
-        return NetWorkUtil.getRequest().getHeader(SESSION_ID);
+        String sessionId = NetWorkUtil.getRequest().getHeader(SESSION_ID);
+        if(StringUtils.isEmpty(sessionId)){
+            sessionId = NetWorkUtil.getRequest().getParameter(SESSION_ID);
+        }
+        return sessionId;
     }
 
     public static String generSession() {

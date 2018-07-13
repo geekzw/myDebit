@@ -15,6 +15,6 @@ public class H5Controller {
 
     @GetMapping(value = "/h5/index.html")
     public String register(){
-        return "/index.html";
+        return "/register.html";
     }
 }
