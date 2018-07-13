@@ -49,10 +49,15 @@ export const notifyPop = (title,desc,icon,duration=3) => {
 };
 
 const post = (url,datas) => {
-    return axios.post(url,datas,{headers: getHeader()}).then(response=>response.data).catch(err => err);
+    return axios({
+        method: "POST",
+        url: url,
+        data: datas,
+        headers: getHeader()
+    }).then(response=>response.data).catch(err => err);
 };
 const get = (url,params) => {
-    return axios.get(url,{params: params},{headers: getHeader()}).then(response=>response.data).catch(err => err);
+    return axios.get(url,{params: params,headers: getHeader()}).then(response=>response.data).catch(err => err);
 };
 
 const baseURL = 'http://localhost:8080/';
@@ -63,7 +68,7 @@ const getHeader = () => {
         user = JSON.parse(localStorage.getItem('user'));
     }
     if(user && user.sessionId){ 
-        return {sessionId:user.sessionId}; 
+        return {'sessionId':user.sessionId}; 
     }
     return { };
 }
@@ -98,6 +103,6 @@ export const deleteMerchant = (params) =>
 // 商家流量
 export const getMerchantStream = (params) =>
     get(
-        baseURL+'/auth/merchant/getMerchantStream.json',
+        baseURL+'auth/merchant/getMerchantStream.json',
         params
     );

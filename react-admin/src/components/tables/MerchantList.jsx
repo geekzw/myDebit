@@ -141,9 +141,7 @@ class MerchantList extends React.Component {
             target:()=>document.getElementById('rightScroll')
         })).scrollToTop();
         this.setState({ loading: true });
-        const { sessionId } = JSON.parse(localStorage.getItem('user'));
         var params = {
-            sessionId: sessionId,
             pageNo: pageNo,
             pageSize: pageSize,
             searchParam: searchParam

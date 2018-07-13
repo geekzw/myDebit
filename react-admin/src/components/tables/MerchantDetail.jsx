@@ -28,12 +28,10 @@ function itemRender(route, params, routes, paths) {
 }
 
 class MerchantDetail extends MerchantList {
-    constructor(props){
-        super(props);
-        this.state = {
-            id: props.match.params.id,
-        }
-    }
+    state = {
+        ...this.state,
+        id: this.props.match.params.id,  
+    };
     // 属性相关
     breadcrumbCustom() {
         return (<BreadcrumbCustom itemRender={itemRender} routes={routes} />);
@@ -52,39 +50,37 @@ class MerchantDetail extends MerchantList {
         </Row>
     );
     // 网络相关
-    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize,searchParam='') => {
+    start = (pageNo=this.state.pageNo,pageSize=this.state.pageSize,merchantId=this.props.match.params.id) => {
         (new BackTop({
             target:()=>document.getElementById('rightScroll')
         })).scrollToTop();
         this.setState({ loading: true });
-        const { sessionId } = JSON.parse(localStorage.getItem('user'));
         var params = {
-            sessionId: sessionId,
+            merchantId: merchantId,
             pageNo: pageNo,
-            pageSize: pageSize,
-            searchParam: searchParam
+            pageSize: pageSize
         }
-        // getMerchant(params).then(res => {
-        //     console.log(params);
-        //     if(res.data){
-        //         this.setState({
-        //             data: [...res.data.map(val => {
-        //                 val.key = val.id;
-        //                 return val;
-        //             })],
-        //             loading: false,
-        //             totalCount: res.totalCount,
-        //             pageNo: res.pageNo,
-        //             pageSize: res.pageSize,
-        //         });
-        //     }else{
-        //         this.setState({
-        //             data: [],
-        //             loading: false,
-        //             totalCount: 0
-        //         });
-        //     }
-        // }).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
+        getMerchantStream(params).then(res => {
+            console.log(params);
+            if(res.data){
+                // this.setState({
+                //     data: [...res.data.map(val => {
+                //         val.key = val.id;
+                //         return val;
+                //     })],
+                //     loading: false,
+                //     totalCount: res.totalCount,
+                //     pageNo: res.pageNo,
+                //     pageSize: res.pageSize,
+                // });
+            }else{
+                this.setState({
+                    data: [],
+                    loading: false,
+                    totalCount: 0
+                });
+            }
+        }).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
     };
 }
 
