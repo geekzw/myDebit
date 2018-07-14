@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { Menu, Icon, Layout, Badge, Popover } from 'antd';
 import screenfull from 'screenfull';
 // import { gitOauthToken, gitOauthInfo } from '../axios';
-import { queryString } from '../utils';
+// import { queryString } from '../utils';
 import avater from '../style/imgs/b1.jpg';
 import SiderCustom from './SiderCustom';
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ class HeaderCustom extends Component {
         visible: false,
     };
     componentDidMount() {
-        const QueryString = queryString();
+        // const QueryString = queryString();
         // if (QueryString.hasOwnProperty('code')) {
         //     console.log(QueryString);
         //     const _user = JSON.parse(localStorage.getItem('user'));

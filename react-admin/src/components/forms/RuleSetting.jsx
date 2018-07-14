@@ -215,7 +215,7 @@ class RuleSettings extends Component {
         );
         var list = this.state.data.map(rule => {
             return (
-                <Col span={6}
+                <Col md={6}
                     bordered="false"
                     key={rule.id}
                     hoverable="true"

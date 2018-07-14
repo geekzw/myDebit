@@ -60,7 +60,7 @@ function GMTToStr(time){
 
 class MerchantDetail extends MerchantList {
     state = {
-        ...this.state,
+        ...(this.state)||{},
         data: []
     };
     // 属性相关
@@ -72,7 +72,7 @@ class MerchantDetail extends MerchantList {
     }
     headerInfoArea = (registerCount,intentCount,accurateCount) => {
         var control = (title,number,icon) => (
-            <Col className="gutter-box" span={7}>
+            <Col className="gutter-box" md={7}>
                 <Card bordered={1}>
                     <div className="clear y-center">
                         <div className="pull-left mr-m">
@@ -80,7 +80,7 @@ class MerchantDetail extends MerchantList {
                         </div>
                         <div className="clear">
                             <div className="text-muted">{title}</div>
-                            <h2>{number}</h2>
+                            <h2>{this.state.loading?'正在加载...':number}</h2>
                         </div>
                     </div>
                 </Card>
@@ -88,9 +88,9 @@ class MerchantDetail extends MerchantList {
         );
         return (
             <Row type="flex" justify="space-between">
-                {control('注册用户',registerCount||'正在加载...','line-chart')}
-                {control('意向用户',intentCount||'正在加载...','line-chart')}
-                {control('精准用户',accurateCount||'正在加载...','line-chart')}
+                {control('注册用户',registerCount,'line-chart')}
+                {control('意向用户',intentCount,'line-chart')}
+                {control('精准用户',accurateCount,'line-chart')}
             </Row>
         );
     };
@@ -190,9 +190,9 @@ class MerchantDetail extends MerchantList {
                     totalCount: res.totalCount,
                     pageNo: res.pageNo,
                     pageSize: res.pageSize,
-                    registerCount: res.data.registerCount||'获取失败..',
-                    intentCount: res.data.intentCount||'获取失败..',
-                    accurateCount: res.data.accurateCount||'获取失败..'
+                    registerCount: res.data.registerCount,
+                    intentCount: res.data.intentCount,
+                    accurateCount: res.data.accurateCount
                 });
             }else{
                 this.setState({

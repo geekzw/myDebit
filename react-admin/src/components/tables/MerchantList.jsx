@@ -357,9 +357,9 @@ class MerchantList extends React.Component {
     }];
     tableHeaderArea = () => (
         <Row style={{ marginBottom: 16 }} type="flex" justify="space-between">
-            <Col span={16}>
+            <Col md={16}>
                 <Row>
-                    <Col span={12}>
+                    <Col md={12}>
                     <Input
                         ref={ele => this.searchInput = ele}
                         placeholder="根据名称搜索."
@@ -368,7 +368,7 @@ class MerchantList extends React.Component {
                         onPressEnter={this.onSearch}
                     />
                     </Col>
-                    <Col span={12}>
+                    <Col md={12}>
                     <Button type="primary" onClick={this.onSearch}>Search</Button>
                     </Col>
                 </Row>
