@@ -48,7 +48,8 @@ public class ControllerAspect {
                 logger.info("IP : " + request.getRemoteAddr());
                 logger.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
                 logger.info("ARGS : " + Arrays.toString(joinPoint.getArgs()));
-
+                logger.info(request.getHeader("sessionId"));
+                logger.info(request.getHeader("devicesType"));
                 logger.info("插入请求日志记录...");
                 RequestLogManager requestLogManager = SpringContextUtil.getBean(RequestLogManagerImpl.class);
                 String address = request.getRemoteAddr();

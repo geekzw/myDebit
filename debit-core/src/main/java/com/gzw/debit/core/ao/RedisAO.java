@@ -12,6 +12,7 @@ import java.util.Set;
  */
 public interface RedisAO {
 
+
     boolean expire(String key,long time);
     long getExpire(String key);
     boolean hasKey(String key);

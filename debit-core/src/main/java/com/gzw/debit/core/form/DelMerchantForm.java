@@ -3,6 +3,8 @@ package com.gzw.debit.core.form;
 import com.gzw.debit.core.form.base.BaseForm;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * auth:gujian
  * time:2018/7/10
@@ -10,7 +12,7 @@ import lombok.Data;
  * describe:
  */
 @Data
-public class DelMerchantForm extends BaseForm {
+public class DelMerchantForm implements Serializable {
 
     private Long id;
 }

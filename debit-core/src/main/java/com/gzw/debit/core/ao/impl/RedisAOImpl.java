@@ -25,6 +25,9 @@ public class RedisAOImpl implements RedisAO{
     private static Logger logger = LoggerFactory.getLogger(RedisAOImpl.class);
     public static final int DEFAULT_EXPR = Integer.MAX_VALUE;
     public static final int SMS_CODE_EXPR = 60*10;
+    public static final int ONE_DAY = 60*60*24;
+    public static final int ONE_WEEK = 60*60*24*7;
+    public static final int ONE_MONTH = 60*60*24*30;
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;

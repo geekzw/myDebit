@@ -45,11 +45,4 @@ public class UserController {
         return userAO.getSmsCode(phone);
     }
 
-    @PostMapping(value = "/merchant/loginPc.json")
-    public BaseResponse<PcLoginInfoVO> loginPc(@RequestBody LoginForm form, HttpServletRequest request){
-        return userAO.loginPc(form,request);
-    }
-
-
-
 }

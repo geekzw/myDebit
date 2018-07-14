@@ -1,7 +1,10 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.annotation.Auth;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.utils.PhoneFormatCheckUtil;
+import com.gzw.debit.common.utils.WebSessionUtil;
+import com.gzw.debit.core.ao.AliveAO;
 import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.ao.SendSmsAO;
 import com.gzw.debit.core.ao.UserAO;
@@ -49,7 +52,7 @@ public class UserAOImpl implements UserAO {
     @Autowired
     private LoginLogManager loginLogManager;
     @Autowired
-    private MerchantManager merchantManager;
+    private AliveAO aliveAO;
 
     @Override
     public BaseResponse<String> login(LoginForm form, HttpServletRequest request) {
@@ -89,8 +92,9 @@ public class UserAOImpl implements UserAO {
                 user.setUsername(userDO.getUsername());
                 user.setPassword(userDO.getPassword());
                 user.setUserId(userDO.getId());
-                redisAO.set(sessionId,user,Integer.MAX_VALUE);
-                redisAO.set(userDO.getUsername(),sessionId,Integer.MAX_VALUE);
+                redisAO.set(sessionId,user,RedisAOImpl.ONE_WEEK);
+                redisAO.set(userDO.getUsername(),sessionId,RedisAOImpl.ONE_WEEK);
+                aliveAO.insertAlive(user);
             }else{
                 sessionId = oldSession;
             }
@@ -101,7 +105,7 @@ public class UserAOImpl implements UserAO {
 
         LoginLogDO loginLogDO = new LoginLogDO();
         loginLogDO.setUserId(userDO.getId());
-        loginLogDO.setFromWhere(form.getDevicesType() == null?1:form.getDevicesType());
+        loginLogDO.setFromWhere(WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType());
         long col = loginLogManager.insertSelective(loginLogDO);
         if(col < 1){
             logger.error("登录日志插入失败，userid：{}",userDO.getId());
@@ -134,7 +138,7 @@ public class UserAOImpl implements UserAO {
             UserDO userDO = new UserDO();
             userDO.setUsername(form.getUsername());
             userDO.setPassword(form.getPassword());
-            userDO.setFromWhere((form.getDevicesType() == null?1:form.getDevicesType()));
+            userDO.setFromWhere((WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType()));
             if(form.getChannelId()!=null){
                 userDO.setChannelId(form.getChannelId());
             }
@@ -153,11 +157,16 @@ public class UserAOImpl implements UserAO {
         UserDO userDO = new UserDO();
         userDO.setUsername(form.getUsername());
         userDO.setPassword(form.getPassword());
-        userDO.setFromWhere((form.getDevicesType() == null?1:form.getDevicesType()));
+        userDO.setFromWhere((WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType()));
         if(form.getChannelId()!=null){
             userDO.setChannelId(form.getChannelId());
         }
-        userManager.insertSelective(userDO);
+        long col = userManager.insertSelective(userDO);
+        if(col < 1){
+            logger.error("注册失败，username={}",userDO.getUsername());
+            return BaseResponse.create(Const.LOGIC_ERROR,"注册失败");
+        }
+
         return BaseResponse.create(true);
     }
 
@@ -193,59 +202,5 @@ public class UserAOImpl implements UserAO {
     }
 
 
-    @Override
-    public BaseResponse<PcLoginInfoVO> loginPc(LoginForm form, HttpServletRequest request) {
 
-        if(StringUtil.isEmpty(form.getUsername())){
-            return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
-        }
-        if(StringUtil.isEmpty(form.getPassword())){
-            return BaseResponse.create(Const.PARAMS_ERROR,"密码不能为空");
-        }
-
-        MerchantQuery userQuery = new MerchantQuery();
-        userQuery.createCriteria().andUsernameEqualTo(form.getUsername());
-        List<MerchantDO> userDOS = merchantManager.selectByQuery(userQuery);
-        if(CollectionUtils.isEmpty(userDOS)){
-            return BaseResponse.create(Const.LOGIC_ERROR,"用户不存在");
-        }
-
-        MerchantDO userDO = userDOS.get(0);
-        if(!userDO.getPassword().equals(form.getPassword())){
-            return BaseResponse.create(Const.LOGIC_ERROR,"密码错误");
-        }
-
-        String sessionId;
-
-        try{
-            String oldSession = (String) redisAO.get(userDO.getUsername());
-            if(StringUtil.isEmpty(oldSession)){
-                sessionId = request.getSession().getId();
-                User user = new User();
-                user.setUsername(userDO.getUsername());
-                user.setPassword(userDO.getPassword());
-                user.setUserId(userDO.getId());
-                user.setType(userDO.getType());
-                redisAO.set(sessionId,user,Integer.MAX_VALUE);
-                redisAO.set(userDO.getUsername(),sessionId,Integer.MAX_VALUE);
-            }else{
-                sessionId = oldSession;
-            }
-        }catch (Exception e){
-            logger.error("json解析错误",e);
-            return BaseResponse.create(Const.LOGIC_ERROR,"登录失败");
-        }
-
-        PcLoginInfoVO infoVO = new PcLoginInfoVO();
-        infoVO.setChannelId(userDO.getChannelId());
-        infoVO.setId(userDO.getId());
-        infoVO.setName(userDO.getName());
-        infoVO.setPassword(userDO.getPassword());
-        infoVO.setUsername(userDO.getUsername());
-        infoVO.setType(userDO.getType());
-        infoVO.setSessionId(sessionId);
-
-        return BaseResponse.create(infoVO);
-
-    }
 }

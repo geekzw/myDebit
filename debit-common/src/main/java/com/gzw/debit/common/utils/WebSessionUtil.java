@@ -12,12 +12,10 @@ import javax.servlet.http.HttpSession;
  */
 public class WebSessionUtil {
 
-    private static final String SESSION_ID = "SESSIONID";
+    private static final String SESSION_ID = "sessionId";
+    private static final String DEVICES_TYPE = "devicesType";
 
 
-    public static HttpSession getSeesion() {
-        return NetWorkUtil.getRequest().getSession();
-    }
 
     public static String getSessionId() {
         String sessionId = NetWorkUtil.getRequest().getHeader(SESSION_ID);
@@ -27,20 +25,23 @@ public class WebSessionUtil {
         return sessionId;
     }
 
-    public static String generSession() {
-        String sessionId = UUIDGenerator.getUUID();
-        Cookie cookie = new Cookie(SESSION_ID, sessionId);
-        cookie.setPath("/");
-        NetWorkUtil.getRequest().setAttribute(SESSION_ID, sessionId);
-        NetWorkUtil.getResonse().addCookie(cookie);
-
-        return sessionId;
+    public static String createSessionId(){
+        return NetWorkUtil.getRequest().getSession().getId();
     }
 
-    public static void deleteSession() {
-        Cookie cookie = new Cookie(SESSION_ID, null);
-        cookie.setPath("/");
-        cookie.setMaxAge(0);
-        NetWorkUtil.getResonse().addCookie(cookie);
+    public static Integer getDevicesType() {
+        Integer devicesType;
+        try{
+            devicesType = Integer.valueOf(NetWorkUtil.getRequest().getHeader(DEVICES_TYPE));
+            if(StringUtils.isEmpty(devicesType)){
+                devicesType = Integer.valueOf(NetWorkUtil.getRequest().getParameter(DEVICES_TYPE));
+            }
+        }catch (Exception e){
+            devicesType = null;
+        }
+
+        return devicesType;
     }
+
+
 }

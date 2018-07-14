@@ -16,7 +16,6 @@ public class BasePageRequest implements Serializable {
     public static final Integer DEFAULT_NO = 1;
     public static final Integer DEFAULT_SIZE = 20;
 
-    private String sessionId;
 
     private Integer pageNo;
 

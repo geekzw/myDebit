@@ -12,7 +12,7 @@ import java.io.Serializable;
  * describe:
  */
 @Data
-public class EditMerchantForm extends BaseForm{
+public class EditMerchantForm implements Serializable{
 
     private Long id;
 

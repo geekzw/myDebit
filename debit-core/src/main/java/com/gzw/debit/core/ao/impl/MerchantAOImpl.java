@@ -2,7 +2,9 @@ package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.enums.UserRoleEnum;
+import com.gzw.debit.common.utils.WebSessionUtil;
 import com.gzw.debit.core.ao.MerchantAO;
+import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.*;
@@ -17,6 +19,7 @@ import com.gzw.debit.core.utils.SmsCodeUtil;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.StreamInfo;
 import com.gzw.debit.core.vo.StreamInfoWrep;
 import com.gzw.debit.dal.model.AnalyzeRuleDO;
@@ -35,6 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,6 +62,8 @@ public class MerchantAOImpl implements MerchantAO {
     private BuryManager buryManager;
     @Autowired
     private AnalyzeRuleManager ruleManager;
+    @Autowired
+    private RedisAO redisAO;
 
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
@@ -85,6 +91,62 @@ public class MerchantAOImpl implements MerchantAO {
         }
 
         return BaseResponse.create(true);
+    }
+
+    @Override
+    public BaseResponse<PcLoginInfoVO> loginPc(LoginForm form) {
+
+        if(StringUtil.isEmpty(form.getUsername())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
+        }
+        if(StringUtil.isEmpty(form.getPassword())){
+            return BaseResponse.create(Const.PARAMS_ERROR,"密码不能为空");
+        }
+
+        MerchantQuery userQuery = new MerchantQuery();
+        userQuery.createCriteria().andUsernameEqualTo(form.getUsername());
+        List<MerchantDO> userDOS = merchantManager.selectByQuery(userQuery);
+        if(CollectionUtils.isEmpty(userDOS)){
+            return BaseResponse.create(Const.LOGIC_ERROR,"用户不存在");
+        }
+
+        MerchantDO userDO = userDOS.get(0);
+        if(!userDO.getPassword().equals(form.getPassword())){
+            return BaseResponse.create(Const.LOGIC_ERROR,"密码错误");
+        }
+
+        String sessionId;
+
+        try{
+            String oldSession = (String) redisAO.get(userDO.getUsername());
+            if(StringUtil.isEmpty(oldSession)){
+                sessionId = WebSessionUtil.createSessionId();
+                User user = new User();
+                user.setUsername(userDO.getUsername());
+                user.setPassword(userDO.getPassword());
+                user.setUserId(userDO.getId());
+                user.setType(userDO.getType());
+                redisAO.set(sessionId,user,RedisAOImpl.ONE_DAY);
+                redisAO.set(userDO.getUsername(),sessionId,RedisAOImpl.ONE_DAY);
+            }else{
+                sessionId = oldSession;
+            }
+        }catch (Exception e){
+            logger.error("json解析错误",e);
+            return BaseResponse.create(Const.LOGIC_ERROR,"登录失败");
+        }
+
+        PcLoginInfoVO infoVO = new PcLoginInfoVO();
+        infoVO.setChannelId(userDO.getChannelId());
+        infoVO.setId(userDO.getId());
+        infoVO.setName(userDO.getName());
+        infoVO.setPassword(userDO.getPassword());
+        infoVO.setUsername(userDO.getUsername());
+        infoVO.setType(userDO.getType());
+        infoVO.setSessionId(sessionId);
+
+        return BaseResponse.create(infoVO);
+
     }
 
     private BaseResponse<Boolean> checkParams(MerchantForm form){

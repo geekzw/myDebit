@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.utils.SpringContextUtil;
 import com.gzw.debit.common.utils.ThreadPoolExecutorUtil;
+import com.gzw.debit.core.ao.AliveAO;
 import com.gzw.debit.core.ao.RedisAO;
+import com.gzw.debit.core.ao.impl.AliveAOImpl;
 import com.gzw.debit.core.ao.impl.RedisAOImpl;
 import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.enums.StatusEnum;
@@ -38,8 +40,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String sessionId = request.getParameter(SESSION_ID);
-        String dt = request.getParameter(DEVICESTYPE);
-
+        String dt = request.getHeader(DEVICESTYPE);
 
         int devicesType;
         if(StringUtil.isEmpty(dt)){
@@ -51,8 +52,6 @@ public class LoginInterceptor implements HandlerInterceptor {
                 devicesType = -1;
             }
         }
-
-
         if(StringUtil.isEmpty(sessionId)){
             sessionId =request.getHeader(SESSION_ID);
         }
@@ -61,7 +60,8 @@ public class LoginInterceptor implements HandlerInterceptor {
             RedisAO redisAO = SpringContextUtil.getBean(RedisAOImpl.class);
             User user = (User) redisAO.get(sessionId);
             if(devicesType == 1 || devicesType == 2){
-                insertBury(user);
+                AliveAO aliveAO = SpringContextUtil.getBean(AliveAOImpl.class);
+                aliveAO.insertAlive(user);
             }
 
             if(user != null){
@@ -75,30 +75,5 @@ public class LoginInterceptor implements HandlerInterceptor {
         response.getWriter().write(baseR);
         response.getWriter().close();
         return false;
-    }
-
-    private void insertBury(User user) {
-        ThreadPoolExecutorUtil.getInstence().execute(()->{
-
-            DayAliveManager dayAliveManager = SpringContextUtil.getBean(DayAliveManager.class);
-            DayAliveQuery query = new DayAliveQuery();
-            query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                    .andUserIdEqualTo(user.getUserId())
-                    .andGmtCreateGreaterThanOrEqualTo(DateUtil.getToday0Time())
-                    .andGmtCreateLessThanOrEqualTo(DateUtil.getTodayLastTime());
-
-            List<DayAliveDO> dayAliveDOS = dayAliveManager.selectByQuery(query);
-            if(CollectionUtils.isEmpty(dayAliveDOS)){
-                DayAliveDO dayAliveDO = new DayAliveDO();
-                dayAliveDO.setUserId(user.getUserId());
-                dayAliveDO.setCount(1);
-                long col = dayAliveManager.insertSelective(dayAliveDO);
-                if(col < 1){
-                    logger.error("日活信息插入失败,userId={}",user.getUserId());
-                }
-            }
-
-
-        });
     }
 }

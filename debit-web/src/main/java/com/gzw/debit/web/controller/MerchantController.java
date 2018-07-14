@@ -4,11 +4,13 @@ import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.StreamInfo;
 import com.gzw.debit.core.vo.StreamInfoWrep;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -26,6 +28,11 @@ public class MerchantController {
     @PostMapping(value = "/auth/merchant/create.json")
     public BaseResponse<Boolean> create(@RequestBody MerchantForm form){
         return merchantAO.createMerchant(form);
+    }
+
+    @PostMapping(value = "/merchant/loginPc.json")
+    public BaseResponse<PcLoginInfoVO> loginPc(@RequestBody LoginForm form){
+        return merchantAO.loginPc(form);
     }
 
     @GetMapping(value = "/auth/merchant/getMerchantList.json")

@@ -4,6 +4,8 @@ import com.gzw.debit.core.form.base.BaseForm;
 import com.gzw.debit.core.form.base.BasePageRequest;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * auth:gujian
  * time:2018/7/9
@@ -11,7 +13,7 @@ import lombok.Data;
  * describe:
  */
 @Data
-public class BuryForm extends BaseForm {
+public class BuryForm implements Serializable{
 
     private Long productId;
 

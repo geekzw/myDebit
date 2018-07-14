@@ -3,9 +3,11 @@ package com.gzw.debit.core.ao;
 import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.MerchantVO;
+import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.StreamInfo;
 import com.gzw.debit.core.vo.StreamInfoWrep;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,6 +23,13 @@ public interface MerchantAO {
      * @return
      */
     BaseResponse<Boolean> createMerchant(MerchantForm form);
+
+    /**
+     * 登录pc
+     * @param form
+     * @return
+     */
+    BaseResponse<PcLoginInfoVO> loginPc(LoginForm form);
 
     /**
      * 获取商家列表

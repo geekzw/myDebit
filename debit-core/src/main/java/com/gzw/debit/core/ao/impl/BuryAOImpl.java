@@ -34,7 +34,7 @@ public class BuryAOImpl implements BuryAO{
 
     @Override
     public BaseResponse<Boolean> insertBury(BuryForm form) {
-        User user = UserUtil.getUser(form.getSessionId());
+        User user = UserUtil.getUser();
         if(user == null){
             logger.error("找不到登录信息");
             return BaseResponse.create(Const.PARAMS_ERROR,"找不到登录信息");

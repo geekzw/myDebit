@@ -12,7 +12,7 @@ import java.io.Serializable;
  * describe:
  */
 @Data
-public class LoginForm extends BaseForm{
+public class LoginForm implements Serializable{
 
     private String username;
     private String password;

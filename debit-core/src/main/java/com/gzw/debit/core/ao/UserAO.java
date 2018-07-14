@@ -37,12 +37,7 @@ public interface UserAO {
     BaseResponse<String> getSmsCode(String phone);
 
 
-    /**
-     * 登录pc
-     * @param form
-     * @return
-     */
-    BaseResponse<PcLoginInfoVO> loginPc(LoginForm form, HttpServletRequest request);
+
 
 
 
