@@ -2,15 +2,12 @@
  * Created by hao.cheng on 2017/4/13.
  */
 import React, { Component } from 'react';
-import TweenOne from 'rc-tween-one';
 import { Link } from 'react-router-dom';
-import { Card, Form, Pagination, Tooltip, Spin, Cascader, Select, Row, Col, Checkbox, Button, InputNumber, Layout } from 'antd';
+import { Card, Form, Pagination, Spin, Row, Col, Button, InputNumber } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { getAnalyzeRule, editAnalyzeRule, notifyPop } from '../../axios';
-import { relative } from 'path';
 
 const FormItem = Form.Item;
-const { Header, Content, Footer } = Layout;
 
 const routes = [{
     path: 'app',
@@ -48,6 +45,12 @@ class RuleSettings extends Component {
         pageSize: 10,
     };
     componentDidMount() {
+        this.start();
+    }
+    reload(){
+        this.setState({
+            loading: true
+        });
         this.start();
     }
     start(page=this.state.pageNo,pageSize=this.state.pageSize) {
@@ -90,6 +93,13 @@ class RuleSettings extends Component {
             editListCount: rule.listCount,
         });
     };
+    cancel() {
+        this.setState({
+            editKey: '',
+            editDetailCount: 0,
+            editListCount: 0,
+        });
+    }
     saveRule(rule) {
         const { data, editDetailCount, editListCount } = this.state;
         for(var i=0;i<data.length;i++){
@@ -196,7 +206,10 @@ class RuleSettings extends Component {
                     />
                 </FormItem>
                 <Button
-                    style={{ left: '45px' }}
+                    style={{ right: '24px' }}
+                    onClick={() => this.cancel()} >取消</Button>
+                <Button
+                    style={{ left: '24px' }}
                     onClick={() => this.saveRule(rule)} >保存</Button>
             </Card>
         );
@@ -206,6 +219,7 @@ class RuleSettings extends Component {
                     bordered="false"
                     key={rule.id}
                     hoverable="true"
+                    style={{marginLeft:12}}
                 >
                     <div style={{
                         ...gridStyle,
@@ -230,11 +244,14 @@ class RuleSettings extends Component {
                 <Card
                     title="规则设置"
                 >
+                    <Button type="primary" onClick={this.reload} style={{marginBottom:12}}
+                                    disabled={this.state.loading} loading={this.state.loading} >
+                        {this.state.loading ? '正在加载' : '刷新'}
+                    </Button>
                     <Row justify="space-between" >
                         {this.state.data.length ? this.getRuleList() : <p>暂无规则</p>}
                     </Row>
-                </Card>
-                <Pagination 
+                    <Pagination 
                     {
                         ...{
                             current:this.state.pageNo,
@@ -254,6 +271,7 @@ class RuleSettings extends Component {
                         }
                     }
                 />
+                </Card>
             </Spin>
         )
     }
