@@ -16,10 +16,10 @@ public class StreamInfoWrep implements Serializable{
 
     private List<StreamInfo> streamInfos;
 
-    private Integer registerCount;
+    private Integer registerCount = 0;
 
-    private Integer intentCount;
+    private Integer intentCount = 0;
 
-    private Integer accurateCount;
+    private Integer accurateCount = 0;
 
 }
