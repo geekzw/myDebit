@@ -14,6 +14,11 @@ import java.io.Serializable;
 public class AnalyzeRuleVO implements Serializable{
 
     /**
+     * id
+     * debit_analyze_rule.id
+     */
+    private Long id;
+    /**
      * 列表点击次数
      * debit_analyze_rule.list_count
      */
