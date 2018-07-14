@@ -2,15 +2,12 @@
  * Created by hao.cheng on 2017/4/13.
  */
 import React, { Component } from 'react';
-import TweenOne from 'rc-tween-one';
 import { Link } from 'react-router-dom';
-import { Card, Form, Pagination, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, InputNumber, Layout } from 'antd';
+import { Card, Form, Pagination, Spin, Row, Col, Button, InputNumber } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { getAnalyzeRule, editAnalyzeRule, notifyPop } from '../../axios';
-import { relative } from 'path';
 
 const FormItem = Form.Item;
-const { Header, Content, Footer } = Layout;
 
 const routes = [{
     path: 'app',
@@ -43,10 +40,28 @@ class RuleSettings extends Component {
         editListCount: 0,
         data: [],
         totalCount: 0,
+        loading: true,
+        pageNo: 1,
+        pageSize: 10,
     };
     componentDidMount() {
-        getAnalyzeRule().then(
+        this.start();
+    }
+    reload(){
+        this.setState({
+            loading: true
+        });
+        this.start();
+    }
+    start(page=this.state.pageNo,pageSize=this.state.pageSize) {
+        getAnalyzeRule({
+            pageNo: page,
+            pageSize: pageSize
+        }).then(
             resp => {
+                this.setState({
+                    loading: false
+                });
                 console.log(resp);
                 if (resp.success) {
                     this.setState({
@@ -55,27 +70,21 @@ class RuleSettings extends Component {
                 }
             }
         ).catch(
-            err => notifyPop('错误', err, null, 5, 'error')
+            err => {
+                this.setState({
+                    loading: false
+                });
+                notifyPop('错误', err, null, 5, 'error');
+            }
         )
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
+    paginationOnChange = (page, pageSize) => {
+        this.setState({
+            pageNo: page,
+            pageSize: pageSize,
+            loading: true
         });
-    };
-    handleConfirmBlur = (e) => {
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    };
-    checkConfirm = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
+        this.start(page,pageSize);
     };
     editRule(rule) {
         this.setState({
@@ -84,6 +93,13 @@ class RuleSettings extends Component {
             editListCount: rule.listCount,
         });
     };
+    cancel() {
+        this.setState({
+            editKey: '',
+            editDetailCount: 0,
+            editListCount: 0,
+        });
+    }
     saveRule(rule) {
         const { data, editDetailCount, editListCount } = this.state;
         for(var i=0;i<data.length;i++){
@@ -106,7 +122,7 @@ class RuleSettings extends Component {
                     editListCount: 0,
                 });
             }else{
-                notifyPop('错误',resp.desc,null,5,'err')
+                notifyPop('错误',resp.desc,null,5,'error')
             }
         }).catch(err=>notifyPop('错误',err,null,5,'error'))
     }
@@ -190,7 +206,10 @@ class RuleSettings extends Component {
                     />
                 </FormItem>
                 <Button
-                    style={{ left: '45px' }}
+                    style={{ right: '24px' }}
+                    onClick={() => this.cancel()} >取消</Button>
+                <Button
+                    style={{ left: '24px' }}
                     onClick={() => this.saveRule(rule)} >保存</Button>
             </Card>
         );
@@ -200,6 +219,7 @@ class RuleSettings extends Component {
                     bordered="false"
                     key={rule.id}
                     hoverable="true"
+                    style={{marginLeft:12}}
                 >
                     <div style={{
                         ...gridStyle,
@@ -219,17 +239,40 @@ class RuleSettings extends Component {
     render() {
         console.log(this.state);
         return (
-            <div>
+            <Spin spinning={this.state.loading}>
                 <BreadcrumbCustom itemRender={itemRender} routes={routes} />
                 <Card
                     title="规则设置"
                 >
+                    <Button type="primary" onClick={this.reload} style={{marginBottom:12}}
+                                    disabled={this.state.loading} loading={this.state.loading} >
+                        {this.state.loading ? '正在加载' : '刷新'}
+                    </Button>
                     <Row justify="space-between" >
                         {this.state.data.length ? this.getRuleList() : <p>暂无规则</p>}
                     </Row>
+                    <Pagination 
+                    {
+                        ...{
+                            current:this.state.pageNo,
+                            pageSize:this.state.pageSize,
+                            onChange:this.paginationOnChange,
+                            showQuickJumper: true,
+                            // showSizeChanger: true,
+                            // onShowSizeChange: this.paginationOnPageSizeChange,
+                            total: this.state.totalCount,
+                            showTotal: (total, range) => {
+                                return (
+                                <div>
+                                    共{total}条 当前显示{range[0]}-{range[1]}条
+                                </div>
+                                );
+                            }
+                        }
+                    }
+                />
                 </Card>
-                <Pagination defaultCurrent={1} total={this.state.totalCount} />
-            </div>
+            </Spin>
         )
     }
 }

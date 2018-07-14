@@ -140,13 +140,13 @@ class MerchantDetail extends MerchantList {
             title: '列表点击',
             dataIndex: 'listCount',
             width: 80,
-            render: (text) => text+'次'
+            render: (text) => (text||0)+'次'
         },
         {
             title: '详情点击',
             dataIndex: 'detailCount',
             width: 80,
-            render: (text) => text+'次'
+            render: (text) => (text||0)+'次'
         },
         {
             title: '设备来源',
@@ -156,6 +156,10 @@ class MerchantDetail extends MerchantList {
         },
     ];
     // 网络相关
+    reload = () => {
+        const { pageNo, pageSize } = this.state;
+        this.start(pageNo,pageSize);
+    };
     start = (
         pageNo=this.state.pageNo,
         pageSize=this.state.pageSize,
