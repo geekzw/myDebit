@@ -9,6 +9,7 @@ import AdvancedTable from './tables/AdvancedTables';
 import AsynchronousTable from './tables/AsynchronousTable';
 import MerchantList from './tables/MerchantList';
 import MerchantDetail from './tables/MerchantDetail';
+import RuleSetting from './forms/RuleSetting';
 import Echarts from './charts/Echarts';
 import Recharts from './charts/Recharts';
 import Icons from './ui/Icons';
@@ -37,9 +38,11 @@ const WysiwygBundle = (props) => (
 );
 
 export default {
-    BasicForm, BasicTable, AdvancedTable, AsynchronousTable, MerchantList, MerchantDetail,
+    BasicForm, BasicTable, AdvancedTable, AsynchronousTable, 
     Echarts, Recharts, Icons, Buttons, Spins, Modals, Notifications,
     Tabs, Banners, Drags, Dashboard, Gallery, BasicAnimations,
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
-    Cssmodule, MapUi
+    Cssmodule, MapUi,
+    // guanjia controls
+    MerchantList, MerchantDetail, RuleSetting,
 }

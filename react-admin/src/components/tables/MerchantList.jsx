@@ -147,7 +147,9 @@ class MerchantList extends React.Component {
             searchParam: searchParam
         }
         getMerchant(params).then(res => {
-            console.log(params);
+            if(!res.success){
+                notifyPop('错误',res.desc,<Icon type="frown" />,0);
+            }
             if(res.data){
                 this.setState({
                     data: [...res.data.map(val => {

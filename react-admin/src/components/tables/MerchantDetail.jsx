@@ -24,6 +24,9 @@ const routes = [{
 }];
 function itemRender(route, params, routes, paths) {
     const last = routes.indexOf(route) === routes.length - 1;
+    if(route.path=='merchantList'&&(JSON.parse(localStorage.getItem('user'))||{}).type==1){
+        return last;
+    }
     return last ? <span>{route.breadcrumbName}</span> : <Link to={'/'+paths.join('/')}>{route.breadcrumbName}</Link>;
 }
 
@@ -170,6 +173,9 @@ class MerchantDetail extends MerchantList {
         getMerchantStream(params).then(res => {
             console.log(params);
             console.log(res);
+            if(!res.success){
+                notifyPop('错误',res.desc,<Icon type="frown" />,0);
+            }
             if(res.data){
                 this.setState({
                     data: [...res.data.streamInfos.map(val => {
@@ -180,9 +186,9 @@ class MerchantDetail extends MerchantList {
                     totalCount: res.totalCount,
                     pageNo: res.pageNo,
                     pageSize: res.pageSize,
-                    registerCount: res.data.registerCount,
-                    intentCount: res.data.intentCount,
-                    accurateCount: res.data.accurateCount
+                    registerCount: res.data.registerCount||'获取失败..',
+                    intentCount: res.data.intentCount||'获取失败..',
+                    accurateCount: res.data.accurateCount||'获取失败..'
                 });
             }else{
                 this.setState({
@@ -191,7 +197,7 @@ class MerchantDetail extends MerchantList {
                     totalCount: 0
                 });
             }
-        }).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
+        }).catch(err=>notifyPop('错误',err,<Icon type="frown" />,5));
     };
 }
 

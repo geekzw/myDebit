@@ -2,10 +2,11 @@
  * Created by hao.cheng on 2017/4/13.
  */
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { Layout, Icon } from 'antd';
 import { withRouter } from 'react-router-dom';
 import routes from '../routes/config';
 import SiderMenu from './SiderMenu';
+import { notifyPop } from '../axios';
 
 const { Sider } = Layout;
 
@@ -68,21 +69,36 @@ class SiderCustom extends Component {
     };
     getMenus(){
         var user = JSON.parse(localStorage.getItem("user"));
-        if(!user){ return []; }
+        if(!user){ 
+            this.props.history.push('/login');
+            notifyPop('提醒','请先登录',<Icon type="frown-o" color="red" />,15,'error');
+            return []; //如果没有登录，不允许显示菜单，跳转至登录页
+        }
         var menus = [];
         for(var i=0;i<routes.menus.length;i++){
             var r = routes.menus[i];
-            if(r.id == "merchantList"){
-                if(user.type != 0){
-                    continue;
+            if(r.permission){
+                if(r.permission.indexOf(user.type)<0){
+                    continue;//如果没有读取该菜单的权限，跳过该菜单
                 }
             }
-            if(r.id == "merchatDetail"){
-                if(user.type == 0){
-                    continue;
+            if(r.subs){
+                var rsubs = [];
+                for(var j=0;j<r.subs.length;j++){
+                    var q = r.subs[j];
+                    if(q.permission){
+                        if(q.permission.indexOf(user.type)<0){
+                            continue;//如果没有读取该子菜单的权限，跳过该子菜单
+                        }
+                    }
+                    rsubs.push(q);
                 }
+                if(rsubs.length==0){
+                    continue;//如果子菜单没有任何项，跳过该菜单
+                }
+                r.subs = rsubs;
             }
-            menus.push(routes.menus[i]);
+            menus.push(r);
         }
         return menus;
     }

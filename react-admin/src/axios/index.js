@@ -33,8 +33,8 @@ export const weibo = () => axios.get('./weibo.json').then(res => res.data).catch
 //     url: 'https://api.github.com/user?access_token=' + access_token,
 // }).then(res => res.data).catch(err => console.log(err));
 
-export const notifyPop = (title,desc,icon,duration=3) => {
-    notification.open({
+export const notifyPop = (title,desc,icon,duration=3,type) => {
+    notification[type||'open']({
         message: title,
         description: (
             <div>
@@ -101,5 +101,16 @@ export const deleteMerchant = (params) =>
 export const getMerchantStream = (params) =>
     get(
         baseURL+'auth/merchant/getMerchantStream.json',
+        params
+    );
+// 规则列表
+export const getAnalyzeRule = (params) =>
+    get(
+        baseURL+'auth/getAnalyzeRule.json',
+        params
+    );
+export const editAnalyzeRule = (params) =>
+    post(
+        baseURL+'auth/editAnalyzeRule.json', 
         params
     );

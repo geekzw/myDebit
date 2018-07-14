@@ -1,11 +1,17 @@
 export default {
     menus: [    // 菜单相关路由
-        { key: '/app/dashboard/index', title: '首页', icon: 'mobile', component: 'Dashboard' },
+        { key: '/app', title: '首页', icon: 'mobile', component: 'Dashboard' },
         {
-            key: '/app/merchantList', title: '商家列表', icon: 'bank',component: 'MerchantList', id: 'merchantList',
+            key: '/app/merchantList', title: '商家列表', icon: 'bank',component: 'MerchantList', permission: [0],
         },
         {
-            key: '/app/merchantDetail', title: '流量详情', icon: 'bank',component: 'MerchantDetail', id: 'merchatDetail',
+            key: '/app/merchantDetail', title: '流量详情', icon: 'bank',component: 'MerchantDetail', permission: [1,2],
+        },
+        {
+            key: '/app/setting', title: '设置', icon: 'setting',
+            subs: [
+                { key: '/app/setting/rule', title: '规则设置', component: 'RuleSetting', permission: [0]},
+            ],
         },
         // {
         //     key: '/app/ui', title: 'UI', icon: 'scan',
@@ -71,7 +77,7 @@ export default {
     ],
     others: [
         {
-            key: '/app/merchantList/merchantDetail/:id', title: '商家', icon: 'bank',component: 'MerchantDetail',
+            key: '/app/merchantList/merchantDetail/:id', title: '商家', icon: 'bank',component: 'MerchantDetail', permission: [0]
         }
     ]  // 非菜单相关路由
 }

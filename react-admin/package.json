@@ -40,6 +40,7 @@
     "promise": "7.1.1",
     "prop-types": "^15.5.10",
     "rc-banner-anim": "^0.5.13",
+    "rc-tween-one": "^2.2.2",
     "react": "^16.4.1",
     "react-dev-utils": "^3.0.2",
     "react-dom": "^16.4.1",
@@ -117,8 +118,8 @@
   },
   "proxy": {
     "/*": {
-    "target": "http://localhost:8080",
-    "changeOrigin": true
+      "target": "http://localhost:8080",
+      "changeOrigin": true
     }
   }
 }
