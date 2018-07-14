@@ -2,6 +2,7 @@
  * Created by hao.cheng on 2017/4/13.
  */
 import React, { Component } from 'react';
+import TweenOne from 'rc-tween-one';
 import { Link } from 'react-router-dom';
 import { Card, Form, Pagination, Spin, Row, Col, Button, InputNumber } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';

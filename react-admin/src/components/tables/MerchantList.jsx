@@ -382,28 +382,31 @@ class MerchantList extends React.Component {
             </Col>
         </Row>
     );
-    render() {
-        const components = {
-            body: {
-              row: EditableFormRow,
-              cell: EditableCell,
-            },
-          };
-          const editableColumns = this.columns.map((col) => {
+    tableComponents = {
+        body: {
+            row: EditableFormRow,
+            cell: EditableCell,
+          },
+    };
+    editableColumns(){ 
+        return this.columns.map((col) => {
             if (!col.editable) {
-              return col;
+            return col;
             }
             return {
-              ...col,
-              onCell: record => ({
+            ...col,
+            onCell: record => ({
                 record,
                 inputType: 'text',
                 dataIndex: col.dataIndex,
                 title: col.title,
                 editing: this.isEditing(record),
-              }),
+            }),
             };
-          });
+        });
+    }
+    render() {
+        const editableColumns = this.editableColumns();
         return (
             <div className="gutter-example" >
                 { this.breadcrumbCustom() }
@@ -422,7 +425,7 @@ class MerchantList extends React.Component {
                                     bordered
                                     onChange={this.onChange}
                                     loading={this.state.loading}
-                                    components={components}
+                                    components={this.tableComponents}
                                     columns={editableColumns} 
                                     dataSource={this.state.data}
                                     rowClassName="editable-row customRowHighlight"

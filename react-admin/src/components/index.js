@@ -7,9 +7,6 @@ import BasicForm from './forms/BasicForm';
 import BasicTable from './tables/BasicTables';
 import AdvancedTable from './tables/AdvancedTables';
 import AsynchronousTable from './tables/AsynchronousTable';
-import MerchantList from './tables/MerchantList';
-import MerchantDetail from './tables/MerchantDetail';
-import RuleSetting from './forms/RuleSetting';
 import Echarts from './charts/Echarts';
 import Recharts from './charts/Recharts';
 import Icons from './ui/Icons';
@@ -30,6 +27,13 @@ import Wysiwyg from 'bundle-loader?lazy!./ui/Wysiwyg';  // 按需加载富文本
 import Bundle from './widget/Bundle';
 import Cssmodule from './cssmodule';
 import MapUi from './ui/map';
+// guanjia
+import MerchantList from './tables/MerchantList';
+import MerchantDetail from './tables/MerchantDetail';
+import BannerList from './tables/BannerList';
+import BorrowList from './tables/BorrowList';
+import BorrowEditForm from './forms/BorrowEditForm';
+import RuleSetting from './forms/RuleSetting';
 
 const WysiwygBundle = (props) => (
     <Bundle load={Wysiwyg}>
@@ -44,5 +48,5 @@ export default {
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
     Cssmodule, MapUi,
     // guanjia controls
-    MerchantList, MerchantDetail, RuleSetting,
+    MerchantList, MerchantDetail, RuleSetting, BannerList, BorrowList, BorrowEditForm,
 }

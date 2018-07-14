@@ -12,7 +12,7 @@ class BreadcrumbCustom extends React.Component {
         theme: null,
         themes: JSON.parse(localStorage.getItem('themes')) || [
             {type: 'info', checked: false},
-            {type: 'grey', checked: false},
+            {type: 'grey', checked: true},
             {type: 'danger', checked: false},
             {type: 'warn', checked: false},
             {type: 'white', checked: false},

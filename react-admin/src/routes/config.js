@@ -2,10 +2,16 @@ export default {
     menus: [    // 菜单相关路由
         { key: '/app', title: '首页', icon: 'mobile', component: 'Dashboard' },
         {
-            key: '/app/merchantList', title: '商家列表', icon: 'bank',component: 'MerchantList', permission: [0],
+            key: '/app/merchantList', title: '商家列表', icon: 'shopping-cart',component: 'MerchantList', permission: [0],
         },
         {
-            key: '/app/merchantDetail', title: '流量详情', icon: 'bank',component: 'MerchantDetail', permission: [1,2],
+            key: '/app/merchantDetail', title: '流量详情', icon: 'line-chart',component: 'MerchantDetail', permission: [1,2],
+        },
+        {
+            key: '/app/bannerList', title: 'Banner', icon: 'tags',component: 'BannerList', permission: [0],
+        },
+        {
+            key: '/app/borrowList', title: '借贷列表', icon: 'bank',component: 'BorrowList', permission: [0],
         },
         {
             key: '/app/setting', title: '设置', icon: 'setting',

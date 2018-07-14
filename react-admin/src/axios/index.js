@@ -78,7 +78,39 @@ export const login = (params) =>
         baseURL+'merchant/loginPc.json', 
         params
     );
+// 借贷列表
+export const getBorrowList = (params) =>
+    get(
+        baseURL+'/auth/getBorrowList.json', 
+        params
+    );
+export const editBorrow = (params) => 
+    post(
+        baseURL+'/auth/editBorrow.json', 
+        params
+    );
+export const deleteBorrow = (params) => 
+    post(
+        baseURL+'/auth/deleteBorrow.json', 
+        params
+    );
 
+// Banner列表
+export const getBannerList = (params) =>
+    get(
+        baseURL+'/auth/getBannerList.json', 
+        params
+    );
+export const editBanner = (params) => 
+    post(
+        baseURL+'/auth/editBanner.json', 
+        params
+    );
+export const deleteBanner = (params) => 
+    post(
+        baseURL+'/auth/deleteBanner.json', 
+        params
+    );
 // 商家列表
 export const getMerchant = (params) => 
     get(
