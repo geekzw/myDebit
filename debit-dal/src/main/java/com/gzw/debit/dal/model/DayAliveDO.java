@@ -46,4 +46,10 @@ public class DayAliveDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 日活日期
+     * debit_day_alive.alive_date
+     */
+    private LocalDate aliveDate;
+
 }

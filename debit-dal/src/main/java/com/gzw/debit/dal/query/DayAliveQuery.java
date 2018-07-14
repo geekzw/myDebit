@@ -437,6 +437,76 @@ public class DayAliveQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andAliveDateIsNull() {
+            addCriterion("alive_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateIsNotNull() {
+            addCriterion("alive_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateEqualTo(LocalDate value) {
+            addCriterion("alive_date =", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateNotEqualTo(LocalDate value) {
+            addCriterion("alive_date <>", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateGreaterThan(LocalDate value) {
+            addCriterion("alive_date >", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateGreaterThanOrEqualTo(LocalDate value) {
+            addCriterion("alive_date >=", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateLessThan(LocalDate value) {
+            addCriterion("alive_date <", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateLessThanOrEqualTo(LocalDate value) {
+            addCriterion("alive_date <=", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateLike(LocalDate value) {
+            addCriterion("alive_date like", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateNotLike(LocalDate value) {
+            addCriterion("alive_date not like", value, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateIn(List<LocalDate> values) {
+            addCriterion("alive_date in", values, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateNotIn(List<LocalDate> values) {
+            addCriterion("alive_date not in", values, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("alive_date between", value1, value2, "aliveDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andAliveDateNotBetween(LocalDate value1, LocalDate value2) {
+            addCriterion("alive_date not between", value1, value2, "aliveDate");
+            return (Criteria) this;
+        }
+
     }
 
     /**

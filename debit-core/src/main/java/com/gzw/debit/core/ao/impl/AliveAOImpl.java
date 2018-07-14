@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -42,6 +43,8 @@ public class AliveAOImpl implements AliveAO {
                 DayAliveDO dayAliveDO = new DayAliveDO();
                 dayAliveDO.setUserId(user.getUserId());
                 dayAliveDO.setCount(1);
+                LocalDate date = LocalDate.now();
+                dayAliveDO.setAliveDate(date);
                 long col = dayAliveManager.insertSelective(dayAliveDO);
                 if(col < 1){
                     logger.error("日活信息插入失败,userId={}",user.getUserId());
