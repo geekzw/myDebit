@@ -8,10 +8,7 @@ import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.AnalyzeRuleVO;
 import com.gzw.debit.core.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -38,7 +35,7 @@ public class AnalyzeController {
         return analyzeAO.getAnalyzeRule(form);
     }
 
-    @GetMapping(value = "/auth/editAnalyzeRule.json")
+    @PostMapping(value = "/auth/editAnalyzeRule.json")
     public BaseResponse<Boolean> editAnalyzeRule(@RequestBody EditAnalyzeRuleForm form){
         return analyzeAO.editAnalyzeRule(form);
     }
