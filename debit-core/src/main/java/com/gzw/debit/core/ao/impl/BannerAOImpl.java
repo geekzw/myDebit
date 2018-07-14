@@ -62,7 +62,7 @@ public class BannerAOImpl implements BannerAO {
             return BaseResponse.create(Const.PARAMS_ERROR,"bannerId不能为空");
         }
         BannerDO bannerDO = bannerManager.selectByPrimaryKey(form.getId());
-        if(bannerDO == null || bannerDO.getStatus().equals(StatusEnum.NORMAL_STATUS.getCode())){
+        if(bannerDO == null || bannerDO.getStatus().equals(StatusEnum.DELETE_STATUS.getCode())){
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的banner信息");
         }
 
@@ -99,7 +99,7 @@ public class BannerAOImpl implements BannerAO {
             return BaseResponse.create(Const.PARAMS_ERROR,"bannerId不能为空");
         }
         BannerDO bannerDO = bannerManager.selectByPrimaryKey(form.getId());
-        if(bannerDO == null || bannerDO.getStatus().equals(StatusEnum.NORMAL_STATUS.getCode())){
+        if(bannerDO == null || bannerDO.getStatus().equals(StatusEnum.DELETE_STATUS.getCode())){
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的banner信息");
         }
 
