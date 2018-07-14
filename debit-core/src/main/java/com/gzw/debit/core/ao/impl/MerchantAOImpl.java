@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.enums.UserRoleEnum;
 import com.gzw.debit.common.utils.WebSessionUtil;
@@ -14,10 +15,7 @@ import com.gzw.debit.core.manager.AnalyzeRuleManager;
 import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
-import com.gzw.debit.core.utils.DateUtil;
-import com.gzw.debit.core.utils.SmsCodeUtil;
-import com.gzw.debit.core.utils.StringUtil;
-import com.gzw.debit.core.utils.UserUtil;
+import com.gzw.debit.core.utils.*;
 import com.gzw.debit.core.vo.MerchantVO;
 import com.gzw.debit.core.vo.PcLoginInfoVO;
 import com.gzw.debit.core.vo.StreamInfo;
@@ -68,7 +66,7 @@ public class MerchantAOImpl implements MerchantAO {
     @Override
     public BaseResponse<Boolean> createMerchant(MerchantForm form) {
 
-        BaseResponse permissionResult = checkPermision();
+        BaseResponse permissionResult = CheckUtil.checkPermision();
         if(!permissionResult.isSuccess()){
             return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
         }
@@ -185,7 +183,7 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request) {
-        BaseResponse permissionResult = checkPermision();
+        BaseResponse permissionResult = CheckUtil.checkPermision();
         if(!permissionResult.isSuccess()){
             return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
         }
@@ -231,10 +229,6 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> deleteMerchant(DelMerchantForm form) {
-        BaseResponse permissionResult = checkPermision();
-        if(!permissionResult.isSuccess()){
-            return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
-        }
 
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
@@ -259,14 +253,6 @@ public class MerchantAOImpl implements MerchantAO {
 
     @Override
     public BaseResponse<Boolean> editMerchant(EditMerchantForm form) {
-        User user = UserUtil.getUser();
-        if(user == null){
-            return BaseResponse.create(Const.LOGIC_ERROR,"请先登录");
-        }
-
-        if(user.getType()!=null && user.getType()!=0){
-            return BaseResponse.create(Const.LOGIC_ERROR,"没有权限操作");
-        }
 
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"商家id不能为空");
@@ -406,16 +392,7 @@ public class MerchantAOImpl implements MerchantAO {
         return list;
     }
 
-    private BaseResponse<Boolean> checkPermision(){
-        User user = UserUtil.getUser();
-        if(user == null){
-            return BaseResponse.create(Const.LOGIC_ERROR,"找不到登录信息，请登录");
-        }
-        if(UserRoleEnum.ROLE_ADMIN.getCode()!=user.getType()){
-            return BaseResponse.create(Const.LOGIC_ERROR,"无权限");
-        }
-        return BaseResponse.create(true);
-    }
+
 
 
 }

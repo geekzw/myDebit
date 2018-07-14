@@ -1,5 +1,6 @@
 package com.gzw.debit.web.controller;
 
+import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.form.*;
 import com.gzw.debit.core.form.base.BaseResponse;
@@ -26,6 +27,7 @@ public class MerchantController {
     private MerchantAO merchantAO;
 
     @PostMapping(value = "/auth/merchant/create.json")
+    @Admin
     public BaseResponse<Boolean> create(@RequestBody MerchantForm form){
         return merchantAO.createMerchant(form);
     }
@@ -41,11 +43,13 @@ public class MerchantController {
     }
 
     @PostMapping(value = "/auth/merchant/editMerchant.json")
+    @Admin
     public BaseResponse<Boolean> editMerchant(@RequestBody EditMerchantForm form){
         return merchantAO.editMerchant(form);
     }
 
     @PostMapping(value = "/auth/merchant/deleteMerchant.json")
+    @Admin
     public BaseResponse<Boolean> deleteMerchant(@RequestBody DelMerchantForm form){
         return merchantAO.deleteMerchant(form);
     }

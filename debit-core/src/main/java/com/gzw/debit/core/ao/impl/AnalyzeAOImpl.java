@@ -95,7 +95,13 @@ public class AnalyzeAOImpl implements AnalyzeAO {
     }
 
     @Override
-    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule() {
+    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(BasePageRequest form) {
+        if(form.getPageNo() == null){
+            form.setPageNo(BasePageRequest.DEFAULT_NO);
+        }
+        if(form.getPageSize() == null){
+            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+        }
         List<AnalyzeRuleVO> ruleVOS = new ArrayList<>();
         AnalyzeRuleQuery query = new AnalyzeRuleQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
@@ -110,7 +116,12 @@ public class AnalyzeAOImpl implements AnalyzeAO {
             ruleVOS.add(ruleVO);
         });
 
-        return BaseResponse.create(ruleVOS);
+        BaseResponse<List<AnalyzeRuleVO>> response = BaseResponse.create(ruleVOS);
+        response.setPageNo(form.getPageNo());
+        response.setPageSize(form.getPageSize());
+        response.setTotalCount(ruleManager.countByQuery(query));
+
+        return response;
     }
 
     @Override

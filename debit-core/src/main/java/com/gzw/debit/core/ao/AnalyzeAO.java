@@ -2,6 +2,7 @@ package com.gzw.debit.core.ao;
 
 import com.gzw.debit.core.form.EditAnalyzeRuleForm;
 import com.gzw.debit.core.form.UserInfoForm;
+import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.AnalyzeRuleVO;
 import com.gzw.debit.core.vo.UserInfoVO;
@@ -27,7 +28,7 @@ public interface AnalyzeAO {
      * 获取规则列表
      * @return
      */
-    BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule();
+    BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(BasePageRequest form);
 
     /**
      * 编辑规则列表
