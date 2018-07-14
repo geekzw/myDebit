@@ -4,7 +4,7 @@
 import React, { Component } from 'react';
 import TweenOne from 'rc-tween-one';
 import { Link } from 'react-router-dom';
-import { Card, Form, Pagination, Tooltip, Icon, Cascader, Select, Row, Col, Checkbox, Button, InputNumber, Layout } from 'antd';
+import { Card, Form, Pagination, Tooltip, Spin, Cascader, Select, Row, Col, Checkbox, Button, InputNumber, Layout } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { getAnalyzeRule, editAnalyzeRule, notifyPop } from '../../axios';
 import { relative } from 'path';
@@ -43,10 +43,22 @@ class RuleSettings extends Component {
         editListCount: 0,
         data: [],
         totalCount: 0,
+        loading: true,
+        pageNo: 1,
+        pageSize: 10,
     };
     componentDidMount() {
-        getAnalyzeRule().then(
+        this.start();
+    }
+    start(page=this.state.pageNo,pageSize=this.state.pageSize) {
+        getAnalyzeRule({
+            pageNo: page,
+            pageSize: pageSize
+        }).then(
             resp => {
+                this.setState({
+                    loading: false
+                });
                 console.log(resp);
                 if (resp.success) {
                     this.setState({
@@ -55,27 +67,21 @@ class RuleSettings extends Component {
                 }
             }
         ).catch(
-            err => notifyPop('错误', err, null, 5, 'error')
+            err => {
+                this.setState({
+                    loading: false
+                });
+                notifyPop('错误', err, null, 5, 'error');
+            }
         )
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
+    paginationOnChange = (page, pageSize) => {
+        this.setState({
+            pageNo: page,
+            pageSize: pageSize,
+            loading: true
         });
-    };
-    handleConfirmBlur = (e) => {
-        const value = e.target.value;
-        this.setState({ confirmDirty: this.state.confirmDirty || !!value });
-    };
-    checkConfirm = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force: true });
-        }
-        callback();
+        this.start(page,pageSize);
     };
     editRule(rule) {
         this.setState({
@@ -106,7 +112,7 @@ class RuleSettings extends Component {
                     editListCount: 0,
                 });
             }else{
-                notifyPop('错误',resp.desc,null,5,'err')
+                notifyPop('错误',resp.desc,null,5,'error')
             }
         }).catch(err=>notifyPop('错误',err,null,5,'error'))
     }
@@ -219,7 +225,7 @@ class RuleSettings extends Component {
     render() {
         console.log(this.state);
         return (
-            <div>
+            <Spin spinning={this.state.loading}>
                 <BreadcrumbCustom itemRender={itemRender} routes={routes} />
                 <Card
                     title="规则设置"
@@ -228,8 +234,27 @@ class RuleSettings extends Component {
                         {this.state.data.length ? this.getRuleList() : <p>暂无规则</p>}
                     </Row>
                 </Card>
-                <Pagination defaultCurrent={1} total={this.state.totalCount} />
-            </div>
+                <Pagination 
+                    {
+                        ...{
+                            current:this.state.pageNo,
+                            pageSize:this.state.pageSize,
+                            onChange:this.paginationOnChange,
+                            showQuickJumper: true,
+                            // showSizeChanger: true,
+                            // onShowSizeChange: this.paginationOnPageSizeChange,
+                            total: this.state.totalCount,
+                            showTotal: (total, range) => {
+                                return (
+                                <div>
+                                    共{total}条 当前显示{range[0]}-{range[1]}条
+                                </div>
+                                );
+                            }
+                        }
+                    }
+                />
+            </Spin>
         )
     }
 }
