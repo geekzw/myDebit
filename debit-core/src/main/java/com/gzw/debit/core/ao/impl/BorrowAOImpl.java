@@ -64,7 +64,7 @@ public class BorrowAOImpl implements BorrowAO {
             return BaseResponse.create(Const.PARAMS_ERROR,"borrowId不能为空");
         }
         BorrowDO borrowDO = borrowManager.selectByPrimaryKey(form.getId());
-        if(borrowDO == null || borrowDO.getStatus().equals(StatusEnum.NORMAL_STATUS.getCode())){
+        if(borrowDO == null || borrowDO.getStatus().equals(StatusEnum.DELETE_STATUS.getCode())){
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的borrow信息");
         }
 
