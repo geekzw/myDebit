@@ -1,5 +1,7 @@
 package com.gzw.debit.core.manager.impl;
 
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
+import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 import com.gzw.debit.dal.model.DayAliveDO;
 import com.gzw.debit.dal.query.DayAliveQuery;
@@ -111,5 +113,10 @@ public class DayAliveManagerImpl implements DayAliveManager{
     @Override
     public int updateByPrimaryKeySelective(DayAliveDO record){
         return dayAliveExtMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public List<StrIntKeyValue> getAliveData(AliveDataQuery query) {
+        return dayAliveExtMapper.getAliveData(query);
     }
 }

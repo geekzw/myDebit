@@ -13,4 +13,12 @@
             and b.detail_count &gt;= #{detailCount}
         </where>
     </select>
+
+    <select id="getMerchantRegisterData" resultType="com.gzw.debit.dal.model.ext.StrIntKeyValue">
+
+        SELECT count(*)as count,b.name as value from debit_user as a LEFT JOIN debit_merchant as b
+        ON a.channel_id = b.channel_id
+        GROUP BY a.channel_id
+
+    </select>
 </mapper>

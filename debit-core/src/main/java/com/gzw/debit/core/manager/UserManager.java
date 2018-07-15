@@ -1,7 +1,9 @@
 package com.gzw.debit.core.manager;
 
 import com.gzw.debit.dal.model.UserDO;
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import com.gzw.debit.dal.query.UserQuery;
+import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 
 import java.util.List;
@@ -61,4 +63,6 @@ public interface UserManager {
      * update by primary key selective.
      */
     int updateByPrimaryKeySelective(UserDO record);
+
+    List<StrIntKeyValue> getRegisterData(AliveDataQuery query);
 }

@@ -1,4 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gzw.debit.dal.mapper.ext.DayAliveExtMapper">
+
+
+    <select id="getAliveData" resultType="com.gzw.debit.dal.model.ext.StrIntKeyValue" parameterType="com.gzw.debit.dal.query.ext.AliveDataQuery">
+        SELECT count(*)as count,DATE_FORMAT( gmt_create, "%Y-%m-%d" )as vaule
+        from debit_day_alive
+        <where>
+            <if test="startTime!=null">
+                AND gmt_create&gt;#{startTime}
+            </if>
+            <if test="endTime!=null">
+                AND gmt_create&lt;#{endTime}
+            </if>
+        </where>
+        GROUP BY vaule desc
+    </select>
+
 </mapper>

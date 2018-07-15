@@ -58,4 +58,6 @@ public interface MerchantMapper {
      * update by primary key selective.
      */
     int updateByPrimaryKeySelective(MerchantDO record);
+
+
 }

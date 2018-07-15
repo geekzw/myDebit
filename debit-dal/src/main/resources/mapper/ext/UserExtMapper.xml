@@ -30,4 +30,20 @@
 
     </select>
 
+    <select id="getRegisterData" resultType="com.gzw.debit.dal.model.ext.StrIntKeyValue" parameterType="com.gzw.debit.dal.query.ext.AliveDataQuery">
+        SELECT count( * )as count,DATE_FORMAT( gmt_create, "%Y-%m-%d" ) as vaule
+        FROM debit_user
+        <where>
+            <if test="startTime!=null">
+                AND gmt_create&gt;#{startTime}
+            </if>
+            <if test="endTime!=null">
+                AND gmt_create&lt;#{endTime}
+            </if>
+        </where>
+        GROUP BY value DESC
+    </select>
+
+
+
 </mapper>
