@@ -1,5 +1,7 @@
 package com.gzw.debit.core.manager;
 
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
+import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 import com.gzw.debit.dal.model.DayAliveDO;
 import com.gzw.debit.dal.query.DayAliveQuery;
@@ -61,4 +63,6 @@ public interface DayAliveManager {
      * update by primary key selective.
      */
     int updateByPrimaryKeySelective(DayAliveDO record);
+
+    List<StrIntKeyValue> getAliveData(AliveDataQuery query);
 }

@@ -1,5 +1,7 @@
 package com.gzw.debit.core.manager.impl;
 
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
+import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import com.gzw.debit.dal.querybase.PageResult;
 import com.gzw.debit.dal.model.UserDO;
 import com.gzw.debit.dal.query.UserQuery;
@@ -111,5 +113,10 @@ public class UserManagerImpl implements UserManager{
     @Override
     public int updateByPrimaryKeySelective(UserDO record){
         return userExtMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public List<StrIntKeyValue> getRegisterData(AliveDataQuery query) {
+        return userExtMapper.getRegisterData(query);
     }
 }

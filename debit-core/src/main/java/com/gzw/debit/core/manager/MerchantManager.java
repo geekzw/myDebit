@@ -1,9 +1,10 @@
 package com.gzw.debit.core.manager;
 
+import com.gzw.debit.dal.model.MerchantDO;
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
+import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.ext.AnalyzeQuery;
 import com.gzw.debit.dal.querybase.PageResult;
-import com.gzw.debit.dal.model.MerchantDO;
-import com.gzw.debit.dal.query.MerchantQuery;
 
 import java.util.List;
 
@@ -64,4 +65,6 @@ public interface MerchantManager {
     int updateByPrimaryKeySelective(MerchantDO record);
 
     Integer getAnalyzeInfo(AnalyzeQuery query);
+
+    List<StrIntKeyValue> getMerchantRegisterData();
 }

@@ -1212,4 +1212,13 @@ public class DateUtil {
         LocalDateTime time = LocalDateTime.now();
         return LocalDateTime.of(time.getYear(),time.getMonth(),time.getDayOfMonth(),23,59,59);
     }
+
+    /**
+     * 获取30天之前的日期 LocalDate
+     * @return
+     */
+    public static LocalDateTime getBefore30Day(LocalDateTime date){
+        return date.plusDays(-30);
+    }
+
 }

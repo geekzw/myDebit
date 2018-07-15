@@ -1,15 +1,12 @@
 package com.gzw.debit.core.manager.impl;
 
+import com.gzw.debit.core.manager.MerchantManager;
+import com.gzw.debit.dal.mapper.ext.MerchantExtMapper;
+import com.gzw.debit.dal.model.MerchantDO;
+import com.gzw.debit.dal.model.ext.StrIntKeyValue;
+import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.ext.AnalyzeQuery;
 import com.gzw.debit.dal.querybase.PageResult;
-import com.gzw.debit.dal.model.MerchantDO;
-import com.gzw.debit.dal.query.MerchantQuery;
-import com.gzw.debit.dal.mapper.ext.MerchantExtMapper;
-import com.gzw.debit.core.manager.MerchantManager;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
@@ -117,5 +114,10 @@ public class MerchantManagerImpl implements MerchantManager{
     @Override
     public Integer getAnalyzeInfo(AnalyzeQuery query) {
         return merchantExtMapper.getAnalyzeInfo(query);
+    }
+
+    @Override
+    public List<StrIntKeyValue> getMerchantRegisterData() {
+        return merchantExtMapper.getMerchantRegisterData();
     }
 }
