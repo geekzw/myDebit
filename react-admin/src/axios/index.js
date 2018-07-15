@@ -33,7 +33,7 @@ export const weibo = () => axios.get('./weibo.json').then(res => res.data).catch
 //     url: 'https://api.github.com/user?access_token=' + access_token,
 // }).then(res => res.data).catch(err => console.log(err));
 
-export const notifyPop = (title,desc,icon,duration=3,type) => {
+export const notifyPop = (title,desc,icon,duration=4.5,type) => {
     notification[type||'open']({
         message: title,
         description: (

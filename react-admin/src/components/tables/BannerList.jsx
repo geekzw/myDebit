@@ -96,22 +96,27 @@ class BannerList extends MerchantList {
         return "Banner列表";
     }
     // 控件相关
-    tableHeaderArea = () => (
-        <div>
-            <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
-                <Button type="primary" onClick={this.reload}
-                            disabled={this.state.loading} loading={this.state.loading}
-                    >
-                    {this.state.loading ? '正在加载' : '刷新'}
-                </Button>
-            </Row>
-        </div>
-    );
+    // tableHeaderArea = () => (
+    //     <div>
+    //         <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
+    //             <Button type="primary" onClick={this.reload}
+    //                         disabled={this.state.loading} loading={this.state.loading}
+    //                 >
+    //                 {this.state.loading ? '正在加载' : '刷新'}
+    //             </Button>
+    //         </Row>
+    //     </div>
+    // );
     columns = [
         {
             title: 'BannerId',
             dataIndex: 'id',
             width: 80
+        },
+        {
+            title: '产品名称',
+            dataIndex: 'productName',
+            width: 160
         },
         {
             title: '跳转链接',
@@ -134,7 +139,7 @@ class BannerList extends MerchantList {
         {
             title: '操作',
             dataIndex: 'operation',
-            width: 200,
+            width: 80,
             render: (text, record) => {
               const editable = this.isEditing(record);
               return (
@@ -271,7 +276,7 @@ class BannerList extends MerchantList {
             console.log(params);
             console.log(res);
             if(!res.success){
-                notifyPop('错误',res.desc,<Icon type="frown" />,0);
+                notifyPop('错误',res.desc,<Icon type="frown" />);
             }
             if(res.data){
                 this.setState({

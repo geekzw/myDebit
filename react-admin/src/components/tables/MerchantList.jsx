@@ -148,7 +148,7 @@ class MerchantList extends React.Component {
         }
         getMerchant(params).then(res => {
             if(!res.success){
-                notifyPop('错误',res.desc,<Icon type="frown" />,0);
+                notifyPop('错误',res.desc,<Icon type="frown" />);
             }
             if(res.data){
                 this.setState({

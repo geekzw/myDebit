@@ -178,7 +178,7 @@ class MerchantDetail extends MerchantList {
             console.log(params);
             console.log(res);
             if(!res.success){
-                notifyPop('错误',res.desc,<Icon type="frown" />,0);
+                notifyPop('错误',res.desc,<Icon type="frown" />);
             }
             if(res.data){
                 this.setState({

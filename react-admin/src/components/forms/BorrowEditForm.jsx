@@ -94,7 +94,7 @@ class BorrowEditForm extends Component {
                         this.props.finished();
                     }
                 }
-            ).catch(err=>notifyPop('错误',err,<Icon type="frown" />),5);
+            ).catch(err=>notifyPop('错误',err,<Icon type="frown" />));
         });
     }
     cancel(){
