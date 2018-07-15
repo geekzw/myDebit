@@ -1,7 +1,5 @@
 package com.gzw.debit.core.form;
 
-import com.gzw.debit.core.form.base.BaseForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
 import lombok.Data;
 
 import java.io.Serializable;

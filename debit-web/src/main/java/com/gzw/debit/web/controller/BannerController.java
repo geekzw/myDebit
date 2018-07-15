@@ -5,9 +5,9 @@ import com.gzw.debit.core.ao.BannerAO;
 import com.gzw.debit.core.ao.BorrowAO;
 import com.gzw.debit.core.form.EditBannerForm;
 import com.gzw.debit.core.form.EditBorrowForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.ListSearchForm;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
-import com.gzw.debit.core.manager.BorrowManager;
 import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.model.BorrowDO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class BannerController {
 
     @GetMapping(value = "/auth/getBannerList.json")
     @Admin
-    public BaseResponse<List<BannerDO>> getBannerList(@ModelAttribute BasePageRequest form){
+    public BaseResponse<List<BannerDO>> getBannerList(@ModelAttribute ListSearchForm form){
         return bannerAO.getBannerList(form);
     }
 
@@ -49,7 +49,7 @@ public class BannerController {
 
     @GetMapping(value = "/auth/getBorrowList.json")
     @Admin
-    public BaseResponse<List<BorrowDO>> getBorrow(@ModelAttribute BasePageRequest form){
+    public BaseResponse<List<BorrowDO>> getBorrow(@ModelAttribute ListSearchForm form){
         return borrowAO.getBannerList(form);
     }
 

@@ -6,7 +6,7 @@ import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.EditAnalyzeRuleForm;
 import com.gzw.debit.core.form.UserInfoForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.AnalyzeRuleManager;
 import com.gzw.debit.core.manager.UserManager;
@@ -50,10 +50,10 @@ public class AnalyzeAOImpl implements AnalyzeAO {
     public BaseResponse<List<UserInfoVO>> getRegister(UserInfoForm form) {
         List<UserInfoVO> userInfoVOS = new ArrayList<>();
         if(form.getPageNo() == null){
-            form.setPageNo(BasePageRequest.DEFAULT_NO);
+            form.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(form.getPageSize() == null){
-            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            form.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
         UserQuery query = new UserQuery();
         query.setPageNo(form.getPageNo());
@@ -95,12 +95,12 @@ public class AnalyzeAOImpl implements AnalyzeAO {
     }
 
     @Override
-    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(BasePageRequest form) {
+    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(BasePageForm form) {
         if(form.getPageNo() == null){
-            form.setPageNo(BasePageRequest.DEFAULT_NO);
+            form.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(form.getPageSize() == null){
-            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            form.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
         List<AnalyzeRuleVO> ruleVOS = new ArrayList<>();
         AnalyzeRuleQuery query = new AnalyzeRuleQuery();

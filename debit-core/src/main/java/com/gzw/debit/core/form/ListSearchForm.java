@@ -5,12 +5,12 @@ import lombok.Data;
 
 /**
  * auth:gujian
- * time:2018/7/12
+ * time:2018/7/15
  * email:gujian@maihaoche.com
  * describe:
  */
 @Data
-public class MerchantStreamForm extends BasePageForm {
+public class ListSearchForm extends BasePageForm {
 
-    private Long merchantId;
+    private String searchParam;
 }

@@ -1,14 +1,13 @@
 package com.gzw.debit.core.ao.impl;
 
-import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.core.ao.BannerAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
+import com.gzw.debit.core.form.ListSearchForm;
 import com.gzw.debit.core.form.EditBannerForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.BannerManager;
-import com.gzw.debit.core.utils.CheckUtil;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.query.BannerQuery;
@@ -32,19 +31,24 @@ public class BannerAOImpl implements BannerAO {
     private BannerManager bannerManager;
 
     @Override
-    public BaseResponse<List<BannerDO>> getBannerList(BasePageRequest form) {
+    public BaseResponse<List<BannerDO>> getBannerList(ListSearchForm form) {
         if(form.getPageNo() == null){
-            form.setPageNo(BasePageRequest.DEFAULT_NO);
+            form.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(form.getPageSize() == null){
-            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            form.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
 
         BannerQuery query = new BannerQuery();
         query.setPageNo(form.getPageNo());
         query.setPageSize(form.getPageSize());
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        BannerQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        if(!StringUtil.isEmpty(form.getSearchParam())){
+            criteria.andProductNameLike("%"+form.getSearchParam()+"%");
+        }
         List<BannerDO> bannerDOS = bannerManager.selectByQuery(query);
+
         if(CollectionUtils.isEmpty(bannerDOS)){
             return BaseResponse.create(new ArrayList<>());
         }
@@ -78,6 +82,10 @@ public class BannerAOImpl implements BannerAO {
         }
         if(form.getBannerOrder()!=null&& form.getBannerOrder()!=bannerDO.getBannerOrder()){
             bannerDO.setBannerOrder(form.getBannerOrder());
+            flag = true;
+        }
+        if(!StringUtil.isEmpty(form.getProductName())&& !form.getProductName().equals(bannerDO.getProductName())){
+            bannerDO.setProductName(form.getProductName());
             flag = true;
         }
 

@@ -1,10 +1,9 @@
 package com.gzw.debit.core.ao;
 
-import com.gzw.debit.core.form.EditBannerForm;
 import com.gzw.debit.core.form.EditBorrowForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.ListSearchForm;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
-import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.model.BorrowDO;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public interface BorrowAO {
      * @param form
      * @return
      */
-    BaseResponse<List<BorrowDO>> getBannerList(BasePageRequest form);
+    BaseResponse<List<BorrowDO>> getBannerList(ListSearchForm form);
 
     /**
      * 修改Borrow

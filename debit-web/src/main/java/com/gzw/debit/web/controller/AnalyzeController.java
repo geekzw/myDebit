@@ -3,7 +3,7 @@ package com.gzw.debit.web.controller;
 import com.gzw.debit.core.ao.AnalyzeAO;
 import com.gzw.debit.core.form.EditAnalyzeRuleForm;
 import com.gzw.debit.core.form.UserInfoForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.vo.AnalyzeRuleVO;
 import com.gzw.debit.core.vo.UserInfoVO;
@@ -31,7 +31,7 @@ public class AnalyzeController {
     }
 
     @GetMapping(value = "/auth/getAnalyzeRule.json")
-    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(@ModelAttribute BasePageRequest form){
+    public BaseResponse<List<AnalyzeRuleVO>> getAnalyzeRule(@ModelAttribute BasePageForm form){
         return analyzeAO.getAnalyzeRule(form);
     }
 

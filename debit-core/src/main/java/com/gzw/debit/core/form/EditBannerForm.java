@@ -36,4 +36,10 @@ public class EditBannerForm implements Serializable{
      */
     private Integer bannerOrder;
 
+    /**
+     * 产品名称
+     * debit_banner.product_name
+     */
+    private String productName;
+
 }
