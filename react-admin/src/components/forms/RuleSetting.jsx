@@ -2,7 +2,6 @@
  * Created by hao.cheng on 2017/4/13.
  */
 import React, { Component } from 'react';
-import TweenOne from 'rc-tween-one';
 import { Link } from 'react-router-dom';
 import { Card, Form, Pagination, Spin, Row, Col, Button, InputNumber } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
@@ -48,7 +47,7 @@ class RuleSettings extends Component {
     componentDidMount() {
         this.start();
     }
-    reload(){
+    reload = () => {
         this.setState({
             loading: true
         });
@@ -143,6 +142,7 @@ class RuleSettings extends Component {
         var editableCard = (rule) => (
             <Card
                 style={cardStyle}
+                className={`animated ${this.state.editKey != rule.id ? 'flipInY' : 'flipOutY'}`}
                 title={types[rule.type]+"设置"}
                 bordered
                 key={0}
@@ -174,6 +174,7 @@ class RuleSettings extends Component {
                     transform: 'rotateY(180deg)',
                     backgroundColor: '#e7f7ff'
                 }}
+                className={`animated ${this.state.editKey == rule.id ? 'flipInY' : 'flipOutY'}`}
                 title={types[rule.type]+"设置"}
                 bordered
                 key={1}
@@ -222,10 +223,11 @@ class RuleSettings extends Component {
                     hoverable="true"
                     style={{marginLeft:12}}
                 >
-                    <div style={{
-                        ...gridStyle,
-                        transform: this.state.editKey == rule.id ? 'rotateY(180deg)' : 'rotateY(0deg)'
-                    }}>
+                    <div
+                        style={{
+                            ...gridStyle,
+                            // transform: this.state.editKey != rule.id ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                        }}>
                         {
                             this.state.editKey == rule.id ?
                                 [editableCard(rule), readableCard(rule)] :
