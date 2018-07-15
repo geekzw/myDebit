@@ -1,15 +1,13 @@
 package com.gzw.debit.core.ao.impl;
 
-import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.common.entry.User;
-import com.gzw.debit.common.enums.UserRoleEnum;
 import com.gzw.debit.common.utils.WebSessionUtil;
 import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.*;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.AnalyzeRuleManager;
 import com.gzw.debit.core.manager.BuryManager;
@@ -36,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -182,17 +179,17 @@ public class MerchantAOImpl implements MerchantAO {
     }
 
     @Override
-    public BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request) {
+    public BaseResponse<List<MerchantVO>> getMerchantList(ListSearchForm request) {
         BaseResponse permissionResult = CheckUtil.checkPermision();
         if(!permissionResult.isSuccess()){
             return BaseResponse.create(permissionResult.getCode(),permissionResult.getDesc());
         }
         List<MerchantVO> merchantVOS = new ArrayList<>();
         if(request.getPageNo() == null){
-            request.setPageNo(BasePageRequest.DEFAULT_NO);
+            request.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(request.getPageSize() == null){
-            request.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            request.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
 
         MerchantQuery query = new MerchantQuery();
@@ -295,10 +292,10 @@ public class MerchantAOImpl implements MerchantAO {
         }
 
         if(form.getPageNo() == null){
-            form.setPageNo(BasePageRequest.DEFAULT_NO);
+            form.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(form.getPageSize() == null){
-            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            form.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
 
         UserQuery query = new UserQuery();

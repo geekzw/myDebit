@@ -1,15 +1,14 @@
 package com.gzw.debit.core.ao.impl;
 
-import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.core.ao.BorrowAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.EditBorrowForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.ListSearchForm;
+import com.gzw.debit.core.form.base.BasePageForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.BorrowManager;
 import com.gzw.debit.core.utils.StringUtil;
-import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.model.BorrowDO;
 import com.gzw.debit.dal.query.BorrowQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,17 +32,21 @@ public class BorrowAOImpl implements BorrowAO {
     private BorrowManager borrowManager;
 
     @Override
-    public BaseResponse<List<BorrowDO>> getBannerList(BasePageRequest form) {
+    public BaseResponse<List<BorrowDO>> getBannerList(ListSearchForm form) {
 
         if(form.getPageNo() == null){
-            form.setPageNo(BasePageRequest.DEFAULT_NO);
+            form.setPageNo(BasePageForm.DEFAULT_NO);
         }
         if(form.getPageSize() == null){
-            form.setPageSize(BasePageRequest.DEFAULT_SIZE);
+            form.setPageSize(BasePageForm.DEFAULT_SIZE);
         }
 
         BorrowQuery query = new BorrowQuery();
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        BorrowQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        if(!StringUtil.isEmpty(form.getSearchParam())){
+            criteria.andProductNameLike("%"+form.getSearchParam()+"%");
+        }
         List<BorrowDO> borrowDOS = borrowManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(borrowDOS)){
             return BaseResponse.create(new ArrayList<>());

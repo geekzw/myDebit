@@ -1,7 +1,7 @@
 package com.gzw.debit.core.ao;
 
+import com.gzw.debit.core.form.ListSearchForm;
 import com.gzw.debit.core.form.EditBannerForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.dal.model.BannerDO;
 
@@ -20,7 +20,7 @@ public interface BannerAO {
      * @param form
      * @return
      */
-    BaseResponse<List<BannerDO>> getBannerList(BasePageRequest form);
+    BaseResponse<List<BannerDO>> getBannerList(ListSearchForm form);
 
     /**
      * 修改banner

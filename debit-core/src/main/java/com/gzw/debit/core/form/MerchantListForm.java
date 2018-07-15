@@ -1,6 +1,6 @@
 package com.gzw.debit.core.form;
 
-import com.gzw.debit.core.form.base.BasePageRequest;
+import com.gzw.debit.core.form.base.BasePageForm;
 import lombok.Data;
 
 /**
@@ -10,7 +10,7 @@ import lombok.Data;
  * describe:
  */
 @Data
-public class MerchantListForm extends BasePageRequest {
+public class MerchantListForm extends BasePageForm {
 
     private String searchParam;
 }

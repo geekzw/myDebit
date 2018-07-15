@@ -52,4 +52,10 @@ public class BannerDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 产品名称
+     * debit_banner.product_name
+     */
+    private String productName;
+
 }

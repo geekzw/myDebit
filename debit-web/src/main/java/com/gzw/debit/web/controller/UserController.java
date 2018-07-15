@@ -1,21 +1,12 @@
 package com.gzw.debit.web.controller;
 
-import com.gzw.debit.core.ao.MerchantAO;
 import com.gzw.debit.core.ao.UserAO;
-import com.gzw.debit.core.form.DelMerchantForm;
-import com.gzw.debit.core.form.EditMerchantForm;
 import com.gzw.debit.core.form.LoginForm;
-import com.gzw.debit.core.form.MerchantForm;
-import com.gzw.debit.core.form.base.BasePageRequest;
 import com.gzw.debit.core.form.base.BaseResponse;
-import com.gzw.debit.core.vo.MerchantVO;
-import com.gzw.debit.core.vo.PcLoginInfoVO;
-import com.gzw.debit.core.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * auth:gujian

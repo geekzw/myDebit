@@ -36,7 +36,7 @@ public interface MerchantAO {
      * @param request
      * @return
      */
-    BaseResponse<List<MerchantVO>> getMerchantList(MerchantListForm request);
+    BaseResponse<List<MerchantVO>> getMerchantList(ListSearchForm request);
 
     /**
      * 删除商家
