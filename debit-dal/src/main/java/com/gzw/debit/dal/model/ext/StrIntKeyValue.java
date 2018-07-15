@@ -15,6 +15,6 @@ public class StrIntKeyValue implements Serializable{
 
     private Integer count;
 
-    private String value;
+    private String resultValue;
 
 }

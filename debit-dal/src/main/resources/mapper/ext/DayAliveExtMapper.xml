@@ -4,7 +4,7 @@
 
 
     <select id="getAliveData" resultType="com.gzw.debit.dal.model.ext.StrIntKeyValue" parameterType="com.gzw.debit.dal.query.ext.AliveDataQuery">
-        SELECT count(*)as count,DATE_FORMAT( gmt_create, "%Y-%m-%d" )as vaule
+        SELECT count(*)as count,DATE_FORMAT( gmt_create, "%Y-%m-%d" )as resultValue
         from debit_day_alive
         <where>
             <if test="startTime!=null">
@@ -14,7 +14,7 @@
                 AND gmt_create&lt;#{endTime}
             </if>
         </where>
-        GROUP BY vaule desc
+        GROUP BY resultValue desc
     </select>
 
 </mapper>
