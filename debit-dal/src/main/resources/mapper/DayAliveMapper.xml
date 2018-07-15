@@ -8,6 +8,7 @@
         <result column="user_id" jdbcType="BIGINT" property="userId" />
         <result column="count" jdbcType="INTEGER" property="count" />
         <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="alive_date" jdbcType="TIMESTAMP" property="aliveDate" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -71,7 +72,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,count,status
+        id,gmt_create,gmt_modified,user_id,count,status,alive_date
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.DayAliveQuery" resultMap="BaseResultMap">
@@ -121,6 +122,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="aliveDate != null">
+                alive_date,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -132,6 +136,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
+            </if>
+            <if test="aliveDate != null">
+                #{aliveDate,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -156,6 +163,9 @@
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
+            <if test="record.aliveDate != null">
+                alive_date = #{record.aliveDate,jdbcType=TIMESTAMP},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -167,6 +177,7 @@
         user_id = #{record.userId,jdbcType=BIGINT},
         count = #{record.count,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
+        alive_date = #{record.aliveDate,jdbcType=TIMESTAMP},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -185,6 +196,9 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="aliveDate != null">
+                alive_date = #{aliveDate,jdbcType=TIMESTAMP},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
