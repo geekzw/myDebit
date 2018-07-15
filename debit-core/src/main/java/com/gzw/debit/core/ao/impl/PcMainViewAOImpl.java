@@ -1,5 +1,6 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.annotation.Admin;
 import com.gzw.debit.core.ao.PcMainViewAO;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.DayAliveManager;
@@ -35,6 +36,7 @@ public class PcMainViewAOImpl implements PcMainViewAO {
 
 
     @Override
+    @Admin
     public BaseResponse<PcMainViewVO> getMainViewData() {
 
         PcMainViewVO pcMainViewVO = new PcMainViewVO();
