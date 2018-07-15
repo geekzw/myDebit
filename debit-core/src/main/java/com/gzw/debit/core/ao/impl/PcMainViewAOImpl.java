@@ -66,6 +66,6 @@ public class PcMainViewAOImpl implements PcMainViewAO {
             pcMainViewVO.setMerchantRegisterDatas(merchantRegisterDataDOS);
         }
 
-        return null;
+        return BaseResponse.create(pcMainViewVO);
     }
 }
