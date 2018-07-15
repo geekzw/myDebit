@@ -23,7 +23,7 @@ const routes = [{
 }];
 export function itemRender(route, params, routes, paths) {
     const last = routes.indexOf(route) === routes.length - 1;
-    return last ? <span>{route.breadcrumbName}</span> : <Link onClick={()=>localStorage.removeItem('editingBorrow')} to={'/' + paths.join('/')}>{route.breadcrumbName}</Link>;
+    return last ? <span>{route.breadcrumbName}</span> : <Link onClick={() => localStorage.removeItem('editingBorrow')} to={'/' + paths.join('/')}>{route.breadcrumbName}</Link>;
 }
 
 
@@ -60,17 +60,23 @@ class BorrowList extends MerchantList {
         this.start();
     }
     columns = [
-        { title: 'id', dataIndex: 'id', width: 80 },
-        { title: '跳转链接', dataIndex: 'url', width: 160 },
-        { title: '图片链接', dataIndex: 'image', width: 160 },
-        { title: '排序', dataIndex: 'borrowOrder', width: 60 },
-        { title: '产品名称', dataIndex: 'productName', width: 80 },
-        { title: '产品介绍', dataIndex: 'productDetail', width: 160 },
-        { title: '贷款介绍', dataIndex: 'debitDesc', width: 160 },
+        { title: 'id', dataIndex: 'id', width: 60 },
+        { title: '产品名称', dataIndex: 'productName', width: 120 },
+        {
+            title: '跳转链接', dataIndex: 'url', width: 200,
+            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
+        },
+        {
+            title: '图片链接', dataIndex: 'image', width: 200,
+            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
+        },
+        { title: '排序', dataIndex: 'borrowOrder', width: 80 },
+        { title: '产品介绍', dataIndex: 'productDetail', width: 200 },
+        { title: '贷款介绍', dataIndex: 'debitDesc', width: 200 },
         { title: '所需材料', dataIndex: 'needData', width: 160 },
-        { title: '申请资格', dataIndex: 'qualification', width: 160 },
-        { title: '放贷人数', dataIndex: 'peopleNumber', width: 80 },
-        { title: '放款速度', dataIndex: 'fastTime', width: 160 },
+        { title: '申请资格', dataIndex: 'qualification', width: 200 },
+        { title: '放贷人数', dataIndex: 'peopleNumber', width: 120 },
+        { title: '放款速度', dataIndex: 'fastTime', width: 120 },
         { title: '放款金额', dataIndex: 'debitMoney', width: 160 },
         { title: '最短借款时间', dataIndex: 'debitTime', width: 160 },
         { title: '利率', dataIndex: 'monthyRate', width: 80 },
@@ -80,15 +86,15 @@ class BorrowList extends MerchantList {
                 return (
                     <Row>
                         <Col md={12}>
-                        <Button onClick={() => this.edit(record)} type="primary" icon="edit" ></Button>
+                            <Button onClick={() => this.edit(record)} type="primary" icon="edit" ></Button>
                         </Col>
                         <Col md={12}>
-                        <Popconfirm
-                            title="确认删除吗?"
-                            onConfirm={() => this.delete(record)}
-                        >
-                            <Button type="danger" icon="delete" />
-                        </Popconfirm>
+                            <Popconfirm
+                                title="确认删除吗?"
+                                onConfirm={() => this.delete(record)}
+                            >
+                                <Button type="danger" icon="delete" />
+                            </Popconfirm>
                         </Col>
                     </Row>
                 );
@@ -97,7 +103,7 @@ class BorrowList extends MerchantList {
     ];
     // 网络相关
     edit(record) {
-        localStorage.setItem('editingBorrow',JSON.stringify(record));
+        localStorage.setItem('editingBorrow', JSON.stringify(record));
         this.setState({
             editingRecord: record
         });
