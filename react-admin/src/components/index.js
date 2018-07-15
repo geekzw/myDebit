@@ -28,6 +28,7 @@ import Bundle from './widget/Bundle';
 import Cssmodule from './cssmodule';
 import MapUi from './ui/map';
 // guanjia
+import Home from './dashboard/Home';
 import MerchantList from './tables/MerchantList';
 import MerchantDetail from './tables/MerchantDetail';
 import BannerList from './tables/BannerList';
@@ -48,5 +49,6 @@ export default {
     ExampleAnimations, AuthBasic, RouterEnter, WysiwygBundle,
     Cssmodule, MapUi,
     // guanjia controls
+    Home, 
     MerchantList, MerchantDetail, RuleSetting, BannerList, BorrowList, BorrowEditForm,
 }

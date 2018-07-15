@@ -3,7 +3,7 @@
  */
 import axios from 'axios';
 import React from 'react';
-// import { get, post } from './tools';
+import { get, post } from './tools';
 // import * as config from './config';
 import { notification, Icon } from 'antd';
 
@@ -48,36 +48,22 @@ export const notifyPop = (title,desc,icon,duration=4.5,type) => {
       });
 };
 
-const post = (url,datas) => {
-    return axios({
-        method: "POST",
-        url: url,
-        data: datas,
-        headers: getHeader()
-    }).then(response=>response.data).catch(err => err);
-};
-const get = (url,params) => {
-    return axios.get(url,{params: params,headers: getHeader()}).then(response=>response.data).catch(err => err);
-};
-
-const baseURL = 'http://localhost:8080/';
-
-const getHeader = () => {
-    var user = JSON.parse(localStorage.getItem('user'));
-    if(user && user.sessionId){ 
-        return {'sessionId':user.sessionId}; 
-    }
-    return { };
-}
+const baseURL = 'http://localhost:8080';
 
 // 接口
 // 登录
 // export const login = (params) => post({url: 'merchant/loginPc.json', params: params });
 export const login = (params) => 
     post(
-        baseURL+'merchant/loginPc.json', 
+        baseURL+'/merchant/loginPc.json', 
         params
     );
+// 主页
+export const home = () =>
+    get(
+        baseURL+'/auth/pc/mainView.json',
+    );
+
 // 借贷列表
 export const getBorrowList = (params) =>
     get(
@@ -114,35 +100,35 @@ export const deleteBanner = (params) =>
 // 商家列表
 export const getMerchant = (params) => 
     get(
-        baseURL+'auth/merchant/getMerchantList.json', 
+        baseURL+'/auth/merchant/getMerchantList.json', 
         params
     );
 
 export const editMerchant = (params) =>
     post(
-        baseURL+'auth/merchant/editMerchant.json', 
+        baseURL+'/auth/merchant/editMerchant.json', 
         params
     );
 
 export const deleteMerchant = (params) =>
     post(
-        baseURL+'auth/merchant/deleteMerchant.json', 
+        baseURL+'/auth/merchant/deleteMerchant.json', 
         params
     );
 // 商家流量
 export const getMerchantStream = (params) =>
     get(
-        baseURL+'auth/merchant/getMerchantStream.json',
+        baseURL+'/auth/merchant/getMerchantStream.json',
         params
     );
 // 规则列表
 export const getAnalyzeRule = (params) =>
     get(
-        baseURL+'auth/getAnalyzeRule.json',
+        baseURL+'/auth/getAnalyzeRule.json',
         params
     );
 export const editAnalyzeRule = (params) =>
     post(
-        baseURL+'auth/editAnalyzeRule.json', 
+        baseURL+'/auth/editAnalyzeRule.json', 
         params
     );

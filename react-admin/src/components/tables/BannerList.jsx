@@ -109,9 +109,9 @@ class BannerList extends MerchantList {
     // );
     columns = [
         {
-            title: 'BannerId',
+            title: 'id',
             dataIndex: 'id',
-            width: 80
+            width: 60
         },
         {
             title: '产品名称',
@@ -121,19 +121,21 @@ class BannerList extends MerchantList {
         {
             title: '跳转链接',
             dataIndex: 'url',
-            width: 160,
-            editable: true
+            width: 180,
+            editable: true,
+            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
         },
         {
             title: '图片链接',
             dataIndex: 'image',
-            width: 160,
-            editable: true
+            width: 180,
+            editable: true,
+            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
         },
         {
             title: '排序',
             dataIndex: 'bannerOrder',
-            width: 80,
+            width: 60,
             editable: true,
         },
         {
@@ -262,7 +264,8 @@ class BannerList extends MerchantList {
     };
     start = (
         pageNo=this.state.pageNo,
-        pageSize=this.state.pageSize
+        pageSize=this.state.pageSize,
+        searchParam=''
     ) => {
         (new BackTop({
             target:()=>document.getElementById('rightScroll')
@@ -270,7 +273,8 @@ class BannerList extends MerchantList {
         this.setState({ loading: true });
         var params = {
             pageNo: pageNo,
-            pageSize: pageSize
+            pageSize: pageSize,
+            searchParam: searchParam
         }
         getBannerList(params).then(res => {
             console.log(params);
@@ -288,9 +292,9 @@ class BannerList extends MerchantList {
                     totalCount: res.totalCount,
                     pageNo: res.pageNo,
                     pageSize: res.pageSize,
-                    registerCount: res.data.registerCount,
-                    intentCount: res.data.intentCount,
-                    accurateCount: res.data.accurateCount
+                    // registerCount: res.data.registerCount,
+                    // intentCount: res.data.intentCount,
+                    // accurateCount: res.data.accurateCount
                 });
             }else{
                 this.setState({

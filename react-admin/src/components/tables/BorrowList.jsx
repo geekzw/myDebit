@@ -41,18 +41,18 @@ class BorrowList extends MerchantList {
     tableTitle() {
         return "借贷列表";
     }
-    // 控件相关
-    tableHeaderArea = () => (
-        <div>
-            <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
-                <Button type="primary" onClick={this.reload}
-                    disabled={this.state.loading} loading={this.state.loading}
-                >
-                    {this.state.loading ? '正在加载' : '刷新'}
-                </Button>
-            </Row>
-        </div>
-    );
+    // // 控件相关
+    // tableHeaderArea = () => (
+    //     <div>
+    //         <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
+    //             <Button type="primary" onClick={this.reload}
+    //                 disabled={this.state.loading} loading={this.state.loading}
+    //             >
+    //                 {this.state.loading ? '正在加载' : '刷新'}
+    //             </Button>
+    //         </Row>
+    //     </div>
+    // );
     finishedEdit = () => {
         this.setState({
             editingRecord: null
@@ -62,29 +62,29 @@ class BorrowList extends MerchantList {
     columns = [
         { title: 'id', dataIndex: 'id', width: 60 },
         { title: '产品名称', dataIndex: 'productName', width: 120 },
-        {
-            title: '跳转链接', dataIndex: 'url', width: 200,
-            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
-        },
-        {
-            title: '图片链接', dataIndex: 'image', width: 200,
-            render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
-        },
-        { title: '排序', dataIndex: 'borrowOrder', width: 80 },
-        { title: '产品介绍', dataIndex: 'productDetail', width: 200 },
-        { title: '贷款介绍', dataIndex: 'debitDesc', width: 200 },
-        { title: '所需材料', dataIndex: 'needData', width: 160 },
-        { title: '申请资格', dataIndex: 'qualification', width: 200 },
+        // {
+        //     title: '跳转链接', dataIndex: 'url', width: 200,
+        //     render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
+        // },
+        // {
+        //     title: '图片链接', dataIndex: 'image', width: 200,
+        //     render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
+        // },
+        // { title: '排序', dataIndex: 'borrowOrder', width: 80 },
+        // { title: '产品介绍', dataIndex: 'productDetail', width: 200 },
+        // { title: '贷款介绍', dataIndex: 'debitDesc', width: 200 },
+        // { title: '所需材料', dataIndex: 'needData', width: 160 },
+        // { title: '申请资格', dataIndex: 'qualification', width: 200 },
         { title: '放贷人数', dataIndex: 'peopleNumber', width: 120 },
-        { title: '放款速度', dataIndex: 'fastTime', width: 120 },
-        { title: '放款金额', dataIndex: 'debitMoney', width: 160 },
-        { title: '最短借款时间', dataIndex: 'debitTime', width: 160 },
+        // { title: '放款速度', dataIndex: 'fastTime', width: 120 },
+        // { title: '放款金额', dataIndex: 'debitMoney', width: 160 },
+        // { title: '最短借款时间', dataIndex: 'debitTime', width: 160 },
         { title: '利率', dataIndex: 'monthyRate', width: 80 },
         {
-            title: '操作', key: 'operation', width: 96, fixed: 'right',
+            title: '操作', key: 'operation', width: 96, //fixed: 'right',
             render: (text, record) => {
                 return (
-                    <Row>
+                    <Row style={{width:'72px'}}>
                         <Col md={12}>
                             <Button onClick={() => this.edit(record)} type="primary" icon="edit" ></Button>
                         </Col>
@@ -188,7 +188,8 @@ class BorrowList extends MerchantList {
     };
     start = (
         pageNo = this.state.pageNo,
-        pageSize = this.state.pageSize
+        pageSize = this.state.pageSize,
+        searchParam = ''
     ) => {
         (new BackTop({
             target: () => document.getElementById('rightScroll')
@@ -196,7 +197,8 @@ class BorrowList extends MerchantList {
         this.setState({ loading: true });
         var params = {
             pageNo: pageNo,
-            pageSize: pageSize
+            pageSize: pageSize,
+            searchParam: searchParam
         }
         getBorrowList(params).then(res => {
             console.log(params);
@@ -236,7 +238,7 @@ class BorrowList extends MerchantList {
                         <Card title={this.tableTitle()} bordered={false}>
                             {this.tableHeaderArea()}
                             <Table
-                                scroll={{ x: 1500 }}
+                                // scroll={{ x: 1500 }}
                                 onRow={(record) => {
                                     return {
                                         onClick: () => { },       // 点击行

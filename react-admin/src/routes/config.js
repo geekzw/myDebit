@@ -1,6 +1,6 @@
 export default {
     menus: [    // 菜单相关路由
-        { key: '/app', title: '首页', icon: 'mobile', component: 'Dashboard' },
+        { key: '/app', title: '首页', icon: 'mobile', component: 'Home' },
         {
             key: '/app/merchantList', title: '商家列表', icon: 'shopping-cart',component: 'MerchantList', permission: [0],
         },

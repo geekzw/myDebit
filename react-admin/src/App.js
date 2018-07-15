@@ -7,6 +7,8 @@ import { receiveData, fetchData } from './action';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Routes from './routes';
+import { home, notifyPop } from './axios';
+
 const { Content, Footer } = Layout;
 
 class App extends Component {
@@ -26,7 +28,11 @@ class App extends Component {
         }
     }
     componentDidMount() {
-        
+        home().then(
+            resp=>{
+                console.log(resp);
+            }
+        ).catch(err=>notifyPop('错误',err,null,null,'error'));
     }
     getClientWidth = () => {    // 获取当前浏览器宽度并设置responsive管理响应式
         const { receiveData } = this.props;
