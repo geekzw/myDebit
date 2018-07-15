@@ -38,7 +38,7 @@ public class MerchantController {
     }
 
     @GetMapping(value = "/auth/merchant/getMerchantList.json")
-    public BaseResponse<List<MerchantVO>> getMerchantList(@ModelAttribute MerchantListForm form){
+    public BaseResponse<List<MerchantVO>> getMerchantList(@ModelAttribute ListSearchForm form){
         return merchantAO.getMerchantList(form);
     }
 
