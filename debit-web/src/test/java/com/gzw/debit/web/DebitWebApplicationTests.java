@@ -4,6 +4,7 @@ import com.gzw.debit.core.manager.DayAliveManager;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.DateUtil;
+import com.gzw.debit.dal.model.ext.MerchantDataDO;
 import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import org.junit.Test;
@@ -59,7 +60,7 @@ public class DebitWebApplicationTests {
 	@Test
 	public void maerchant() {
 
-		List<StrIntKeyValue> info = merchantManager.getMerchantRegisterData();
+		List<MerchantDataDO> info = merchantManager.getMerchantRegisterData();
 		if(CollectionUtils.isEmpty(info)){
 
 		}

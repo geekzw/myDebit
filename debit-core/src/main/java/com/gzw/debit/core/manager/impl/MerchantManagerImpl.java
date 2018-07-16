@@ -3,6 +3,7 @@ package com.gzw.debit.core.manager.impl;
 import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.dal.mapper.ext.MerchantExtMapper;
 import com.gzw.debit.dal.model.MerchantDO;
+import com.gzw.debit.dal.model.ext.MerchantDataDO;
 import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.ext.AnalyzeQuery;
@@ -117,7 +118,7 @@ public class MerchantManagerImpl implements MerchantManager{
     }
 
     @Override
-    public List<StrIntKeyValue> getMerchantRegisterData() {
+    public List<MerchantDataDO> getMerchantRegisterData() {
         return merchantExtMapper.getMerchantRegisterData();
     }
 }

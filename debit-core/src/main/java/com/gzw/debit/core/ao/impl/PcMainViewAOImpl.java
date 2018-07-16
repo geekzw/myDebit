@@ -8,6 +8,7 @@ import com.gzw.debit.core.manager.MerchantManager;
 import com.gzw.debit.core.manager.UserManager;
 import com.gzw.debit.core.utils.DateUtil;
 import com.gzw.debit.core.vo.PcMainViewVO;
+import com.gzw.debit.dal.model.ext.MerchantDataDO;
 import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import com.gzw.debit.dal.query.ext.AliveDataQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class PcMainViewAOImpl implements PcMainViewAO {
 
         List<StrIntKeyValue> aliveDataDOS = dayAliveManager.getAliveData(query);
         List<StrIntKeyValue> registerDataDOS = userManager.getRegisterData(query);
-        List<StrIntKeyValue> merchantRegisterDataDOS = merchantManager.getMerchantRegisterData();
+        List<MerchantDataDO> merchantRegisterDataDOS = merchantManager.getMerchantRegisterData();
 
         fillAllData(aliveDataDOS);
         fillAllData(registerDataDOS);

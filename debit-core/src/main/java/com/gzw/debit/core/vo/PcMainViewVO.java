@@ -1,5 +1,6 @@
 package com.gzw.debit.core.vo;
 
+import com.gzw.debit.dal.model.ext.MerchantDataDO;
 import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import lombok.Data;
 
@@ -19,6 +20,6 @@ public class PcMainViewVO implements Serializable{
 
     private List<StrIntKeyValue> registerDatas;
 
-    private List<StrIntKeyValue> merchantRegisterDatas;
+    private List<MerchantDataDO> merchantRegisterDatas;
 
 }

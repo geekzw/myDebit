@@ -1,6 +1,7 @@
 package com.gzw.debit.core.manager;
 
 import com.gzw.debit.dal.model.MerchantDO;
+import com.gzw.debit.dal.model.ext.MerchantDataDO;
 import com.gzw.debit.dal.model.ext.StrIntKeyValue;
 import com.gzw.debit.dal.query.MerchantQuery;
 import com.gzw.debit.dal.query.ext.AnalyzeQuery;
@@ -66,5 +67,5 @@ public interface MerchantManager {
 
     Integer getAnalyzeInfo(AnalyzeQuery query);
 
-    List<StrIntKeyValue> getMerchantRegisterData();
+    List<MerchantDataDO> getMerchantRegisterData();
 }
