@@ -53,6 +53,7 @@ class SiderCustom extends Component {
     //     this.setMenuOpen(nextProps)
     // }
     menuClick = e => {
+        localStorage.removeItem('editingBorrow'); // 点击借贷列表的时候清除缓存
         this.setState({
             selectedKey: e.key
         });

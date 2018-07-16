@@ -2,7 +2,7 @@
  * Created by hao.cheng on 2017/4/15.
  */
 import React, { Component } from 'react';
-import { Row, Col, Card, Button, Icon, Form, Input, Radio, InputNumber, Popconfirm } from 'antd';
+import { Row, Col, Card, Button, Icon, Form, Input, InputNumber, Popconfirm } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { itemRender } from '../tables/BorrowList';
 import { notifyPop, editBorrow } from '../../axios';
@@ -72,7 +72,7 @@ class BorrowEditForm extends Component {
             var isModify = false;
             var keys = columns.map(r => r.dataIndex);
             for (var i = 0; i < keys.length; i++) {
-                if (record[keys[i]] != row[keys[i]]) {
+                if (record[keys[i]] !== row[keys[i]]) {
                     isModify = true;
                     break;
                 }
@@ -126,7 +126,7 @@ class BorrowEditForm extends Component {
                                         !isChecking ? getFieldDecorator(r.dataIndex, {
                                             rules: [{ required: true, message: '请输入' + r.title + '!' }],
                                             initialValue: record[r.dataIndex],
-                                        })(r.inputType == 'number' ?
+                                        })(r.inputType === 'number' ?
                                             <InputNumber onChange={this.textOnChange(r.dataIndex)} /> :
                                             <TextArea onChange={this.textOnChange(r.dataIndex)} autosize />) :
                                             (<TextArea defaultValue={record[r.dataIndex]} disabled autosize />)

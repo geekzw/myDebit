@@ -3,8 +3,8 @@
  */
 import React from 'react';
 import {
-    Row, Popconfirm, Input, Form, Col, Card, Table,
-    Icon, BackTop, Button, InputNumber,
+    Row, Popconfirm, Col, Card, Table,
+    Icon, BackTop, Button, 
 } from 'antd';
 import { Link } from 'react-router-dom';
 import { getBorrowList, editBorrow, deleteBorrow, notifyPop } from '../../axios';
@@ -96,7 +96,7 @@ class BorrowList extends MerchantList {
                 return (
                     <Row style={{width:'72px'}}>
                         <Col md={12}>
-                            <Button onClick={() => this.edit(record)} type="primary" icon="edit" ></Button>
+                            <Button onClick={() => this.edit(record)} type="primary" icon="edit" />
                         </Col>
                         <Col md={12}>
                             <Popconfirm
@@ -126,7 +126,7 @@ class BorrowList extends MerchantList {
             }
             var oldRow;
             for (var i = 0; i < this.state.data.length; i++) {
-                if (this.state.data[i].key == key) {
+                if (this.state.data[i].key === key) {
                     oldRow = this.state.data[i];
                     break;
                 }

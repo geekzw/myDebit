@@ -21,7 +21,7 @@ const routes = [{
 }];
 function itemRender(route, params, routes, paths) {
     const last = routes.indexOf(route) === routes.length - 1;
-    if (route.path == 'merchantList' && (JSON.parse(localStorage.getItem('user')) || {}).type == 1) {
+    if (route.path === 'merchantList' && (JSON.parse(localStorage.getItem('user')) || {}).type === 1) {
         return last;
     }
     return last ? <span>{route.breadcrumbName}</span> : <Link to={'/' + paths.join('/')}>{route.breadcrumbName}</Link>;
@@ -88,7 +88,7 @@ class RuleSettings extends Component {
     };
     editRule(rule) {
         this.setState({
-            editKey: this.state.editKey == rule.id ? '' : rule.id,
+            editKey: this.state.editKey === rule.id ? '' : rule.id,
             editDetailCount: rule.detailCount,
             editListCount: rule.listCount,
         });
@@ -104,7 +104,7 @@ class RuleSettings extends Component {
         const { data, editDetailCount, editListCount } = this.state;
         for(var i=0;i<data.length;i++){
             var r = data[i];
-            if(r.id==rule.id){
+            if(r.id===rule.id){
                 data[i].detailCount = editDetailCount;
                 data[i].listCount = editListCount;
                 break;
@@ -142,7 +142,7 @@ class RuleSettings extends Component {
         var editableCard = (rule) => (
             <Card
                 style={cardStyle}
-                className={`animated ${this.state.editKey != rule.id ? 'flipInY' : 'flipOutY'}`}
+                className={`animated ${this.state.editKey !== rule.id ? 'flipInY' : 'flipOutY'}`}
                 title={types[rule.type]+"设置"}
                 bordered
                 key={0}
@@ -161,10 +161,7 @@ class RuleSettings extends Component {
                 >
                     {rule.listCount || 0}次
                         </FormItem>
-                    <Button
-                        disabled={(this.state.editKey||'')!=''}
-                        style={{ left: '45px' }}
-                        onClick={() => this.editRule(rule)} >编辑</Button>
+                    <Button disabled={(this.state.editKey||'')!==''} style={{ left: '45px' }} onClick={() => this.editRule(rule)} >编辑</Button>
             </Card>
         );
         var readableCard = (rule) => (
@@ -174,7 +171,7 @@ class RuleSettings extends Component {
                     transform: 'rotateY(180deg)',
                     backgroundColor: '#e7f7ff'
                 }}
-                className={`animated ${this.state.editKey == rule.id ? 'flipInY' : 'flipOutY'}`}
+                className={`animated ${this.state.editKey === rule.id ? 'flipInY' : 'flipOutY'}`}
                 title={types[rule.type]+"设置"}
                 bordered
                 key={1}
@@ -207,12 +204,8 @@ class RuleSettings extends Component {
                         formatter={value => `${value}次`}
                     />
                 </FormItem>
-                <Button
-                    style={{ right: '24px' }}
-                    onClick={() => this.cancel()} >取消</Button>
-                <Button
-                    style={{ left: '24px' }}
-                    onClick={() => this.saveRule(rule)} >保存</Button>
+                <Button style={{ right: '24px' }} onClick={() => this.cancel()} >取消</Button>
+                <Button style={{ left: '24px' }} onClick={() => this.saveRule(rule)} >保存</Button>
             </Card>
         );
         var list = this.state.data.map(rule => {
@@ -222,13 +215,9 @@ class RuleSettings extends Component {
                     key={rule.id}
                     hoverable="true"
                 >
-                    <div
-                        style={{
-                            ...gridStyle,
-                            // transform: this.state.editKey != rule.id ? 'rotateY(180deg)' : 'rotateY(0deg)'
-                        }}>
+                    <div style={{...gridStyle,}}>
                         {
-                            this.state.editKey == rule.id ?
+                            this.state.editKey === rule.id ?
                                 [editableCard(rule), readableCard(rule)] :
                                 [readableCard(rule), editableCard(rule)]
                         }
@@ -239,40 +228,17 @@ class RuleSettings extends Component {
         return list;
     }
     render() {
-        console.log(this.state);
         return (
             <Spin spinning={this.state.loading}>
                 <BreadcrumbCustom itemRender={itemRender} routes={routes} />
-                <Card
-                    title="规则设置"
-                >
-                    <Button type="primary" onClick={this.reload} style={{marginBottom:12}}
-                                    disabled={this.state.loading} loading={this.state.loading} >
+                <Card title="规则设置">
+                    <Button type="primary" onClick={this.reload} style={{marginBottom:12}} disabled={this.state.loading} loading={this.state.loading} >
                         {this.state.loading ? '正在加载' : '刷新'}
                     </Button>
                     <Row justify="space-between" gutter={16} >
                         {this.state.data.length ? this.getRuleList() : <p>暂无规则</p>}
                     </Row>
-                    <Pagination 
-                    {
-                        ...{
-                            current:this.state.pageNo,
-                            pageSize:this.state.pageSize,
-                            onChange:this.paginationOnChange,
-                            showQuickJumper: true,
-                            // showSizeChanger: true,
-                            // onShowSizeChange: this.paginationOnPageSizeChange,
-                            total: this.state.totalCount,
-                            showTotal: (total, range) => {
-                                return (
-                                <div>
-                                    共{total}条 当前显示{range[0]}-{range[1]}条
-                                </div>
-                                );
-                            }
-                        }
-                    }
-                />
+                    <Pagination current={this.state.pageNo} pageSize={this.state.pageSize} onChange={this.paginationOnChange} showQuickJumper="true" total={this.state.totalCount} showTotal={(total, range) => (<div>共{total}条 当前显示{range[0]}-{range[1]}条</div>)} />
                 </Card>
             </Spin>
         )

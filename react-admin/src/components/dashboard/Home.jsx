@@ -2,7 +2,7 @@
  * Created by hao.cheng on 2017/5/3.
  */
 import React from 'react';
-import { Row, Col, Card, Icon, Table } from 'antd';
+import { Row, Col, Card, Icon, Spin } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { EchartsViews } from './CustomEcharts';
 import { dateFtt } from '../../axios/tools';
@@ -26,19 +26,14 @@ const widthStyle = {
     'registerDatas': 24,
 }
 
-function GetRandomNum(Min, Max) {
-    var Range = Max - Min;
-    var Rand = Math.random();
-    return (Min + Math.round(Rand * Range));
-}
-
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             date: {},
             timerId: null,
-            data: {}
+            data: {},
+            loading: true
         }
     }
     componentWillMount() {
@@ -54,10 +49,10 @@ class Home extends React.Component {
     }
     componentDidMount() {
         var user = JSON.parse(localStorage.getItem('user'))
-        if (user && user.type == 0) {
+        if (user && user.type === 0) {
             home().then(
                 resp => {
-                    Object.keys(resp.data).map(k=>{
+                    Object.keys(resp.data).forEach(k=>{
                         if(k==="registerDatas"){
                             (resp.data[k]||[]).forEach(r=>{
                                 r.dayNumber = new Date(r.resultValue).getDate();
@@ -66,7 +61,8 @@ class Home extends React.Component {
                         }
                     })
                     this.setState({
-                        data: resp.data
+                        data: resp.data,
+                        loading: false
                     });
                     console.log(resp);
                 }
@@ -139,11 +135,11 @@ class Home extends React.Component {
                     现在是
                     {dateFtt("yyyy-MM-dd hh:mm:ss", new Date()) || '-'}
                     <div style={divStyle}>
-                        <img style={backgroundImg} />
+                        <img style={backgroundImg} alt={'欢迎'+uName} />
                         <div style={container} >
-                            <div style={{ ...containerDiv, ...clockMinuteLine, transform: 'rotateZ(' + minute + 'deg)' }}></div>
-                            <div style={{ ...containerDiv, ...clockHourLine, transform: 'rotateZ(' + hour + 'deg)' }}></div>
-                            <div style={{ ...containerDiv, ...clockSecondLine, transform: 'rotateZ(' + second + 'deg)' }}></div>
+                            <div style={{ ...containerDiv, ...clockMinuteLine, transform: 'rotateZ(' + minute + 'deg)' }} />
+                            <div style={{ ...containerDiv, ...clockHourLine, transform: 'rotateZ(' + hour + 'deg)' }} />
+                            <div style={{ ...containerDiv, ...clockSecondLine, transform: 'rotateZ(' + second + 'deg)' }} />
                         </div>
 
                     </div>
@@ -212,7 +208,7 @@ class Home extends React.Component {
                         </Col>
                     );
                 } else if (dataStyle[k].indexOf("charts" > -1)) {
-                    var datas = this.state.data[k];
+                    var chartsDatas = this.state.data[k];
                     charts.push(
                         <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
                             <div>
@@ -225,7 +221,7 @@ class Home extends React.Component {
                                         {/* <small>最近7天用户访问量</small> */}
                                     </div>
                                     {/* <a className="card-tool"><Icon type="sync" /></a> */}
-                                    {EchartsViews(name, datas, dataStyle[k] === "charts1" ? 1 : 2)}
+                                    {EchartsViews(name, chartsDatas, dataStyle[k] === "charts1" ? 1 : 2)}
                                 </Card>
                             </div>
                         </Col>
@@ -240,7 +236,7 @@ class Home extends React.Component {
     }
     render() {
         var user = JSON.parse(localStorage.getItem('user'))
-        if (!user || user.type != 0) {
+        if (!user || user.type !== 0) {
             return this.getUnPermissionControl(user);
         }
         if (this.state.timerId) {
@@ -248,12 +244,12 @@ class Home extends React.Component {
             this.setState({ timerId: null });
         }
         return (
-            <div>
+            <Spin spinning={this.state.loading} tip="Loading..." size="large" >
                 <BreadcrumbCustom />
                 <Row justify="space-around" align="middle" gutter={16} >
                     {this.getCharts()}
                 </Row>
-            </div>
+            </Spin>
         )
     }
 }

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import { 
-    Row, Popconfirm, Input, Form, 
+    Popconfirm, Input, Form, 
     Icon, BackTop, Button, InputNumber, 
 } from 'antd';
 import { Link } from 'react-router-dom';
@@ -40,9 +40,7 @@ const EditableFormRow = Form.create()(EditableRow);
 class EditableCell extends React.Component {
   getInput = () => {
     if (this.props.inputType === 'number') {
-      return <InputNumber 
-        min={0}
-      />;
+      return <InputNumber min={0} />;
     }
     return <TextArea autosize />;
   };
@@ -151,7 +149,6 @@ class BannerList extends MerchantList {
                       <EditableContext.Consumer>
                         {form => (
                           <a
-                            href="javascript:;"
                             onClick={() => this.save(form, record.key)}
                             style={{ marginRight: 8 }}
                           >
@@ -168,8 +165,7 @@ class BannerList extends MerchantList {
                     </span>
                   ) : (
                       <div>
-                      <Button onClick={() => this.edit(record.key)} 
-                          type="primary" icon="edit" ></Button>
+                      <Button onClick={() => this.edit(record.key)} type="primary" icon="edit" />
                       <Popconfirm
                         title="确认删除吗?"
                         onConfirm={() => this.delete(record)}
@@ -191,7 +187,7 @@ class BannerList extends MerchantList {
             }
             var oldRow;
             for(var i=0;i<this.state.data.length;i++){
-                if (this.state.data[i].key == key){
+                if (this.state.data[i].key === key){
                     oldRow = this.state.data[i];
                     break;
                 }

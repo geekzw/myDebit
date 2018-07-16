@@ -25,7 +25,7 @@ const routes = [{
 }];
 function itemRender(route, params, routes, paths) {
     const last = routes.indexOf(route) === routes.length - 1;
-    if(route.path=='merchantList'&&(JSON.parse(localStorage.getItem('user'))||{}).type==1){
+    if(route.path==='merchantList'&&(JSON.parse(localStorage.getItem('user'))||{}).type===1){
         return last;
     }
     return last ? <span>{route.breadcrumbName}</span> : <Link to={'/'+paths.join('/')}>{route.breadcrumbName}</Link>;
@@ -78,9 +78,7 @@ class MerchantDetail extends MerchantList {
         <div>
             {this.headerInfoArea(this.state.registerCount,this.state.intentCount,this.state.accurateCount)}
             <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
-                <Button type="primary" onClick={this.reload}
-                            disabled={this.state.loading} loading={this.state.loading}
-                    >
+                <Button type="primary" onClick={this.reload} disabled={this.state.loading} loading={this.state.loading} >
                     {this.state.loading ? '正在加载' : '刷新'}
                 </Button>
             </Row>
@@ -107,6 +105,7 @@ class MerchantDetail extends MerchantList {
             title: '是否登录',
             dataIndex: 'isLogin',
             width: 80,
+            // eslint-disable-next-line
             render: (text) => text==1 ? '是' : '否'
         },
         {

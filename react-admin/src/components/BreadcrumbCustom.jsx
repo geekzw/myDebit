@@ -2,7 +2,7 @@
  * Created by hao.cheng on 2017/4/22.
  */
 import React from 'react';
-import { Breadcrumb, Switch, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import themes from '../style/theme';
 
@@ -42,12 +42,12 @@ class BreadcrumbCustom extends React.Component {
         })
     };
     render() {
-        const themesTag = this.state.themes.map((v, i) => (
-            <div className="pull-left y-center mr-m mb-s" key={i}>
-                <i className={`w-24 mr-s b-a ${v.type}`} />
-                <Switch checked={v.checked} onChange={() => this.themeChange(v)} />
-            </div>
-        ));
+        // const themesTag = this.state.themes.map((v, i) => (
+        //     <div className="pull-left y-center mr-m mb-s" key={i}>
+        //         <i className={`w-24 mr-s b-a ${v.type}`} />
+        //         <Switch checked={v.checked} onChange={() => this.themeChange(v)} />
+        //     </div>
+        // ));
         const first = <Breadcrumb.Item>{this.props.first}</Breadcrumb.Item> || '';
         const second = <Breadcrumb.Item>{this.props.second}</Breadcrumb.Item> || '';
         return (

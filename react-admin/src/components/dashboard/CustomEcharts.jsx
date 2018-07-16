@@ -216,7 +216,6 @@ const generateOption = (title,data=[],style=1) => {
     return (style===1 ?
         style1(title,data,data) :
         style2(title,data,data));
-    ;
 }
 
 export const EchartsViews = (title,data,style) => {
