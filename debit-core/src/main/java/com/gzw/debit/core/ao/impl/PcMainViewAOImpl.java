@@ -107,7 +107,7 @@ public class PcMainViewAOImpl implements PcMainViewAO {
         Collections.sort(list, new Comparator<StrIntKeyValue>() {
             @Override
             public int compare(StrIntKeyValue o1, StrIntKeyValue o2) {
-                return o2.getResultValue().compareTo(o1.getResultValue());
+                return o1.getResultValue().compareTo(o2.getResultValue());
             }
         });
 
