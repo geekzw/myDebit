@@ -221,7 +221,6 @@ class RuleSettings extends Component {
                     bordered="false"
                     key={rule.id}
                     hoverable="true"
-                    style={{marginLeft:12}}
                 >
                     <div
                         style={{
@@ -251,7 +250,7 @@ class RuleSettings extends Component {
                                     disabled={this.state.loading} loading={this.state.loading} >
                         {this.state.loading ? '正在加载' : '刷新'}
                     </Button>
-                    <Row justify="space-between" >
+                    <Row justify="space-between" gutter={16} >
                         {this.state.data.length ? this.getRuleList() : <p>暂无规则</p>}
                     </Row>
                     <Pagination 

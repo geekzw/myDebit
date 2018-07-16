@@ -2,18 +2,33 @@
  * Created by hao.cheng on 2017/5/3.
  */
 import React from 'react';
-import { Row, Col, Card, Icon } from 'antd';
+import { Row, Col, Card, Icon, Table } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
-import { CustomEcharts, EchartsViews } from './CustomEcharts';
+import { EchartsViews } from './CustomEcharts';
 import { dateFtt } from '../../axios/tools';
 import { home, notifyPop } from '../../axios';
 
 const keyNames = {
-    'aliveDatas': '日活数据',
-    'merchantRegisterDatas': '商家注册数据',
-    'registerDatas': '用户注册数据',
+    'aliveDatas': '日活量',
+    'merchantRegisterDatas': '商家注册量',
+    'registerDatas': '用户注册量',
+}
+const dataStyle = {
+    'aliveDatas': 'charts2',
+    'merchantRegisterDatas': 'cards',
+    'registerDatas': 'charts1',
+}
+const widthStyle = {
+    'aliveDatas': 12,
+    'merchantRegisterDatas': 24,
+    'registerDatas': 24,
 }
 
+function GetRandomNum(Min, Max) {
+    var Range = Max - Min;
+    var Rand = Math.random();
+    return (Min + Math.round(Rand * Range));
+}
 
 class Home extends React.Component {
     constructor(props) {
@@ -126,24 +141,73 @@ class Home extends React.Component {
     getCharts() {
         var charts = []
         var keys = Object.keys(this.state.data);
-        for(var i=0;i<keys.length;i++){
-            var name = keyNames[keys[i]];
-            charts.push(
-                <Row gutter={10}>
-                    <Col className="gutter-row" >
-                        <div className="gutter-box">
-                            <Card bordered={false}>
-                                <div className="pb-m">
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            var name = keyNames[k];
+            var datas = this.state.data[k];
+            if (dataStyle[k] === "cards") {
+                var columns = [];
+                for (var j = 0; j < datas.length; j++) {
+                    var d = datas[j];
+                    columns.push(
+                        <Col className="gutter-row" md={8}>
+                            <div className="gutter-box">
+                                <Card bordered={false}>
+                                    <div className="clear y-center">
+                                        <div className="pull-left mr-m">
+                                            <Icon type="book" className="text-2x text-danger" />
+                                        </div>
+                                        <div className="clear">
+                                            <div className="text-muted">{d.resultValue}</div>
+                                            <h2>{d.count}</h2>
+                                        </div>
+                                    </div>
+                                </Card>
+                            </div>
+                        </Col>
+                    );
+                }
+                charts.push(
+                    <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
+                        <div>
+                            <Card
+                                bordered={false}
+                                hoverable="true"
+                            >
+                                <div>
                                     <h3>{name}</h3>
                                     {/* <small>最近7天用户访问量</small> */}
                                 </div>
                                 {/* <a className="card-tool"><Icon type="sync" /></a> */}
-                                {EchartsViews(name, this.state.data[keys[i]])}
+                                <div style={{ height: '350px', width: '100%' }} >
+                                    <Row gutter={10}>
+                                        {columns}
+                                    </Row>
+                                </div>
                             </Card>
                         </div>
                     </Col>
-                </Row>
-            );
+                );
+            } else if (dataStyle[k].indexOf("charts" > -1)) {
+                var datas = this.state.data[k];
+                charts.push(
+                    <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
+                        <div>
+                            <Card
+                                bordered={false}
+                                hoverable="true"
+                            >
+                                <div>
+                                    <h3>{name}</h3>
+                                    {/* <small>最近7天用户访问量</small> */}
+                                </div>
+                                {/* <a className="card-tool"><Icon type="sync" /></a> */}
+                                {EchartsViews(name, datas, dataStyle[k] === "charts1" ? 1 : 2)}
+                            </Card>
+                        </div>
+                    </Col>
+                );
+            }
         }
         return charts;
     }
@@ -157,9 +221,11 @@ class Home extends React.Component {
             this.setState({ timerId: null });
         }
         return (
-            <div className="gutter-example button-demo">
+            <div>
                 <BreadcrumbCustom />
-                { this.getCharts() }
+                <Row justify="space-around" align="middle" gutter={16} >
+                    {this.getCharts()}
+                </Row>
             </div>
         )
     }
