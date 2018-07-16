@@ -11,8 +11,8 @@ import { home, notifyPop } from '../../axios';
 const keysSorts = ['registerDatas', 'aliveDatas', 'merchantRegisterDatas'];
 
 const keyNames = {
-    'registerDatas': '用户注册量',
-    'aliveDatas': '日活量',
+    'registerDatas': '用户注册量(近一个月)',
+    'aliveDatas': '日活量(近一个月)',
     'merchantRegisterDatas': '商家注册量',
 }
 const dataStyle = {
@@ -58,10 +58,11 @@ class Home extends React.Component {
             home().then(
                 resp => {
                     Object.keys(resp.data).map(k=>{
-                        var r = resp.data[k];
                         if(k==="registerDatas"){
-                            resp.data[k] = new Date(r.resultValue).getDay();
-                            console.log(resp.data[k]);
+                            (resp.data[k]||[]).forEach(r=>{
+                                r.dayNumber = new Date(r.resultValue).getDate();
+                            })
+                            resp.data[k].barTitle = '注册量'
                         }
                     })
                     this.setState({

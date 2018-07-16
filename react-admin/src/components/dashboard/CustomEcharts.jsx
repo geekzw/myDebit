@@ -14,7 +14,7 @@ import echarts from 'echarts';
 
 const style1 = (title,xData,yData) => ({
     title: {
-        text: title,
+        text: '',
         left: 'center',
         textStyle: {
             color: '#ccc',
@@ -24,7 +24,7 @@ const style1 = (title,xData,yData) => ({
     backgroundColor: '#08263a',
     xAxis: [{
         show: true,
-        data: xData,
+        data: xData.map(r=>(r.dayNumber||r.resultValue)),
         axisLabel: {
             textStyle: {
                 color: '#ccc'
@@ -32,7 +32,7 @@ const style1 = (title,xData,yData) => ({
         }
     }, {
         show: false,
-        data: xData
+        data: xData.map(r=>r.resultValue)
     }],
     tooltip: {},
     visualMap: {
@@ -67,7 +67,7 @@ const style1 = (title,xData,yData) => ({
         {
         name: 'Simulate Shadow',
         type: 'line',
-        data: yData,
+        data: yData.map(r=>r.count),
         z: 2,
         showSymbol: false,
         animationDelay: 0,
@@ -86,9 +86,9 @@ const style1 = (title,xData,yData) => ({
             }
         }
     }, {
-        name: title,
+        name: yData.barTitle,
         type: 'bar',
-        data: yData,
+        data: yData.map(r=>r.count),
         xAxisIndex: 1,
         z: 3,
         itemStyle: {
@@ -134,7 +134,7 @@ const style2 = (title,xData,yData) => ({
     },
     xAxis: {
         type: 'category',
-        data: xData,
+        data: xData.map(r=>(r.dayNumber||r.resultValue)),
         boundaryGap: false,
         splitLine: {
             show: true,
@@ -187,7 +187,7 @@ const style2 = (title,xData,yData) => ({
         showSymbol: false,
         symbol: 'circle',
         symbolSize: 6,
-        data: yData,
+        data: yData.map(r=>r.count),
         areaStyle: {
             normal: {
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
@@ -214,8 +214,8 @@ const style2 = (title,xData,yData) => ({
 
 const generateOption = (title,data=[],style=1) => {
     return (style===1 ?
-        style1(title,data.map(r=>r.dayNumber||r.resultValue),data.map(r=>r.count)) :
-        style2(title,data.map(r=>r.dayNumber||r.resultValue),data.map(r=>r.count)));
+        style1(title,data,data) :
+        style2(title,data,data));
     ;
 }
 
