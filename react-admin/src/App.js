@@ -15,16 +15,19 @@ class App extends Component {
         collapsed: false,
     };
     componentWillMount() {
-        const { receiveData } = this.props;
-        const user = JSON.parse(localStorage.getItem('user'));
-        user && receiveData(user, 'resp');
-        fetchData({funcName: 'login', stateName: 'resp'});
+        
+    }
+    componentDidMount() {
         this.getClientWidth();
         window.onresize = () => {
             console.log('屏幕变化了');
             this.getClientWidth();
             // console.log(document.body.clientWidth);
         }
+        const { receiveData } = this.props;
+        const user = JSON.parse(localStorage.getItem('user'));
+        user && receiveData(user, 'resp');
+        fetchData({funcName: 'login', stateName: 'resp'});
     }
     getClientWidth = () => {    // 获取当前浏览器宽度并设置responsive管理响应式
         const { receiveData } = this.props;

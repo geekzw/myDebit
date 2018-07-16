@@ -53,14 +53,24 @@ class Home extends React.Component {
         });
     }
     componentDidMount() {
-        home().then(
-            resp => {
-                this.setState({
-                    data: resp.data
-                });
-                console.log(resp);
-            }
-        ).catch(err => notifyPop('错误', err, null, null, 'error'));
+        var user = JSON.parse(localStorage.getItem('user'))
+        if (user && user.type == 0) {
+            home().then(
+                resp => {
+                    Object.keys(resp.data).map(k=>{
+                        var r = resp.data[k];
+                        if(k==="registerDatas"){
+                            resp.data[k] = new Date(r.resultValue).getDay();
+                            console.log(resp.data[k]);
+                        }
+                    })
+                    this.setState({
+                        data: resp.data
+                    });
+                    console.log(resp);
+                }
+            ).catch(err => notifyPop('错误', err, null, null, 'error'));
+        }
     }
     getUnPermissionControl(user) {
         var divStyle = {
@@ -140,11 +150,11 @@ class Home extends React.Component {
             </div>
         )
     }
-    toMerchantDetail(id){
-        if(id){
-            this.props.history.push('/app/merchantList/merchantDetail/'+id);
-        }else{
-            notifyPop('错误','找不到id为'+id+'的商家',null,3,'error');
+    toMerchantDetail(id) {
+        if (id) {
+            this.props.history.push('/app/merchantList/merchantDetail/' + id);
+        } else {
+            notifyPop('错误', '找不到id为' + id + '的商家', null, 3, 'error');
         }
     }
     getCharts() {
@@ -162,8 +172,8 @@ class Home extends React.Component {
                     for (var j = 0; j < datas.length; j++) {
                         var d = datas[j];
                         columns.push(
-                            <Col className="gutter-row" md={8} style={{ marginBottom: 8 }}>
-                                <Card.Grid onClick={()=>this.toMerchantDetail(d.merchantId)} className="gutter-box" style={{ width: '100%' }}>
+                            <Col key={j} className="gutter-row" md={8} style={{ marginBottom: 8 }}>
+                                <Card.Grid onClick={() => this.toMerchantDetail(d.merchantId)} className="gutter-box" style={{ width: '100%' }}>
                                     <Card bordered={false}>
                                         <div className="clear y-center">
                                             <div className="pull-left mr-m">

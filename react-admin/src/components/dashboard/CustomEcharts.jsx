@@ -214,8 +214,8 @@ const style2 = (title,xData,yData) => ({
 
 const generateOption = (title,data=[],style=1) => {
     return (style===1 ?
-        style1(title,data.map(r=>r.resultValue),data.map(r=>r.count)) :
-        style2(title,data.map(r=>r.resultValue),data.map(r=>r.count)));
+        style1(title,data.map(r=>r.dayNumber||r.resultValue),data.map(r=>r.count)) :
+        style2(title,data.map(r=>r.dayNumber||r.resultValue),data.map(r=>r.count)));
     ;
 }
 
