@@ -140,6 +140,13 @@ class Home extends React.Component {
             </div>
         )
     }
+    toMerchantDetail(id){
+        if(id){
+            this.props.history.push('/app/merchantList/merchantDetail/'+id);
+        }else{
+            notifyPop('错误','找不到id为'+id+'的商家',null,3,'error');
+        }
+    }
     getCharts() {
         var charts = []
         console.log();
@@ -156,7 +163,7 @@ class Home extends React.Component {
                         var d = datas[j];
                         columns.push(
                             <Col className="gutter-row" md={8} style={{ marginBottom: 8 }}>
-                                <Card.Grid className="gutter-box" style={{ width: '100%' }}>
+                                <Card.Grid onClick={()=>this.toMerchantDetail(d.merchantId)} className="gutter-box" style={{ width: '100%' }}>
                                     <Card bordered={false}>
                                         <div className="clear y-center">
                                             <div className="pull-left mr-m">
