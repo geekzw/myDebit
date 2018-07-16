@@ -42,7 +42,8 @@ class BorrowEditForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            record: props.record
+            record: props.record,
+            isChecking: props.isChecking
         };
     }
     // 属性相关
@@ -63,21 +64,21 @@ class BorrowEditForm extends Component {
     saveFormRef = (form) => {
         this.form = form;
     };
-    save(form, record){
+    save(form, record) {
         form.validateFields((error, row) => {
             if (error) {
                 return;
             }
             var isModify = false;
-            var keys = columns.map(r=>r.dataIndex);
-            for(var i=0;i<keys.length;i++){
-                if (record[keys[i]] != row[keys[i]]){
+            var keys = columns.map(r => r.dataIndex);
+            for (var i = 0; i < keys.length; i++) {
+                if (record[keys[i]] != row[keys[i]]) {
                     isModify = true;
                     break;
                 }
             }
-            if (!isModify){
-                notifyPop('提示','数据无变更',<Icon type="smile-circle" style={{ color: 'blue' }} />);
+            if (!isModify) {
+                notifyPop('提示', '数据无变更', <Icon type="smile-circle" style={{ color: 'blue' }} />);
                 this.setState({ editingKey: '' });
                 return;
             }
@@ -89,28 +90,29 @@ class BorrowEditForm extends Component {
                 resp => {
                     console.log(params);
                     console.log(resp);
-                    notifyPop('提示',resp.success ? '修改成功' : resp.desc);
-                    if (resp.success){
+                    notifyPop('提示', resp.success ? '修改成功' : resp.desc);
+                    if (resp.success) {
                         this.props.finished();
                     }
                 }
-            ).catch(err=>notifyPop('错误',err,<Icon type="frown" />));
+            ).catch(err => notifyPop('错误', err, <Icon type="frown" />));
         });
     }
-    cancel(){
+    cancel() {
         localStorage.removeItem('editingBorrow');
         this.props.finished();
     }
-    textOnChange(key){
+    textOnChange(key) {
         return (e) => {
             var value = e.target ? e.target.value : e;
             var rec = JSON.parse(localStorage.getItem('editingBorrow'));
             rec[key] = value;
-            localStorage.setItem('editingBorrow',JSON.stringify(rec));
+            localStorage.setItem('editingBorrow', JSON.stringify(rec));
         }
     }
     render() {
         const { record } = this.state;
+        var isChecking = this.state.isChecking||false
         var FormArea = Form.create()(
             (props) => {
                 const { form } = props;
@@ -121,27 +123,28 @@ class BorrowEditForm extends Component {
                             columns.map(r => (
                                 <FormItem label={r.title} key={r.dataIndex}>
                                     {
-                                        getFieldDecorator(r.dataIndex, {
+                                        !isChecking ? getFieldDecorator(r.dataIndex, {
                                             rules: [{ required: true, message: '请输入' + r.title + '!' }],
                                             initialValue: record[r.dataIndex],
-                                        })(r.inputType == 'number' ? 
-                                        <InputNumber onChange={this.textOnChange(r.dataIndex)} /> : 
-                                        <TextArea onChange={this.textOnChange(r.dataIndex)} autosize />)
+                                        })(r.inputType == 'number' ?
+                                            <InputNumber onChange={this.textOnChange(r.dataIndex)} /> :
+                                            <TextArea onChange={this.textOnChange(r.dataIndex)} autosize />) :
+                                            (<TextArea defaultValue={record[r.dataIndex]} disabled autosize />)
                                     }
                                 </FormItem>
                             ))
                         }
-
-                        <Button
-                            onClick={() => this.save(form, record)}
-                            style={{ marginRight: 8 }}
-                        >保存</Button>
-                        <Popconfirm
-                            title="放弃修改吗?"
-                            onConfirm={() => this.cancel()}
-                        >
-                            <a>取消</a>
-                        </Popconfirm>
+                        {
+                            !isChecking ? (<div>
+                                <Button onClick={() => this.save(form, record)} style={{ marginRight: 8 }} >保存</Button>
+                                <Popconfirm title="放弃修改吗?" onConfirm={() => this.cancel()}>
+                                    <a>取消</a>
+                                </Popconfirm>
+                            </div>) : (<div>
+                                <Button onClick={() => this.setState({isChecking:false})} style={{ marginRight: 8 }} >编辑</Button>
+                                <Button onClick={() => this.cancel()} style={{ marginRight: 8 }} >返回</Button>
+                                </div>)
+                        }
                     </Form>
                 );
             }
