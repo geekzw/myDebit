@@ -285,12 +285,14 @@ class MerchantList extends React.Component {
         title: '名称',
         dataIndex: 'name',
         width: 200,
-        editable: true
+        editable: true,
+        render: (text,record) => <a onClick={()=>this.toMerchant(record.id)}>{text}</a>
     }, {
         title: '用户名',
         dataIndex: 'username',
         width: 200,
-        editable: true
+        editable: true,
+        render: (text,record) => <a onClick={()=>this.toMerchant(record.id)}>{text}</a>
     },{
         title: '密码',
         dataIndex: 'password',

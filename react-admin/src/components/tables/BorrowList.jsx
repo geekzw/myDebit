@@ -53,6 +53,12 @@ class BorrowList extends MerchantList {
     //         </Row>
     //     </div>
     // );
+    toBorrow(r){
+        this.setState({
+            editingRecord: r,
+            isChecking: true,
+        });
+    }
     finishedEdit = () => {
         this.setState({
             editingRecord: null
@@ -60,8 +66,12 @@ class BorrowList extends MerchantList {
         this.start();
     }
     columns = [
-        { title: 'id', dataIndex: 'id', width: 60 },
-        { title: '产品名称', dataIndex: 'productName', width: 120 },
+        { title: 'id', dataIndex: 'id', width: 60,
+            render: (text,record) => <a onClick={()=>this.toBorrow(record)}>{text}</a>
+        },
+        { title: '产品名称', dataIndex: 'productName', width: 120, 
+            render: (text,record) => <a onClick={()=>this.toBorrow(record)}>{text}</a>
+        },
         // {
         //     title: '跳转链接', dataIndex: 'url', width: 200,
         //     render: (text, record) => (<a href={text} target="_blank" >{text}</a>)
@@ -105,7 +115,8 @@ class BorrowList extends MerchantList {
     edit(record) {
         localStorage.setItem('editingBorrow', JSON.stringify(record));
         this.setState({
-            editingRecord: record
+            editingRecord: record,
+            isChecking: false
         });
     }
     save(form, key) {
@@ -279,7 +290,7 @@ class BorrowList extends MerchantList {
     }
     render() {
         var content = this.state.editingRecord ?
-            <BorrowEditForm record={this.state.editingRecord} finished={this.finishedEdit} /> : this.tableContent()
+            <BorrowEditForm isChecking={this.state.isChecking} record={this.state.editingRecord} finished={this.finishedEdit} /> : this.tableContent()
         return content;
     }
 }
