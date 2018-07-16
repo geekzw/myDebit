@@ -8,6 +8,8 @@ import { EchartsViews } from './CustomEcharts';
 import { dateFtt } from '../../axios/tools';
 import { home, notifyPop } from '../../axios';
 
+const keysSorts = ['registerDatas', 'aliveDatas', 'merchantRegisterDatas'];
+
 const keyNames = {
     'registerDatas': '用户注册量',
     'aliveDatas': '日活量',
@@ -140,75 +142,82 @@ class Home extends React.Component {
     }
     getCharts() {
         var charts = []
-        var keys = Object.keys(this.state.data);
-        for (var i = 0; i < keys.length; i++) {
-            var k = keys[i];
-            var name = keyNames[k];
-            var datas = this.state.data[k];
-            if (dataStyle[k] === "cards") {
-                var columns = [];
-                for (var j = 0; j < datas.length; j++) {
-                    var d = datas[j];
-                    columns.push(
-                        <Col className="gutter-row" md={8} style={{marginBottom: 8}}>
-                            <Card.Grid className="gutter-box" style={{width:'100%'}}>
-                                <Card bordered={false}>
-                                    <div className="clear y-center">
-                                        <div className="pull-left mr-m">
-                                            <Icon type="book" className="text-2x text-danger" />
+        console.log();
+        try {
+            var keys = keysSorts;
+            for (var i = 0; i < keys.length; i++) {
+                var k = keys[i];
+                var name = keyNames[k];
+                var datas = this.state.data[k];
+                console.log(this.state.data);
+                if (dataStyle[k] === "cards") {
+                    var columns = [];
+                    for (var j = 0; j < datas.length; j++) {
+                        var d = datas[j];
+                        columns.push(
+                            <Col className="gutter-row" md={8} style={{ marginBottom: 8 }}>
+                                <Card.Grid className="gutter-box" style={{ width: '100%' }}>
+                                    <Card bordered={false}>
+                                        <div className="clear y-center">
+                                            <div className="pull-left mr-m">
+                                                <Icon type="book" className="text-2x text-danger" />
+                                            </div>
+                                            <div className="clear">
+                                                <div className="text-muted">{d.resultValue}</div>
+                                                <h2>{d.count}</h2>
+                                            </div>
                                         </div>
-                                        <div className="clear">
-                                            <div className="text-muted">{d.resultValue}</div>
-                                            <h2>{d.count}</h2>
-                                        </div>
+                                    </Card>
+                                </Card.Grid>
+                            </Col>
+                        );
+                    }
+                    charts.push(
+                        <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
+                            <div>
+                                <Card
+                                    bordered={false}
+                                    hoverable="true"
+                                >
+                                    <div>
+                                        <h3>{name}</h3>
+                                        {/* <small>最近7天用户访问量</small> */}
+                                    </div>
+                                    {/* <a className="card-tool"><Icon type="sync" /></a> */}
+                                    <div style={{ height: '350px', width: '100%' }} >
+                                        <Row gutter={10}>
+                                            {columns}
+                                        </Row>
                                     </div>
                                 </Card>
-                            </Card.Grid>
+                            </div>
+                        </Col>
+                    );
+                } else if (dataStyle[k].indexOf("charts" > -1)) {
+                    var datas = this.state.data[k];
+                    charts.push(
+                        <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
+                            <div>
+                                <Card
+                                    bordered={false}
+                                    hoverable="true"
+                                >
+                                    <div>
+                                        <h3>{name}</h3>
+                                        {/* <small>最近7天用户访问量</small> */}
+                                    </div>
+                                    {/* <a className="card-tool"><Icon type="sync" /></a> */}
+                                    {EchartsViews(name, datas, dataStyle[k] === "charts1" ? 1 : 2)}
+                                </Card>
+                            </div>
                         </Col>
                     );
                 }
-                charts.push(
-                    <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
-                        <div>
-                            <Card
-                                bordered={false}
-                                hoverable="true"
-                            >
-                                <div>
-                                    <h3>{name}</h3>
-                                    {/* <small>最近7天用户访问量</small> */}
-                                </div>
-                                {/* <a className="card-tool"><Icon type="sync" /></a> */}
-                                <div style={{ height: '350px', width: '100%' }} >
-                                    <Row gutter={10}>
-                                        {columns}
-                                    </Row>
-                                </div>
-                            </Card>
-                        </div>
-                    </Col>
-                );
-            } else if (dataStyle[k].indexOf("charts" > -1)) {
-                var datas = this.state.data[k];
-                charts.push(
-                    <Col md={widthStyle[k]} key={i} style={{ marginBottom: 12 }} >
-                        <div>
-                            <Card
-                                bordered={false}
-                                hoverable="true"
-                            >
-                                <div>
-                                    <h3>{name}</h3>
-                                    {/* <small>最近7天用户访问量</small> */}
-                                </div>
-                                {/* <a className="card-tool"><Icon type="sync" /></a> */}
-                                {EchartsViews(name, datas, dataStyle[k] === "charts1" ? 1 : 2)}
-                            </Card>
-                        </div>
-                    </Col>
-                );
             }
+        } catch (error) {
+            return;
         }
+
         return charts;
     }
     render() {
