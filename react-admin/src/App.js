@@ -50,7 +50,7 @@ class App extends Component {
                         <Routes auth={resp} />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                    React-Admin ©{new Date().getFullYear()} Created by 管家记账
+                    Admin-Dashboard ©{new Date().getFullYear()} Created by 管家记账
                     </Footer>        
                 </Layout>
                 <BackTop target={()=>document.getElementById('rightScroll')} />

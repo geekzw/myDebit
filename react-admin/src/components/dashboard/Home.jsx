@@ -9,9 +9,9 @@ import { dateFtt } from '../../axios/tools';
 import { home, notifyPop } from '../../axios';
 
 const keyNames = {
+    'registerDatas': '用户注册量',
     'aliveDatas': '日活量',
     'merchantRegisterDatas': '商家注册量',
-    'registerDatas': '用户注册量',
 }
 const dataStyle = {
     'aliveDatas': 'charts2',
@@ -19,7 +19,7 @@ const dataStyle = {
     'registerDatas': 'charts1',
 }
 const widthStyle = {
-    'aliveDatas': 12,
+    'aliveDatas': 24,
     'merchantRegisterDatas': 24,
     'registerDatas': 24,
 }
@@ -150,8 +150,8 @@ class Home extends React.Component {
                 for (var j = 0; j < datas.length; j++) {
                     var d = datas[j];
                     columns.push(
-                        <Col className="gutter-row" md={8}>
-                            <div className="gutter-box">
+                        <Col className="gutter-row" md={8} style={{marginBottom: 8}}>
+                            <Card.Grid className="gutter-box" style={{width:'100%'}}>
                                 <Card bordered={false}>
                                     <div className="clear y-center">
                                         <div className="pull-left mr-m">
@@ -163,7 +163,7 @@ class Home extends React.Component {
                                         </div>
                                     </div>
                                 </Card>
-                            </div>
+                            </Card.Grid>
                         </Col>
                     );
                 }
