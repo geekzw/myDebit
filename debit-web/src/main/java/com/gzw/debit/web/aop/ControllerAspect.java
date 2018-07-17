@@ -1,16 +1,19 @@
 package com.gzw.debit.web.aop;
 
+import com.gzw.debit.common.utils.IPUtil;
 import com.gzw.debit.common.utils.SpringContextUtil;
+import com.gzw.debit.core.ao.CacheAO;
+import com.gzw.debit.core.ao.impl.CacheAOImpl;
+import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.RequestLogManager;
 import com.gzw.debit.core.manager.impl.RequestLogManagerImpl;
 import com.gzw.debit.dal.model.RequestLogDO;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.AfterReturning;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -28,11 +31,39 @@ import java.util.Arrays;
 @Aspect
 public class ControllerAspect {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
-    private static final String ExpGetResultDataPoint = "execution(public * com.gzw.debit.web.controller..*.*(..))";
+    private static final String EXPGETRESULTDATAPOINT = "execution(public * com.gzw.debit.web.controller..*.*(..))";
+    private static final String VERSIONCONTROLLER = "execution(public * com.gzw.debit.web.controller.AppMainController.versionStatus(..))";
 
-    @Pointcut(ExpGetResultDataPoint)
+
+    @Autowired
+    private CacheAO cacheAO;
+
+    @Pointcut(EXPGETRESULTDATAPOINT)
     public void executeService(){
 
+    }
+
+    @Pointcut(VERSIONCONTROLLER)
+    public void versionMethod(){
+
+    }
+
+    @Around("versionMethod()")
+    public Object version(ProceedingJoinPoint joinPoint){
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(attributes!=null) {
+            HttpServletRequest request = attributes.getRequest();
+            String address = IPUtil.getIpAddrByRequest(request);
+            boolean isAllow = cacheAO.isIpAllow(address);
+            if(isAllow){
+                try {
+                    return joinPoint.proceed();
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }
+        return BaseResponse.create(false);
     }
 
     @Before("executeService()")
@@ -52,7 +83,7 @@ public class ControllerAspect {
                 logger.info(request.getHeader("devicesType"));
                 logger.info("插入请求日志记录...");
                 RequestLogManager requestLogManager = SpringContextUtil.getBean(RequestLogManagerImpl.class);
-                String address = request.getRemoteAddr();
+                String address = IPUtil.getIpAddrByRequest(request);
                 String url = request.getRequestURI().toString();
                 RequestLogDO requestLogDO = new RequestLogDO();
                 requestLogDO.setAddress(address);
