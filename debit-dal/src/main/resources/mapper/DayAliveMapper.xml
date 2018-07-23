@@ -9,6 +9,7 @@
         <result column="count" jdbcType="INTEGER" property="count" />
         <result column="status" jdbcType="TINYINT" property="status" />
         <result column="alive_date" jdbcType="TIMESTAMP" property="aliveDate" />
+        <result column="packagetype" jdbcType="INTEGER" property="packagetype" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -72,7 +73,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,count,status,alive_date
+        id,gmt_create,gmt_modified,user_id,count,status,alive_date,packagetype
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.DayAliveQuery" resultMap="BaseResultMap">
@@ -125,6 +126,9 @@
             <if test="aliveDate != null">
                 alive_date,
             </if>
+            <if test="packagetype != null">
+                packagetype,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -139,6 +143,9 @@
             </if>
             <if test="aliveDate != null">
                 #{aliveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="packagetype != null">
+                #{packagetype,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -166,6 +173,9 @@
             <if test="record.aliveDate != null">
                 alive_date = #{record.aliveDate,jdbcType=TIMESTAMP},
             </if>
+            <if test="record.packagetype != null">
+                packagetype = #{record.packagetype,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -178,6 +188,7 @@
         count = #{record.count,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         alive_date = #{record.aliveDate,jdbcType=TIMESTAMP},
+        packagetype = #{record.packagetype,jdbcType=INTEGER},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -199,6 +210,9 @@
             </if>
             <if test="aliveDate != null">
                 alive_date = #{aliveDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="packagetype != null">
+                packagetype = #{packagetype,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

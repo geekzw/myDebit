@@ -577,6 +577,76 @@ public class BuryQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andPackagetypeIsNull() {
+            addCriterion("packagetype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeIsNotNull() {
+            addCriterion("packagetype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeEqualTo(Integer value) {
+            addCriterion("packagetype =", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeNotEqualTo(Integer value) {
+            addCriterion("packagetype <>", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeGreaterThan(Integer value) {
+            addCriterion("packagetype >", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("packagetype >=", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeLessThan(Integer value) {
+            addCriterion("packagetype <", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeLessThanOrEqualTo(Integer value) {
+            addCriterion("packagetype <=", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeLike(Integer value) {
+            addCriterion("packagetype like", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeNotLike(Integer value) {
+            addCriterion("packagetype not like", value, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeIn(List<Integer> values) {
+            addCriterion("packagetype in", values, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeNotIn(List<Integer> values) {
+            addCriterion("packagetype not in", values, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeBetween(Integer value1, Integer value2) {
+            addCriterion("packagetype between", value1, value2, "packagetype");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackagetypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("packagetype not between", value1, value2, "packagetype");
+            return (Criteria) this;
+        }
+
     }
 
     /**

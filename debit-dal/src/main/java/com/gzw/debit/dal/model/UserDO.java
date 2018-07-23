@@ -76,4 +76,10 @@ public class UserDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 包类型
+     * debit_user.packagetype
+     */
+    private Integer packagetype;
+
 }

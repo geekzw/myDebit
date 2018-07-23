@@ -58,4 +58,10 @@ public class BuryDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 包类型
+     * debit_bury.packagetype
+     */
+    private Integer packagetype;
+
 }

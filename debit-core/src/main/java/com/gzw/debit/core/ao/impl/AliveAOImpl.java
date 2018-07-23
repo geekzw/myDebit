@@ -1,8 +1,10 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.entry.HeaderEntry;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.utils.SpringContextUtil;
 import com.gzw.debit.common.utils.ThreadPoolExecutorUtil;
+import com.gzw.debit.common.utils.WebSessionUtil;
 import com.gzw.debit.core.ao.AliveAO;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.manager.DayAliveManager;
@@ -29,12 +31,14 @@ public class AliveAOImpl implements AliveAO {
 
     @Override
     public void insertAlive(User user) {
-        ThreadPoolExecutorUtil.getInstence().execute(()->{
 
+        ThreadPoolExecutorUtil.getInstence().execute(()->{
+            HeaderEntry headerEntry = WebSessionUtil.getHeader();
             DayAliveManager dayAliveManager = SpringContextUtil.getBean(DayAliveManager.class);
             DayAliveQuery query = new DayAliveQuery();
             query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
                     .andUserIdEqualTo(user.getUserId())
+                    .andPackagetypeEqualTo(headerEntry.getPackageType())
                     .andGmtCreateGreaterThanOrEqualTo(DateUtil.getToday0Time())
                     .andGmtCreateLessThanOrEqualTo(DateUtil.getTodayLastTime());
 
@@ -43,6 +47,7 @@ public class AliveAOImpl implements AliveAO {
                 DayAliveDO dayAliveDO = new DayAliveDO();
                 dayAliveDO.setUserId(user.getUserId());
                 dayAliveDO.setCount(1);
+                dayAliveDO.setPackagetype(headerEntry.getPackageType());
                 LocalDate date = LocalDate.now();
                 dayAliveDO.setAliveDate(date);
                 long col = dayAliveManager.insertSelective(dayAliveDO);
