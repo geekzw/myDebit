@@ -1,6 +1,7 @@
 package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.common.annotation.Auth;
+import com.gzw.debit.common.entry.HeaderEntry;
 import com.gzw.debit.common.entry.User;
 import com.gzw.debit.common.utils.PhoneFormatCheckUtil;
 import com.gzw.debit.common.utils.WebSessionUtil;
@@ -56,7 +57,7 @@ public class UserAOImpl implements UserAO {
 
     @Override
     public BaseResponse<String> login(LoginForm form, HttpServletRequest request) {
-
+        HeaderEntry header = WebSessionUtil.getHeader();
         if(StringUtil.isEmpty(form.getUsername())){
             return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
         }
@@ -105,7 +106,7 @@ public class UserAOImpl implements UserAO {
 
         LoginLogDO loginLogDO = new LoginLogDO();
         loginLogDO.setUserId(userDO.getId());
-        loginLogDO.setFromWhere(WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType());
+        loginLogDO.setFromWhere(header.getDeviceType() == null?1:header.getDeviceType());
         long col = loginLogManager.insertSelective(loginLogDO);
         if(col < 1){
             logger.error("登录日志插入失败，userid：{}",userDO.getId());
@@ -117,6 +118,7 @@ public class UserAOImpl implements UserAO {
 
     @Override
     public BaseResponse<Boolean> register(LoginForm form) {
+        HeaderEntry header = WebSessionUtil.getHeader();
         if(StringUtil.isEmpty(form.getUsername())){
             return BaseResponse.create(Const.PARAMS_ERROR,"用户名不能为空");
         }
@@ -138,7 +140,8 @@ public class UserAOImpl implements UserAO {
             UserDO userDO = new UserDO();
             userDO.setUsername(form.getUsername());
             userDO.setPassword(form.getPassword());
-            userDO.setFromWhere((WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType()));
+            userDO.setFromWhere((header.getDeviceType() == null?1:header.getDeviceType()));
+            userDO.setPackagetype((header.getPackageType() == null?1:header.getPackageType()));
             if(form.getChannelId()!=null){
                 userDO.setChannelId(form.getChannelId());
             }
@@ -157,7 +160,8 @@ public class UserAOImpl implements UserAO {
         UserDO userDO = new UserDO();
         userDO.setUsername(form.getUsername());
         userDO.setPassword(form.getPassword());
-        userDO.setFromWhere((WebSessionUtil.getDevicesType() == null?1:WebSessionUtil.getDevicesType()));
+        userDO.setFromWhere((header.getDeviceType() == null?1:header.getDeviceType()));
+        userDO.setPackagetype((header.getPackageType() == null?1:header.getPackageType()));
         if(form.getChannelId()!=null){
             userDO.setChannelId(form.getChannelId());
         }

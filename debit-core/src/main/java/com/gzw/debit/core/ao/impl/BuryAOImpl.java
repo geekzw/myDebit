@@ -1,12 +1,15 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.entry.HeaderEntry;
 import com.gzw.debit.common.entry.User;
+import com.gzw.debit.common.utils.WebSessionUtil;
 import com.gzw.debit.core.ao.BuryAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.BuryForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.BuryManager;
+import com.gzw.debit.core.utils.DateUtil;
 import com.gzw.debit.core.utils.UserUtil;
 import com.gzw.debit.dal.model.BuryDO;
 import com.gzw.debit.dal.query.BuryQuery;
@@ -34,6 +37,7 @@ public class BuryAOImpl implements BuryAO{
 
     @Override
     public BaseResponse<Boolean> insertBury(BuryForm form) {
+        HeaderEntry header = WebSessionUtil.getHeader();
         User user = UserUtil.getUser();
         if(user == null){
             logger.error("找不到登录信息");
@@ -45,13 +49,20 @@ public class BuryAOImpl implements BuryAO{
         }
 
         BuryQuery query = new BuryQuery();
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode());
+        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andUserIdEqualTo(user.getUserId())
+                .andProductIdEqualTo(form.getProductId())
+                .andPackagetypeEqualTo(header.getPackageType())
+                .andGmtCreateGreaterThanOrEqualTo(DateUtil.getToday0Time())
+                .andGmtCreateLessThanOrEqualTo(DateUtil.getTodayLastTime());
         List<BuryDO> buryDOS = buryManager.selectByQuery(query);
         BuryDO buryDO;
         int type = form.getType() == null?1:form.getType();
         if(CollectionUtils.isEmpty(buryDOS)){
             buryDO = new BuryDO();
             buryDO.setUserId(user.getUserId());
+            buryDO.setProductId(form.getProductId());
+            buryDO.setPackagetype(header.getPackageType());
             if(type == 1){
                 buryDO.setListCount(1);
             }else{

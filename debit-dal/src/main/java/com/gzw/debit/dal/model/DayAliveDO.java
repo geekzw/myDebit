@@ -52,4 +52,10 @@ public class DayAliveDO implements Serializable {
      */
     private LocalDate aliveDate;
 
+    /**
+     * 包类型
+     * debit_day_alive.packagetype
+     */
+    private Integer packagetype;
+
 }

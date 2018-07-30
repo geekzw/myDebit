@@ -15,6 +15,7 @@ import java.util.List;
  */
 public interface BannerAO {
 
+
     /**
      * 获取banner列表
      * @param form

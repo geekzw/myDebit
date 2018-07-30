@@ -48,7 +48,7 @@ public class ControllerAspect {
 
     }
 
-    @Around("versionMethod()")
+//    @Around("versionMethod()")
     public Object version(ProceedingJoinPoint joinPoint){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if(attributes!=null) {
