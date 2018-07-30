@@ -32,14 +32,8 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        if(!registry.hasMappingForPattern("/**")){
-            registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-        }
-        if(!registry.hasMappingForPattern("/app/**")){
-            registry.addResourceHandler("/app/**").addResourceLocations("classpath:/static/app/");
-        }
-        if(!registry.hasMappingForPattern("/admin/**")){
-            registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/admin/");
-        }
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/","classpath:/static/admin/");
+        registry.addResourceHandler("/app/**").addResourceLocations("classpath:/static/app/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/admin/");
     }
 }
