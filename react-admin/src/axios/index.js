@@ -48,7 +48,7 @@ export const notifyPop = (title,desc,icon,duration=4.5,type) => {
       });
 };
 
-const baseURL = 'http://localhost:8080';
+const baseURL = '';
 
 // 接口
 // 登录
