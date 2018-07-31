@@ -44,6 +44,10 @@ public class BorrowListVO implements Serializable{
      * 产品介绍
      */
     private String productDetail;
+    /**
+     * 跳转url
+     */
+    private String url;
 
 
 
