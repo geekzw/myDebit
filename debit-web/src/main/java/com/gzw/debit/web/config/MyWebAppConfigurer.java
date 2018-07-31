@@ -4,6 +4,7 @@ import com.gzw.debit.web.interceptor.LoginInterceptor;
 import com.gzw.debit.web.interceptor.SmsInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.ArrayList;
@@ -27,5 +28,12 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
         registry.addInterceptor(new SmsInterceptor())
                 .addPathPatterns("/getSmsCode.json");
 
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/","classpath:/static/admin/");
+        registry.addResourceHandler("/app/**").addResourceLocations("classpath:/static/app/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/admin/");
     }
 }
