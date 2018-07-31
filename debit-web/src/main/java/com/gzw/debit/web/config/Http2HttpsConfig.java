@@ -59,7 +59,7 @@ public class Http2HttpsConfig {
     }
 
     private Connector createHttpConnector() {
-        Integer port = 8899;
+        Integer port = 8080;
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
         connector.setScheme("http");
         connector.setPort(port);
