@@ -9,6 +9,7 @@
         <result column="from_where" jdbcType="INTEGER" property="fromWhere" />
         <result column="open_online" jdbcType="TINYINT" property="openOnline" />
         <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="package_type" jdbcType="INTEGER" property="packageType" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -72,7 +73,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,version,from_where,open_online,status
+        id,gmt_create,gmt_modified,version,from_where,open_online,status,package_type
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.VersionSwitchQuery" resultMap="BaseResultMap">
@@ -125,6 +126,9 @@
             <if test="status != null">
                 status,
             </if>
+            <if test="packageType != null">
+                package_type,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -139,6 +143,9 @@
             </if>
             <if test="status != null">
                 #{status,jdbcType=TINYINT},
+            </if>
+            <if test="packageType != null">
+                #{packageType,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -166,6 +173,9 @@
             <if test="record.status != null">
                 status = #{record.status,jdbcType=TINYINT},
             </if>
+            <if test="record.packageType != null">
+                package_type = #{record.packageType,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -178,6 +188,7 @@
         from_where = #{record.fromWhere,jdbcType=INTEGER},
         open_online = #{record.openOnline,jdbcType=TINYINT},
         status = #{record.status,jdbcType=TINYINT},
+        package_type = #{record.packageType,jdbcType=INTEGER},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -199,6 +210,9 @@
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="packageType != null">
+                package_type = #{packageType,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

@@ -17,6 +17,8 @@ import java.util.*;
 @Data
 public class BannerVO implements Serializable{
 
+//    private static final long serialVersionUID = 1113799434508676094L;
+
     /**
      * banner_id
      */

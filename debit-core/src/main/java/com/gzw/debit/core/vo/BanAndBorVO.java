@@ -14,6 +14,8 @@ import java.util.List;
 @Data
 public class BanAndBorVO implements Serializable{
 
+//    private static final long serialVersionUID = 1113799434508676095L;
+
     private List<BannerVO> bannerVOList;
 
     private List<BorrowListVO> borrowVOList;
