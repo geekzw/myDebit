@@ -14,8 +14,11 @@
     <!--Tool Button-->
     <style>
         .tool{
+            text-decoration: none;
+            text-align: center;
             background: #fff;
-            width: 32px;
+            cursor: pointer;
+            width: 120px;
             height: 28px;
             position: fixed;
             bottom: 44px;
@@ -38,35 +41,14 @@
             padding: 0 0;
         }
     </style>
-    <!--Dialog Style-->
-    <link rel="stylesheet" type="text/css" href="css/dialog.css">
 </head>
 <body>
 
 <div class="slider"></div>
 <div id="product-list" class="list"></div>
-<div id="menu-button" class="tool"><p></p><p></p><p></p></div>
-<!-- 弹窗内容开始 -->
-<div id="dialog-background" class="back">
-    <div id="div1" class="content">
-        <div id="close">
-            <span id="close-button">×</span>
-            <p class="title">登录</p>
-        </div>
-        <div id="div2">
-            <table>
-                <tr><td>用户名:</td></tr><tr><td><input id="username" type="text"/></td></tr>
-                <tr><td>密码:</td></tr><tr><td><input id="password" type="password"></td></tr>
-                <tr><td><a href="../register.html">还没有账户,去注册</a></td></tr>
-            </table>
-        </div>
-        <div id="foot" class="desc">登录</div>
-    </div>
-</div>
-<!-- 弹窗内容结束 -->
+<a id="menu-button" class="tool" href="register.html">马上注册/登录</a>
 
 <script type="text/javascript">
-    function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
     function getCookie(c_name){if(document.cookie.length>0){c_start=document.cookie.indexOf(c_name + "=");if(c_start!=-1){c_start=c_start + c_name.length+1;c_end=document.cookie.indexOf(";",c_start);if(c_end==-1)c_end=document.cookie.length;return unescape(document.cookie.substring(c_start,c_end));}}return "";}
     var sliderOptions = {
         auto: true,
@@ -119,40 +101,8 @@
             }
         });
     }
-    var div = document.getElementById('dialog-background');
-    function closePress(){div.style.display = "none";}
     $(document).ready(function(){
         reloadList();
-        $('#menu-button').click(function (){div.style.display = "block";});
-        var close = document.getElementById('close-button');
-        close.onclick = closePress;
-        foot.onclick = function () {
-            var username = $('#username').val();
-            var password = $('#password').val();
-            $.ajax({
-                url: '/login.json',
-                method: 'POST',
-                dataType: 'json',
-                contentType: 'application/json',
-                headers : {'devicesType':3},
-                data: JSON.stringify({username:username,password:password}),
-                success: (resp)=>{
-                    console.log(resp.data)
-                    if(resp.data){
-                        console.log('登录完成');
-                        var sessionId = resp.data;
-                        setCookie("sessionId",sessionId);
-                        closePress();
-                        reloadList();
-                    }
-                }
-            });
-        };
-        window.onclick = function close(e) {
-            if (e.target == div) {
-                div.style.display = "none";
-            }
-        };
     });
 </script>
 

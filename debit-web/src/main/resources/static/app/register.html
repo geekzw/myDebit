@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>管家记账 - 登录、注册</title>
+    <meta charset="utf-8">
+    <link href="css/style.css" rel='stylesheet' type='text/css'/>
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+    <!--webfonts-->
+    <!--//webfonts-->
+</head>
+<body>
+<div class="main">
+    <div class="header">
+        <h1>登录或注册用户</h1>
+    </div>
+    <p><a href="#login-form">已经拥有账户？请登录. </a></p>
+    <form>
+        <ul class="left-form">
+            <h2>新用户注册:</h2>
+            <li>
+                <input id="username" type="text" placeholder="手机号" required/>
+                <!--<a href="#" class="icon ticker"> </a>-->
+                <div class="clear"></div>
+            </li>
+            <span id="code-mind" style="display: none;color: #f65;"></span>
+            <input id="code-button" type="submit" onClick="getCode()" value="获取验证码">
+            <li>
+                <input type="password" placeholder="密码" required/>
+                <!--<a href="#" class="icon into"> </a>-->
+                <div class="clear"></div>
+            </li>
+            <li>
+                <input type="text" placeholder="请输入验证码" required/>
+                <div class="clear"></div>
+            </li>
+            <span id="register-mind" style="display: none;color: #f65;"></span>
+            <input type="submit" onClick="register()" value="注册新用户">
+            <div class="clear"></div>
+        </ul>
+    </form>
+    <form id="login-form">
+        <ul class="right-form">
+            <h3>登录:</h3>
+            <div>
+                <li><input id="login-username" type="text" placeholder="用户名" required/></li>
+                <li><input id="login-password" type="password" placeholder="密码" required/></li>
+                <label class="checkbox"><input type="checkbox" name="checkbox" checked><i> </i>记住我</label>
+                <span id="login-mind" style="display: none;color: #f65;"></span>
+                <input type="submit" onClick="login()" value="登录">
+            </div>
+            <div class="clear"></div>
+        </ul>
+        <div class="clear"></div>
+
+    </form>
+
+</div>
+<!-----start-copyright---->
+<div class="copy-right">
+    <p>管家记账@2018</p>
+</div>
+<!-----//end-copyright---->
+<script>
+    function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
+    function getCookie(c_name){if(document.cookie.length>0){c_start=document.cookie.indexOf(c_name + "=");if(c_start!=-1){c_start=c_start + c_name.length+1;c_end=document.cookie.indexOf(";",c_start);if(c_end==-1)c_end=document.cookie.length;return unescape(document.cookie.substring(c_start,c_end));}}return "";}
+    function login(){
+        var username = $('#login-username').val();
+        var password = $('#login-password').val();
+        $.ajax({
+            url: '/login.json',
+            method: 'POST', dataType: 'json', contentType: 'application/json',
+            headers : {'devicesType':3},
+            data: JSON.stringify({username:username,password:password}),
+            success: (resp)=>{
+                console.log(resp);
+                if(resp.code != 0){
+                    $("#login-mind").css('display','block');
+                    $("#login-mind").html("错误:"+resp.desc);
+                }
+                if(resp.data){
+                    console.log('登录完成');
+                    var sessionId = resp.data;
+                    setCookie("sessionId",sessionId);
+                    window.location.href = "index.html";
+                }
+            },
+            failed: (err)=>console.log(err)
+        });
+    }
+    function register(){
+
+    }
+    function getCode(){
+        var username = $('#username').val();
+        if(!username){ alert("请输入手机号"); return; }
+        console.log("register:"+username);
+        $.ajax({
+            url: "/getSmsCode.json?username="+username,
+            success: (resp)=>{
+                console.log(resp);
+                if(resp && resp.code==0){
+                    setCookie("lastCodeTime",new Date().getTime());
+                    codeButtonStep(60)
+                }
+            }
+        });
+    }
+    function codeButtonStep(time) {
+        if(time>=1){
+            $('#code-button').val(time+"秒后才能获取");
+            setTimeout(()=>codeButtonStep(time-1),1000);
+            $('#code-button').addClass("disable");
+            $('#code-button').attr('disabled',true);
+        }else{
+            $('#code-button').val("获取验证码");
+            $('#code-button').removeClass("disable");
+            $('#code-button').attr('disabled',null);
+        }
+    }
+    $(document).ready(function() {
+        var lastCodeTime = getCookie("lastCodeTime");
+        if(lastCodeTime){
+            var delTime = 60 - (new Date().getTime() - lastCodeTime)/1000;
+            codeButtonStep(parseInt(delTime));
+        }
+    });
+</script>
+
+</body>
+</html>
