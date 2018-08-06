@@ -20,28 +20,30 @@
     <div class="header">
         <h1>登录或注册用户</h1>
     </div>
-    <p><a href="#login-form">已经拥有账户？请登录. </a></p>
+    <!--<p><a href="#login-form">已经拥有账户？请登录. </a></p>-->
+    <p><a href="index.html">返回主页</a></p>
     <form>
         <ul class="left-form">
             <h2>新用户注册:</h2>
             <li>
-                <input id="username" type="text" placeholder="手机号" required/>
+                <input id="username" style="width: unset;" type="text" placeholder="手机号" required/>
                 <!--<a href="#" class="icon ticker"> </a>-->
+                <input id="code-button" style="float: right;margin: auto;" type="button" onClick="getCode()" value="获取验证码">
                 <div class="clear"></div>
             </li>
             <span id="code-mind" style="display: none;color: #f65;"></span>
-            <input id="code-button" type="submit" onClick="getCode()" value="获取验证码">
+            <a id="code-icon" style="display: none" href="#" class="icon ticker"> </a>
             <li>
-                <input type="password" placeholder="密码" required/>
+                <input id="password" type="password" placeholder="密码" required/>
                 <!--<a href="#" class="icon into"> </a>-->
                 <div class="clear"></div>
             </li>
             <li>
-                <input type="text" placeholder="请输入验证码" required/>
+                <input id="verify-code" type="text" onchange="codeChange(this)" placeholder="请输入验证码" required/>
                 <div class="clear"></div>
             </li>
             <span id="register-mind" style="display: none;color: #f65;"></span>
-            <input type="submit" onClick="register()" value="注册新用户">
+            <input type="button" onClick="register()" value="注册新用户">
             <div class="clear"></div>
         </ul>
     </form>
@@ -53,7 +55,7 @@
                 <li><input id="login-password" type="password" placeholder="密码" required/></li>
                 <label class="checkbox"><input type="checkbox" name="checkbox" checked><i> </i>记住我</label>
                 <span id="login-mind" style="display: none;color: #f65;"></span>
-                <input type="submit" onClick="login()" value="登录">
+                <input type="button" onClick="login()" value="登录">
             </div>
             <div class="clear"></div>
         </ul>
@@ -68,6 +70,9 @@
 </div>
 <!-----//end-copyright---->
 <script>
+    var registerData = {
+
+    };
     function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
     function getCookie(c_name){if(document.cookie.length>0){c_start=document.cookie.indexOf(c_name + "=");if(c_start!=-1){c_start=c_start + c_name.length+1;c_end=document.cookie.indexOf(";",c_start);if(c_end==-1)c_end=document.cookie.length;return unescape(document.cookie.substring(c_start,c_end));}}return "";}
     function login(){
@@ -80,7 +85,7 @@
             data: JSON.stringify({username:username,password:password}),
             success: (resp)=>{
                 console.log(resp);
-                if(resp.code != 0){
+                if(resp.code != 1000){
                     $("#login-mind").css('display','block');
                     $("#login-mind").html("错误:"+resp.desc);
                 }
@@ -93,24 +98,79 @@
             },
             failed: (err)=>console.log(err)
         });
+        return false;
     }
     function register(){
-
+        var engChi = {}
+        engChi.username = "手机号";
+        engChi.password = "密码";
+        engChi.verifyCode = "验证码";
+        var registerModel = {};
+        registerModel.username = $('#username').val();
+        registerModel.password = $('#password').val();
+        registerModel.verifyCode = $('#verify-code').val();
+        registerModel.devicesType = 3;
+        registerModel.channelId = "0";
+        var keys = Object.keys(registerModel);
+        for(var i=0;i<keys.length;i++){
+            var v = registerModel[keys[i]];
+            if(!v || v==""){
+                alert(engChi[keys[i]]+"不能为空");
+                return false;
+            }
+        }
+        $.ajax({
+            url: "/register.json",
+            method: 'POST', dataType: 'json', contentType: 'application/json',
+            data: JSON.stringify(registerModel),
+            success: (resp)=>{
+                console.log(resp);
+                if(resp){
+                    if(resp.code==1000){
+                        setCookie("lastCodeTime",new Date().getTime());
+                        codeButtonStep(600)
+                    }else{
+                        if(resp.code != 1000){
+                            $("#register-mind").css('display','block');
+                            $("#register-mind").html("错误:"+resp.desc);
+                        }
+                    }
+                }
+            }
+        });
+        return false;
+    }
+    function codeChange(e){
+        $('#code-icon').removeClass('ticker');
+        $('#code-icon').removeClass('ticker');
     }
     function getCode(){
+        $("#code-mind").css('display','none');
+        $("#code-mind").html("");
         var username = $('#username').val();
         if(!username){ alert("请输入手机号"); return; }
         console.log("register:"+username);
         $.ajax({
-            url: "/getSmsCode.json?username="+username,
+            url: "/getSmsCode.json?phone="+username,
+            dataType: 'json', contentType: 'application/json',
             success: (resp)=>{
                 console.log(resp);
-                if(resp && resp.code==0){
-                    setCookie("lastCodeTime",new Date().getTime());
-                    codeButtonStep(60)
+                if(resp){
+                    if(resp.code==1000){
+                        $("#code-mind").css('display','block');
+                        $("#code-mind").html("验证码已发送，请查收");
+                        setCookie("lastCodeTime",new Date().getTime());
+                        codeButtonStep(600)
+                    }else{
+                        if(resp.code != 1000){
+                            $("#code-mind").css('display','block');
+                            $("#code-mind").html("错误:"+resp.desc);
+                        }
+                    }
                 }
             }
         });
+        return false;
     }
     function codeButtonStep(time) {
         if(time>=1){
