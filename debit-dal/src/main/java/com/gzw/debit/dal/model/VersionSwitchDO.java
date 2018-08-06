@@ -52,4 +52,10 @@ public class VersionSwitchDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 包类型
+     * version_switch.package_type
+     */
+    private Integer packageType;
+
 }

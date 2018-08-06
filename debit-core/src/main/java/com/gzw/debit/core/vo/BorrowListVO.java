@@ -19,6 +19,8 @@ import java.util.List;
 @Data
 public class BorrowListVO implements Serializable{
 
+//    private static final long serialVersionUID = 1113799434508676093L;
+
     /**
      * borrow_id
      */

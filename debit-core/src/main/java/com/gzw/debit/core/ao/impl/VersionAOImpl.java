@@ -1,5 +1,7 @@
 package com.gzw.debit.core.ao.impl;
 
+import com.gzw.debit.common.entry.HeaderEntry;
+import com.gzw.debit.common.utils.WebSessionUtil;
 import com.gzw.debit.core.ao.VersionAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
@@ -33,16 +35,20 @@ public class VersionAOImpl implements VersionAO {
 
     @Override
     public BaseResponse<Boolean> getVersionStatus(VersionForm version) {
-
+        HeaderEntry headerEntry = WebSessionUtil.getHeader();
         if(version.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"版本号不能为空");
         }
-        if(version.getDevicesType() == null){
+        if(headerEntry.getDeviceType() == null){
             version.setDevicesType(1);
+        }
+        if(headerEntry.getPackageType() == null){
+            headerEntry.setPackageType(1);
         }
         VersionSwitchQuery query = new VersionSwitchQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andFromWhereEqualTo(version.getDevicesType())
+                .andFromWhereEqualTo(headerEntry.getDeviceType())
+                .andPackageTypeEqualTo(headerEntry.getPackageType())
                 .andVersionEqualTo(version.getId());
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
