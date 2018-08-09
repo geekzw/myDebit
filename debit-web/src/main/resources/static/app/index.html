@@ -59,6 +59,9 @@
         }
         window.location.href = "register.html";
     }
+    function loginMind(){
+        alert("请先登录！");
+    }
     var sliderOptions = {
         auto: true,
         pause: 3000,
@@ -78,8 +81,11 @@
                     var imgStr = '';
                     for(var i=0;i<bannerList.length;i++){
                         var item = bannerList[i];
-                        if(!logined){item.url = "";}
-                        imgStr += '<a class="slide" href="'+item.url+'" target="_blank"><img src="'+item.image+'"></a>';
+                        if(!logined){
+                            imgStr += '<a class="slide" onclick="loginMind()" href="#"><img src="'+item.image+'"></a>';
+                        }else{
+                            imgStr += '<a class="slide" href="'+item.url+'" target="_blank"><img src="'+item.image+'"></a>';
+                        }
                     }
                     $('.slider').html(imgStr);
                     slider && slider.destroySlider();
