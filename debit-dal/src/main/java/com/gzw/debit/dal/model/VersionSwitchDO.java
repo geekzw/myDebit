@@ -17,10 +17,10 @@ public class VersionSwitchDO implements Serializable {
     private Long id;
 
     /**
-     * 版本号
+     * app版本号
      * version_switch.version
      */
-    private Integer version;
+    private String version;
 
     /**
      * 来源：1android 2ios

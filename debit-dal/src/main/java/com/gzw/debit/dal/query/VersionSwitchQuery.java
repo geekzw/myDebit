@@ -237,62 +237,62 @@ public class VersionSwitchQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andVersionEqualTo(Integer value) {
+        public Criteria andVersionEqualTo(String value) {
             addCriterion("version =", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotEqualTo(Integer value) {
+        public Criteria andVersionNotEqualTo(String value) {
             addCriterion("version <>", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThan(Integer value) {
+        public Criteria andVersionGreaterThan(String value) {
             addCriterion("version >", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionGreaterThanOrEqualTo(Integer value) {
+        public Criteria andVersionGreaterThanOrEqualTo(String value) {
             addCriterion("version >=", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThan(Integer value) {
+        public Criteria andVersionLessThan(String value) {
             addCriterion("version <", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLessThanOrEqualTo(Integer value) {
+        public Criteria andVersionLessThanOrEqualTo(String value) {
             addCriterion("version <=", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionLike(Integer value) {
+        public Criteria andVersionLike(String value) {
             addCriterion("version like", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotLike(Integer value) {
+        public Criteria andVersionNotLike(String value) {
             addCriterion("version not like", value, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionIn(List<Integer> values) {
+        public Criteria andVersionIn(List<String> values) {
             addCriterion("version in", values, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotIn(List<Integer> values) {
+        public Criteria andVersionNotIn(List<String> values) {
             addCriterion("version not in", values, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionBetween(Integer value1, Integer value2) {
+        public Criteria andVersionBetween(String value1, String value2) {
             addCriterion("version between", value1, value2, "version");
             return (Criteria) this;
         }
 
-        public Criteria andVersionNotBetween(Integer value1, Integer value2) {
+        public Criteria andVersionNotBetween(String value1, String value2) {
             addCriterion("version not between", value1, value2, "version");
             return (Criteria) this;
         }

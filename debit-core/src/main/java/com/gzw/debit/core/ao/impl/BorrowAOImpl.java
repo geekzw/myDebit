@@ -12,6 +12,7 @@ import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.BorrowDO;
 import com.gzw.debit.dal.query.BorrowQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -61,6 +62,7 @@ public class BorrowAOImpl implements BorrowAO {
     }
 
     @Override
+    @CacheEvict(value = "MainData",key = "1")
     public BaseResponse<Boolean> editBanner(EditBorrowForm form) {
 
         if(form.getId() == null){
@@ -155,6 +157,7 @@ public class BorrowAOImpl implements BorrowAO {
     }
 
     @Override
+    @CacheEvict(value = "MainData",key = "1")
     public BaseResponse<Boolean> deleteBanner(EditBorrowForm form) {
 
         if(form.getId() == null){

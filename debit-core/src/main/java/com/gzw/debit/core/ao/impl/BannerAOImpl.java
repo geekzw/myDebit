@@ -12,6 +12,7 @@ import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.query.BannerQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -60,6 +61,7 @@ public class BannerAOImpl implements BannerAO {
     }
 
     @Override
+    @CacheEvict(value = "MainData",key = "1")
     public BaseResponse<Boolean> editBanner(EditBannerForm form) {
 
         if(form.getId() == null){
@@ -102,6 +104,7 @@ public class BannerAOImpl implements BannerAO {
     }
 
     @Override
+    @CacheEvict(value = "MainData",key = "1")
     public BaseResponse<Boolean> deleteBanner(EditBannerForm form) {
         if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"bannerId不能为空");

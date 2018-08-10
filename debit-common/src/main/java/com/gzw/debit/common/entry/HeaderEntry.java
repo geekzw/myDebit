@@ -16,4 +16,6 @@ public class HeaderEntry {
     private Integer deviceType;
 
     private Integer packageType;
+
+    private String version;
 }

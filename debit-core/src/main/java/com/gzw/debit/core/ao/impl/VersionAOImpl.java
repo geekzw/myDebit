@@ -34,26 +34,38 @@ public class VersionAOImpl implements VersionAO {
     private VersionSwitchManager switchManager;
 
     @Override
-    public BaseResponse<Boolean> getVersionStatus(VersionForm version) {
+    public BaseResponse<Boolean> getVersionStatus(VersionForm form) {
         HeaderEntry headerEntry = WebSessionUtil.getHeader();
-        if(version.getId() == null){
+        if(form.getId() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"版本号不能为空");
         }
         if(headerEntry.getDeviceType() == null){
-            version.setDevicesType(1);
+            form.setDevicesType(1);
         }
         if(headerEntry.getPackageType() == null){
             headerEntry.setPackageType(1);
         }
         VersionSwitchQuery query = new VersionSwitchQuery();
-        query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                .andFromWhereEqualTo(headerEntry.getDeviceType())
-                .andPackageTypeEqualTo(headerEntry.getPackageType())
-                .andVersionEqualTo(version.getId());
+        String version = headerEntry.getVersion();
+        if(!"9999".equals(version)){
+            VersionSwitchQuery.Criteria criteria = query.createCriteria();
+            criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                    .andFromWhereEqualTo(headerEntry.getDeviceType())
+                    .andPackageTypeEqualTo(headerEntry.getPackageType())
+                    .andVersionEqualTo(version);
+        }else{
+            VersionSwitchQuery.Criteria criteria = query.createCriteria();
+            criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                    .andFromWhereEqualTo(headerEntry.getDeviceType())
+                    .andPackageTypeEqualTo(headerEntry.getPackageType())
+                    .andVersionEqualTo(form.getId()+"");
+        }
+
+
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(switchDOS)){
-            logger.error("找不到对应版本号 version:{}, deviceType:{}",version.getId(),version.getDevicesType());
+            logger.error("找不到对应版本号 version:{}, deviceType:{}",form.getId(),form.getDevicesType());
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应版本号");
         }
         VersionSwitchDO switchDO = switchDOS.get(0);

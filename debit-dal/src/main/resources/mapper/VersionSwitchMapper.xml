@@ -5,7 +5,7 @@
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
         <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
-        <result column="version" jdbcType="INTEGER" property="version" />
+        <result column="version" jdbcType="VARCHAR" property="version" />
         <result column="from_where" jdbcType="INTEGER" property="fromWhere" />
         <result column="open_online" jdbcType="TINYINT" property="openOnline" />
         <result column="status" jdbcType="TINYINT" property="status" />
@@ -133,7 +133,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
             <if test="version != null">
-                #{version,jdbcType=INTEGER},
+                #{version,jdbcType=VARCHAR},
             </if>
             <if test="fromWhere != null">
                 #{fromWhere,jdbcType=INTEGER},
@@ -162,7 +162,7 @@
         <set>
             gmt_modified=now(),
             <if test="record.version != null">
-                version = #{record.version,jdbcType=INTEGER},
+                version = #{record.version,jdbcType=VARCHAR},
             </if>
             <if test="record.fromWhere != null">
                 from_where = #{record.fromWhere,jdbcType=INTEGER},
@@ -184,7 +184,7 @@
 
     <update id="updateByQuery" parameterType="map">
         update version_switch set
-        version = #{record.version,jdbcType=INTEGER},
+        version = #{record.version,jdbcType=VARCHAR},
         from_where = #{record.fromWhere,jdbcType=INTEGER},
         open_online = #{record.openOnline,jdbcType=TINYINT},
         status = #{record.status,jdbcType=TINYINT},
@@ -200,7 +200,7 @@
         <set>
             gmt_modified=now(),
             <if test="version != null">
-                version = #{version,jdbcType=INTEGER},
+                version = #{version,jdbcType=VARCHAR},
             </if>
             <if test="fromWhere != null">
                 from_where = #{fromWhere,jdbcType=INTEGER},
