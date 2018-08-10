@@ -93,31 +93,19 @@
 
                     var borrowList = resp.data.borrowVOList;
                     var listStr = "";
+                    var aStyle = logined?'target="_blank"':'onclick="loginMind()"';
                     for(var i=0;i<borrowList.length;i++){
                         var item = borrowList[i];
-                        if(!logined){item.url = "";}
+                        if(!logined){item.url = "#";}
                         var title = item.productName;
                         var count = item.peopleNumber;
                         var desc = item.productDetail;
-                        var url = item.url || '#';
                         var img = item.image;
-                        if(!logined){
-                            listStr += '<a href="'+url+'" onclick="loginMind()"><img src="'+img+'"/>\
-                            <div class="title">\
+                        listStr += '<a href="'+url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
                             <p>'+title+'</p>\
                             <div class="count"><p class="count-text text">'+count+'</p><p class="count-mind text">人已放款</p></div>\
                             </div>\
                             <div class="desc text"><p>'+desc+'</p></div></a>';
-                        }else{
-                            listStr += '<a href="'+url+'" target="_blank"><img src="'+img+'"/>\
-                            <div class="title">\
-                            <p>'+title+'</p>\
-                            <div class="count"><p class="count-text text">'+count+'</p><p class="count-mind text">人已放款</p></div>\
-                            </div>\
-                            <div class="desc text"><p>'+desc+'</p></div></a>';
-                        }
-
-
                     }
                     $('#product-list').html(listStr);
                 }

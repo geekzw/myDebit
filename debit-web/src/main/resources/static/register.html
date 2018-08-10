@@ -229,12 +229,12 @@
 		
 			// 获取安装包地址
 			function getPackageUrl() {
-				var packageUrl = "";
-				if(browser.ios && packageUrl.match(/^itms-services/)) { // cdn下载
-					yzcMask.style.display = 'none';
-					setupMask.style.display = 'block';
-					return;
-				}
+				var packageUrl = "/getDownloadUrl.json?devicesType="+(browser.ios?2:1);
+//				if(browser.ios && packageUrl.match(/^itms-services/)) { // cdn下载
+//					yzcMask.style.display = 'none';
+//					setupMask.style.display = 'block';
+//					return;
+//				}
 				window.location.href = packageUrl;
 			}
 			// 监听点击事件
