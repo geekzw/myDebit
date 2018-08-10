@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * auth:gujian
@@ -55,7 +56,15 @@ public class AppMainController {
     }
 
     @GetMapping(value = "/getDownloadUrl.json")
-    public BaseResponse<String> getDownloadUrl(@ModelAttribute DownLoadForm form){
+    public BaseResponse<String> getDownloadUrl(@ModelAttribute DownLoadForm form,HttpServletResponse response) throws IOException {
+        BaseResponse<String> result = fileAO.getDownLoadUrl(form);
+        if(result.isSuccess()){
+            if(form.getDevicesType() == 2){
+                response.sendRedirect(result.getData());
+            }else{
+                response.sendRedirect("/download.json");
+            }
+        }
         return fileAO.getDownLoadUrl(form);
     }
 }
