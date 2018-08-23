@@ -47,7 +47,7 @@ public class WebSessionUtil {
         HeaderEntry entry = new HeaderEntry();
         String deviceType = getHeaderParamer(DEVICES_TYPE) == null?"1":getHeaderParamer(DEVICES_TYPE);
         String packageType = getHeaderParamer(PACKAGE_TYPE) == null?"1":getHeaderParamer(PACKAGE_TYPE);
-        String version = getHeaderParamer(VERSION) == null ?"9999":getHeaderParamer(VERSION);
+        String version = getHeaderParamer(VERSION) == null ?"":getHeaderParamer(VERSION);
         entry.setSessionId(getHeaderParamer(SESSION_ID));
         entry.setDeviceType(Integer.valueOf(deviceType));
         entry.setPackageType(Integer.valueOf(packageType));
