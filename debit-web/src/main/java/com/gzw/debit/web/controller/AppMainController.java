@@ -56,15 +56,8 @@ public class AppMainController {
     }
 
     @GetMapping(value = "/getDownloadUrl.json")
-    public BaseResponse<String> getDownloadUrl(@ModelAttribute DownLoadForm form,HttpServletResponse response) throws IOException {
-        BaseResponse<String> result = fileAO.getDownLoadUrl(form);
-        if(result.isSuccess()){
-            if(form.getDevicesType() == 2){
-                response.sendRedirect(result.getData());
-            }else{
-                response.sendRedirect("/download.json");
-            }
-        }
-        return fileAO.getDownLoadUrl(form);
+    public BaseResponse<String> getDownloadUrl(@ModelAttribute DownLoadForm form,HttpServletRequest request,HttpServletResponse response) throws IOException {
+        return fileAO.getDownLoadUrl(form,request,response);
+
     }
 }

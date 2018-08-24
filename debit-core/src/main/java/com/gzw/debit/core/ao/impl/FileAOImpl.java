@@ -65,7 +65,7 @@ public class FileAOImpl implements FileAO {
     }
 
     @Override
-    public BaseResponse<String> getDownLoadUrl(DownLoadForm form) {
+    public BaseResponse<String> getDownLoadUrl(DownLoadForm form,HttpServletRequest request,HttpServletResponse response) {
 
         if(form.getDevicesType() == null){
             return BaseResponse.create(Const.PARAMS_ERROR,"类型不能为空");
@@ -82,6 +82,19 @@ public class FileAOImpl implements FileAO {
         if(CollectionUtils.isEmpty(downUrlDOS)){
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的下载地址");
         }
+
+        if(form.getDevicesType() == 2){
+            try {
+                response.sendRedirect(downUrlDOS.get(0).getUrl());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            downLoadAndroidFile(request,response);
+        }
+
+
+
         return BaseResponse.create(downUrlDOS.get(0).getUrl());
     }
 }

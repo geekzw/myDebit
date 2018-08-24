@@ -8,6 +8,7 @@ import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.VersionForm;
 import com.gzw.debit.core.form.base.BaseResponse;
 import com.gzw.debit.core.manager.VersionSwitchManager;
+import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.VersionSwitchDO;
 import com.gzw.debit.dal.query.VersionSwitchQuery;
 import org.slf4j.Logger;
@@ -36,7 +37,11 @@ public class VersionAOImpl implements VersionAO {
     @Override
     public BaseResponse<Boolean> getVersionStatus(VersionForm form) {
         HeaderEntry headerEntry = WebSessionUtil.getHeader();
-        if(form.getId() == null){
+        String version = form.getId()+"";
+        if(!StringUtil.isEmpty(headerEntry.getVersion())){
+            version = headerEntry.getVersion();
+        }
+        if(StringUtil.isEmpty(version)){
             return BaseResponse.create(Const.PARAMS_ERROR,"版本号不能为空");
         }
         if(headerEntry.getDeviceType() == null){
@@ -46,22 +51,11 @@ public class VersionAOImpl implements VersionAO {
             headerEntry.setPackageType(1);
         }
         VersionSwitchQuery query = new VersionSwitchQuery();
-        String version = headerEntry.getVersion();
-        if(!"9999".equals(version)){
-            VersionSwitchQuery.Criteria criteria = query.createCriteria();
-            criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                    .andFromWhereEqualTo(headerEntry.getDeviceType())
-                    .andPackageTypeEqualTo(headerEntry.getPackageType())
-                    .andVersionEqualTo(version);
-        }else{
-            VersionSwitchQuery.Criteria criteria = query.createCriteria();
-            criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
-                    .andFromWhereEqualTo(headerEntry.getDeviceType())
-                    .andPackageTypeEqualTo(headerEntry.getPackageType())
-                    .andVersionEqualTo(form.getId()+"");
-        }
-
-
+        VersionSwitchQuery.Criteria criteria = query.createCriteria();
+        criteria.andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
+                .andFromWhereEqualTo(headerEntry.getDeviceType())
+                .andPackageTypeEqualTo(headerEntry.getPackageType())
+                .andVersionEqualTo(version);
 
         List<VersionSwitchDO> switchDOS = switchManager.selectByQuery(query);
         if(CollectionUtils.isEmpty(switchDOS)){

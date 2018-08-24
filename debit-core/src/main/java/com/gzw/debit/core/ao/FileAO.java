@@ -16,5 +16,5 @@ public interface FileAO {
 
     BaseResponse<String> downLoadAndroidFile(HttpServletRequest request, HttpServletResponse response);
 
-    BaseResponse<String> getDownLoadUrl(DownLoadForm form);
+    BaseResponse<String> getDownLoadUrl(DownLoadForm form,HttpServletRequest request,HttpServletResponse response);
 }
