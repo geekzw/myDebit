@@ -1,83 +1,187 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>管家记账 - 登录、注册</title>
+    <title>记账钱包 - 登录、注册</title>
     <meta charset="utf-8">
-    <link href="css/style.css" rel='stylesheet' type='text/css'/>
     <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="css/animate.min.css" />
+    <script>
+        $.fn.extend({
+            animateCss: function(animationName, callback) {
+                var animationEnd = (function(el) {
+                    var animations = {
+                        animation: 'animationend',
+                        OAnimation: 'oAnimationEnd',
+                        MozAnimation: 'mozAnimationEnd',
+                        WebkitAnimation: 'webkitAnimationEnd',
+                    };
+
+                    for (var t in animations) {
+                        if (el.style[t] !== undefined) {
+                            return animations[t];
+                        }
+                    }
+                })(document.createElement('div'));
+
+                this.addClass('animated ' + animationName).one(animationEnd, function() {
+                    $(this).removeClass('animated ' + animationName);
+
+                    if (typeof callback === 'function') callback();
+                });
+
+                return this;
+            },
+        });
+    </script>
+    <style>
+        input[type=number] {
+            -moz-appearance:textfield;
+        }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input{
+            height: 32px;
+            line-height: 32px;
+            margin-bottom: 8px;
+            width: 90%;
+        }
+        a:hover,a:focus,a:active{
+            background: #e7f7ff;
+        }
+        a,a:visited{
+            color: #000;
+            text-decoration: none;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px #ccc solid;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+        .main{
+            background: #eee;
+            padding: 12px 32px;
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+        .step-button:hover,.step-button:focus,.step-button:active{
+            background: #e7f7ff;
+        }
+        .step-button{
+            border-radius: 5px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border: 1px #ccc solid;
+            padding: 8px 12px;
+            cursor: pointer;
+            background: #fff;
+        }
+        #step-mind{
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        body{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0;
+        }
+        html{
+            height: 100%;
+        }
+        .main{
+            align-self: center;
+        }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="application/x-javascript"> addEventListener("load", function () {
-        setTimeout(hideURLbar, 0);
-    }, false);
-    function hideURLbar() {
-        window.scrollTo(0, 1);
-    } </script>
-    <!--webfonts-->
-    <!--//webfonts-->
+    <script type="application/x-javascript"> addEventListener("load", function(){setTimeout(hideURLbar, 0);},false);function hideURLbar(){window.scrollTo(0, 1);}</script>
 </head>
 <body>
-<div class="main">
-    <div class="header">
-        <h1>登录或注册用户</h1>
+<div class="main animated">
+    <div class="header animated" style="width: 100%;text-align: center;">
+        <div id="step-mind" class="animated">请输入手机号</div>
     </div>
-    <!--<p><a href="#login-form">已经拥有账户？请登录. </a></p>-->
-    <p><a href="index.html">返回主页</a></p>
-    <form>
-        <ul class="left-form">
-            <h2>新用户注册:</h2>
-            <li>
-                <input id="username" style="width: unset;" type="text" placeholder="手机号" required/>
-                <!--<a href="#" class="icon ticker"> </a>-->
-                <input id="code-button" style="float: right;margin: auto;" type="button" onClick="getCode()" value="获取验证码">
-                <div class="clear"></div>
-            </li>
-            <span id="code-mind" style="display: none;color: #f65;"></span>
-            <a id="code-icon" style="display: none" href="#" class="icon ticker"> </a>
-            <li>
-                <input id="password" type="password" placeholder="密码" required/>
-                <!--<a href="#" class="icon into"> </a>-->
-                <div class="clear"></div>
-            </li>
-            <li>
-                <input id="verify-code" type="text" onchange="codeChange(this)" placeholder="请输入验证码" required/>
-                <div class="clear"></div>
-            </li>
-            <span id="register-mind" style="display: none;color: #f65;"></span>
-            <input type="button" onClick="register()" value="注册新用户">
-            <div class="clear"></div>
-        </ul>
-    </form>
-    <form id="login-form">
-        <ul class="right-form">
-            <h3>登录:</h3>
-            <div>
-                <li><input id="login-username" type="text" placeholder="用户名" required/></li>
-                <li><input id="login-password" type="password" placeholder="密码" required/></li>
-                <label class="checkbox"><input type="checkbox" name="checkbox" checked><i> </i>记住我</label>
-                <span id="login-mind" style="display: none;color: #f65;"></span>
-                <input type="button" onClick="login()" value="登录">
-            </div>
-            <div class="clear"></div>
-        </ul>
-        <div class="clear"></div>
-
-    </form>
-
+    <div style="display: flex;align-items: center;flex-direction: column;">
+        <input id="phone" class="animated" type="number" placeholder="手机号" />
+        <input id="password" class="animated" type="password" placeholder="请输入密码" />
+        <input id="code" class="animated" type="number" placeholder="请输入验证码" />
+        <div id="code-button" class="step-button animated" onClick="getCode()">获取验证码</div>
+        <div id="next" class="step-button" onClick="next()">下一步</div>
+        <span id="text-mind" class="animated" style="display: none;color: #f65;"></span>
+    </div>
 </div>
 <!-----start-copyright---->
-<div class="copy-right">
-    <p>管家记账@2018</p>
+<div style="display: flex;align-items: center;flex-direction: column;">
+    <p><a href="index.html">返回主页</a></p>
+    <div class="copy-right">
+        <p>记账钱包@2018</p>
+    </div>
 </div>
 <!-----//end-copyright---->
 <script>
-    var registerData = {
-
-    };
+    var curStep = 0;
     function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
     function getCookie(c_name){if(document.cookie.length>0){c_start=document.cookie.indexOf(c_name + "=");if(c_start!=-1){c_start=c_start + c_name.length+1;c_end=document.cookie.indexOf(";",c_start);if(c_end==-1)c_end=document.cookie.length;return unescape(document.cookie.substring(c_start,c_end));}}return "";}
+    function next(){
+        switch (curStep){
+            case 0:
+                curStep = -1;
+                getCode(function (resp,err) {
+                    curStep = 0;
+                    if(resp == null){
+                        $('#phone').attr('disabled',null);
+                        $('#text-mind').html(JSON.stringify(err));
+                        return;
+                    }
+                    $('#phone').attr('disabled','');
+                    if(resp.code==1000){
+                        curStep = 1;
+                        //未注册
+                        $('#step-mind').html('注册');
+                        $('#password').addClass('fadeIn');
+                        $('#password').css('display','block');
+                        $('#password').focus();
+                        $('#code').addClass('fadeIn');
+                        $('#code').css('display','block');
+                        $('#code-button').addClass('fadeIn');
+                        $('#code-button').css('display','block');
+                    }else if(resp.code==3000){
+                        curStep = 2;
+                        //已注册直接登录
+                        $('#step-mind').html('登录:请输入密码');
+                        $('#password').addClass('fadeIn');
+                        $('#password').css('display','block');
+                        $('#password').focus();
+                    }else{
+                        $('#phone').attr('disabled',null);
+                    }
+                });
+                break;
+            case 1:
+                register();
+                break;
+            case 2:
+                login();
+                break;
+            default:
+                break;
+        }
+    }
+    function showMind(str){
+        $('#text-mind').addClass('fadeIn');
+        $('#text-mind').css('display','block');
+        $("#text-mind").html(str);
+    }
     function login(){
-        var username = $('#login-username').val();
-        var password = $('#login-password').val();
+        var username = $('#phone').val();
+        var password = $('#password').val();
         $.ajax({
             url: '/login.json',
             method: 'POST', dataType: 'json', contentType: 'application/json',
@@ -86,8 +190,7 @@
             success: (resp)=>{
                 console.log(resp);
                 if(resp.code != 1000){
-                    $("#login-mind").css('display','block');
-                    $("#login-mind").html("错误:"+resp.desc);
+                    showMind("错误:"+resp.desc);
                 }
                 if(resp.data){
                     console.log('登录完成');
@@ -106,9 +209,9 @@
         engChi.password = "密码";
         engChi.verifyCode = "验证码";
         var registerModel = {};
-        registerModel.username = $('#username').val();
+        registerModel.username = $('#phone').val();
         registerModel.password = $('#password').val();
-        registerModel.verifyCode = $('#verify-code').val();
+        registerModel.verifyCode = $('#code').val();
         registerModel.devicesType = 3;
         registerModel.channelId = "0";
         var keys = Object.keys(registerModel);
@@ -127,69 +230,103 @@
                 console.log(resp);
                 if(resp){
                     if(resp.code==1000){
-                        setCookie("lastCodeTime",new Date().getTime());
-                        codeButtonStep(600)
+                        showMind("注册成功，请登录");
+                        setTimeout(function(){
+                            window.location.href = "";
+                        },1000)
                     }else{
-                        if(resp.code != 1000){
-                            $("#register-mind").css('display','block');
-                            $("#register-mind").html("错误:"+resp.desc);
+                        if (resp.code == 1002){
+                            var cTime = 4;
+                            function cTimeF(cTime){
+                                cTime--;
+                                if(cTime<=0){
+                                    window.location.href = "";
+                                    return;
+                                }
+                                showMind("错误:"+resp.desc+" "+cTime+"秒后跳转");
+                                setTimeout(function(){cTimeF(cTime)},1000)
+                            }
+                            cTimeF(cTime)
                         }
+                        showMind("错误:"+resp.desc+" 3秒后跳转");
                     }
                 }
             }
         });
         return false;
     }
-    function codeChange(e){
-        $('#code-icon').removeClass('ticker');
-        $('#code-icon').removeClass('ticker');
-    }
-    function getCode(){
-        $("#code-mind").css('display','none');
-        $("#code-mind").html("");
-        var username = $('#username').val();
-        if(!username){ alert("请输入手机号"); return; }
-        console.log("register:"+username);
+    function getCode(callback){
+        $("#text-mind").css('display','none');
+        $("#text-mind").html("");
+        var username = $('#phone').val();
+        if(!username){
+            alert("请输入手机号"); curStep=0; return;
+        }
         $.ajax({
             url: "/getSmsCode.json?phone="+username,
             dataType: 'json', contentType: 'application/json',
             success: (resp)=>{
-                console.log(resp);
+                callback(resp);
                 if(resp){
                     if(resp.code==1000){
-                        $("#code-mind").css('display','block');
-                        $("#code-mind").html("验证码已发送，请查收");
+                        showMind("验证码已发送，请查收");
                         setCookie("lastCodeTime",new Date().getTime());
                         codeButtonStep(600)
-                    }else{
+                    }else if(resp.code!=3000){
                         if(resp.code != 1000){
-                            $("#code-mind").css('display','block');
-                            $("#code-mind").html("错误:"+resp.desc);
+                            showMind("错误:"+resp.desc);
                         }
                     }
                 }
+            },
+            error: (err)=>{
+                callback(null,err);
             }
         });
         return false;
     }
     function codeButtonStep(time) {
         if(time>=1){
-            $('#code-button').val(time+"秒后才能获取");
+            $('#code-button').html(time+"秒后才能获取");
             setTimeout(()=>codeButtonStep(time-1),1000);
             $('#code-button').addClass("disable");
             $('#code-button').attr('disabled',true);
         }else{
-            $('#code-button').val("获取验证码");
+            $('#code-button').html("获取验证码");
             $('#code-button').removeClass("disable");
             $('#code-button').attr('disabled',null);
         }
     }
     $(document).ready(function() {
+        $('#password').css('display','none');
+        $('#code').css('display','none');
+        $('#code-button').css('display','none');
         var lastCodeTime = getCookie("lastCodeTime");
         if(lastCodeTime){
             var delTime = 60 - (new Date().getTime() - lastCodeTime)/1000;
             codeButtonStep(parseInt(delTime));
         }
+        $(document).keydown(function(e) {
+            if (e.keyCode == 13) {
+                if(curStep==0){
+                    if(e.target.id=="phone"){
+                        next();
+                    }else{
+                        $('#phone').focus();
+                    }
+                }else if(curStep==1){
+                    if(e.target.id=="password"){
+                        $('#code').focus();
+                    }else if(e.target.id=="code"){
+                        next();
+                    }
+                }else if(curStep==2){
+                    if(e.target.id=="password") {
+                        next();
+                    }
+                }
+            }
+        });
     });
 </script>
 
