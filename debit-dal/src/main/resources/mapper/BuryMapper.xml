@@ -11,6 +11,7 @@
         <result column="detail_count" jdbcType="INTEGER" property="detailCount" />
         <result column="status" jdbcType="TINYINT" property="status" />
         <result column="packagetype" jdbcType="INTEGER" property="packagetype" />
+        <result column="is_banner" jdbcType="TINYINT" property="isBanner" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -74,7 +75,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,user_id,product_id,list_count,detail_count,status,packagetype
+        id,gmt_create,gmt_modified,user_id,product_id,list_count,detail_count,status,packagetype,is_banner
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.BuryQuery" resultMap="BaseResultMap">
@@ -133,6 +134,9 @@
             <if test="packagetype != null">
                 packagetype,
             </if>
+            <if test="isBanner != null">
+                is_banner,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -153,6 +157,9 @@
             </if>
             <if test="packagetype != null">
                 #{packagetype,jdbcType=INTEGER},
+            </if>
+            <if test="isBanner != null">
+                #{isBanner,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -186,6 +193,9 @@
             <if test="record.packagetype != null">
                 packagetype = #{record.packagetype,jdbcType=INTEGER},
             </if>
+            <if test="record.isBanner != null">
+                is_banner = #{record.isBanner,jdbcType=TINYINT},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -200,6 +210,7 @@
         detail_count = #{record.detailCount,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         packagetype = #{record.packagetype,jdbcType=INTEGER},
+        is_banner = #{record.isBanner,jdbcType=TINYINT},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -227,6 +238,9 @@
             </if>
             <if test="packagetype != null">
                 packagetype = #{packagetype,jdbcType=INTEGER},
+            </if>
+            <if test="isBanner != null">
+                is_banner = #{isBanner,jdbcType=TINYINT},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

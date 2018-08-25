@@ -647,6 +647,76 @@ public class BuryQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andIsBannerIsNull() {
+            addCriterion("is_banner is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerIsNotNull() {
+            addCriterion("is_banner is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerEqualTo(Integer value) {
+            addCriterion("is_banner =", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerNotEqualTo(Integer value) {
+            addCriterion("is_banner <>", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerGreaterThan(Integer value) {
+            addCriterion("is_banner >", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerGreaterThanOrEqualTo(Integer value) {
+            addCriterion("is_banner >=", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerLessThan(Integer value) {
+            addCriterion("is_banner <", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerLessThanOrEqualTo(Integer value) {
+            addCriterion("is_banner <=", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerLike(Integer value) {
+            addCriterion("is_banner like", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerNotLike(Integer value) {
+            addCriterion("is_banner not like", value, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerIn(List<Integer> values) {
+            addCriterion("is_banner in", values, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerNotIn(List<Integer> values) {
+            addCriterion("is_banner not in", values, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerBetween(Integer value1, Integer value2) {
+            addCriterion("is_banner between", value1, value2, "isBanner");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsBannerNotBetween(Integer value1, Integer value2) {
+            addCriterion("is_banner not between", value1, value2, "isBanner");
+            return (Criteria) this;
+        }
+
     }
 
     /**
