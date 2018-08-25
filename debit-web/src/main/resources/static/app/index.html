@@ -61,12 +61,21 @@
     }
     function itemClick(label){
         var url = label.getAttribute("url");
+        var isBanner = label.getAttribute("banner") ? true : false;
+        var dataId = label.getAttribute("data-id");
         if(url){
+            var params = {
+                productId: dataId,
+                isBanner: isBanner,
+                type: 3
+            };
+            console.log(params);
             $.ajax({
                 url: "/auth/postBury.json",
                 method: "POST",
+                data: JSON.stringify(params),
                 complete: function(){
-                    window.location.href = url;
+//                    window.location.href = url;
                 }
             });
         }
@@ -94,7 +103,7 @@
                     for(var i=0;i<bannerList.length;i++){
                         var item = bannerList[i];
                         console.log(item);
-                        imgStr += '<a class="slide" url="'+item.url+'" onclick="itemClick(this)" href="#"><img src="'+item.image+'"></a>';
+                        imgStr += '<a class="slide" data-id="'+item.id+'" banner="true" url="'+item.url+'" onclick="itemClick(this)" href="#"><img src="'+item.image+'"></a>';
                     }
                     $('.slider').html(imgStr);
                     slider && slider.destroySlider();
@@ -109,7 +118,7 @@
                         var count = item.peopleNumber;
                         var desc = item.productDetail;
                         var img = item.image;
-                        listStr += '<a  onclick="itemClick(this)" href="#" url="'+item.url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
+                        listStr += '<a  onclick="itemClick(this)" href="#"  data-id="'+item.id+'" url="'+item.url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
                             <p>'+title+'</p>\
                             <div class="count"><p class="count-text text">'+count+'</p><p class="count-mind text">人已放款</p></div>\
                             </div>\
