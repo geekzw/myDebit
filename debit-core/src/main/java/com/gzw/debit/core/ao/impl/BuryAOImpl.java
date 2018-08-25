@@ -70,6 +70,7 @@ public class BuryAOImpl implements BuryAO{
             buryDO = new BuryDO();
             buryDO.setUserId(user.getUserId());
             buryDO.setProductId(form.getProductId());
+            buryDO.setIsBanner(isBanner);
             buryDO.setPackagetype(header.getPackageType());
             if(type == 1){
                 buryDO.setListCount(1);
