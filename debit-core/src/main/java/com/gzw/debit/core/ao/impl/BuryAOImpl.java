@@ -39,6 +39,11 @@ public class BuryAOImpl implements BuryAO{
     public BaseResponse<Boolean> insertBury(BuryForm form) {
         HeaderEntry header = WebSessionUtil.getHeader();
         User user = UserUtil.getUser();
+        //不需要登录的h5
+        if(form.getType() == 3 && user == null){
+            user = new User();
+            user.setUserId(0L);
+        }
         if(user == null){
             logger.error("找不到登录信息");
             return BaseResponse.create(Const.PARAMS_ERROR,"找不到登录信息");
@@ -48,11 +53,14 @@ public class BuryAOImpl implements BuryAO{
             return BaseResponse.create(Const.PARAMS_ERROR,"产品id不能为空");
         }
 
+        int isBanner = form.getIsBanner() == null?0:form.getIsBanner()?1:0;
+
         BuryQuery query = new BuryQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
                 .andUserIdEqualTo(user.getUserId())
                 .andProductIdEqualTo(form.getProductId())
                 .andPackagetypeEqualTo(header.getPackageType())
+                .andIsBannerEqualTo(isBanner)
                 .andGmtCreateGreaterThanOrEqualTo(DateUtil.getToday0Time())
                 .andGmtCreateLessThanOrEqualTo(DateUtil.getTodayLastTime());
         List<BuryDO> buryDOS = buryManager.selectByQuery(query);

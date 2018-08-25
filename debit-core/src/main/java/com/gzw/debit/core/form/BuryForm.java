@@ -16,4 +16,6 @@ public class BuryForm implements Serializable{
     private Long productId;
 
     private Integer type;
+
+    private Boolean isBanner;
 }

@@ -64,4 +64,10 @@ public class BuryDO implements Serializable {
      */
     private Integer packagetype;
 
+    /**
+     * 是否是banner位
+     * debit_bury.is_banner
+     */
+    private Integer isBanner;
+
 }
