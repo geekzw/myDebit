@@ -46,7 +46,7 @@
 
 <div class="slider"></div>
 <div id="product-list" class="list"></div>
-<a id="menu-button" style="display: none" class="tool" onclick="menuPress()"></a>
+<!--<a id="menu-button" style="display: none" class="tool" onclick="menuPress()"></a>-->
 
 <script type="text/javascript">
     function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
@@ -58,6 +58,19 @@
             setCookie("sessionId","",-1);
         }
         window.location.href = "register.html";
+    }
+    function itemClick(label){
+        var url = label.getAttribute("url");
+        var _w = window;
+        if(url){
+            $.ajax({
+                url: "/auth/postBury.json",
+                method: "POST",
+                complete: function(){
+                    window.location.href = url;
+                }
+            });
+        }
     }
     function loginMind(){
         alert("请先登录！");
@@ -81,11 +94,8 @@
                     var imgStr = '';
                     for(var i=0;i<bannerList.length;i++){
                         var item = bannerList[i];
-                        if(!logined){
-                            imgStr += '<a class="slide" onclick="loginMind()" href="#"><img src="'+item.image+'"></a>';
-                        }else{
-                            imgStr += '<a class="slide" href="'+item.url+'" target="_blank"><img src="'+item.image+'"></a>';
-                        }
+                        console.log(item);
+                        imgStr += '<a class="slide" url="'+item.url+'" onclick="itemClick(this)" href="#"><img src="'+item.image+'"></a>';
                     }
                     $('.slider').html(imgStr);
                     slider && slider.destroySlider();
@@ -96,12 +106,11 @@
                     var aStyle = logined?'target="_blank"':'onclick="loginMind()"';
                     for(var i=0;i<borrowList.length;i++){
                         var item = borrowList[i];
-                        if(!logined){item.url = "#";}
                         var title = item.productName;
                         var count = item.peopleNumber;
                         var desc = item.productDetail;
                         var img = item.image;
-                        listStr += '<a href="'+url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
+                        listStr += '<a  onclick="itemClick(this)" href="#" url="'+item.url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
                             <p>'+title+'</p>\
                             <div class="count"><p class="count-text text">'+count+'</p><p class="count-mind text">人已放款</p></div>\
                             </div>\
