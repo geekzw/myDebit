@@ -24,4 +24,9 @@ public class BuryController {
     public BaseResponse<Boolean> insertBury(@RequestBody BuryForm form){
         return buryAO.insertBury(form);
     }
+
+    @PostMapping(value = "/noAuth/postBury.json")
+    public BaseResponse<Boolean> insertBuryNoAuth(@RequestBody BuryForm form){
+        return buryAO.insertBury(form);
+    }
 }

@@ -42,6 +42,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String sessionId = request.getParameter(SESSION_ID);
         String dt = request.getHeader(DEVICESTYPE);
 
+
         int devicesType;
         if(StringUtil.isEmpty(dt)){
             devicesType = -1;
