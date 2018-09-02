@@ -76,9 +76,7 @@
             $.ajax({
                 url: "/noAuth/postBury.json",
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8"
-                },
+                contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(params),
                 success: (res)=>{
                     window.location.href = url;
