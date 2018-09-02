@@ -46,7 +46,7 @@
 
 <div class="slider"></div>
 <div id="product-list" class="list"></div>
-<!--<a id="menu-button" style="display: none" class="tool" onclick="menuPress()"></a>-->
+<a id="menu-button" style="display: none" class="tool" onclick="menuPress()"></a>
 
 <script type="text/javascript">
     function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
@@ -60,6 +60,10 @@
         window.location.href = "register.html";
     }
     function itemClick(label){
+        if(!logined){
+            alert("请先登录");
+            return;
+        }
         var url = label.getAttribute("url");
         var isBanner = label.getAttribute("banner") ? true : false;
         var dataId = label.getAttribute("data-id");
