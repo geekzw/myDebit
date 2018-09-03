@@ -59,7 +59,7 @@ public class SmsInterceptor implements HandlerInterceptor {
             return false;
         }else{
             count++;
-            redisAO.set(countKey,count+"");
+            redisAO.set(countKey,count+"",COUNT_EXPR);
             if(count == 1){
                 redisAO.set(countKey,count,COUNT_EXPR);
             }
