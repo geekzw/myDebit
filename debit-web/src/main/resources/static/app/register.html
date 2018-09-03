@@ -112,7 +112,7 @@
         <input id="phone" class="animated" type="number" placeholder="手机号" />
         <input id="password" class="animated" type="password" placeholder="请输入密码" />
         <input id="code" class="animated" type="number" placeholder="请输入验证码" />
-        <div id="code-button" class="step-button animated" onClick="getCode()">获取验证码</div>
+        <div id="code-button" class="step-button animated" onClick="getCode(this)">获取验证码</div>
         <div id="next" class="step-button" onClick="next()">下一步</div>
         <span id="text-mind" class="animated" style="display: none;color: #f65;"></span>
     </div>
@@ -133,7 +133,7 @@
         switch (curStep){
             case 0:
                 curStep = -1;
-                getCode(function (resp,err) {
+                getCode(null,function (resp,err) {
                     curStep = 0;
                     if(resp == null){
                         $('#phone').attr('disabled',null);
@@ -255,7 +255,9 @@
         });
         return false;
     }
-    function getCode(callback){
+    function getCode(e,callback){
+        var eDisabled = $(e).attr("disabled")=="disabled";
+        if(eDisabled){return;}
         $("#text-mind").css('display','none');
         $("#text-mind").html("");
         var username = $('#phone').val();
@@ -266,21 +268,20 @@
             url: "/getSmsCode.json?phone="+username,
             dataType: 'json', contentType: 'application/json',
             success: (resp)=>{
-                callback(resp);
+                callback&&callback(resp);
                 if(resp){
                     if(resp.code==1000){
                         showMind("验证码已发送，请查收");
                         setCookie("lastCodeTime",new Date().getTime());
                         codeButtonStep(60)
                     }else if(resp.code!=3000){
-                        if(resp.code != 1000){
-                            showMind("错误:"+resp.desc);
-                        }
+                        showMind("错误:"+resp.desc);
                     }
                 }
             },
             error: (err)=>{
-                callback(null,err);
+                console.log(err);
+                callback&&callback(null,err);
             }
         });
         return false;
