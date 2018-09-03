@@ -271,7 +271,7 @@
                     if(resp.code==1000){
                         showMind("验证码已发送，请查收");
                         setCookie("lastCodeTime",new Date().getTime());
-                        codeButtonStep(600)
+                        codeButtonStep(60)
                     }else if(resp.code!=3000){
                         if(resp.code != 1000){
                             showMind("错误:"+resp.desc);
