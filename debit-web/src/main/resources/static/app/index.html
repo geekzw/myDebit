@@ -71,10 +71,11 @@
             var params = {
                 productId: dataId,
                 isBanner: isBanner,
-                type: 3
+                type: 3,
+                sessionId: getCookie("sessionId")
             };
             $.ajax({
-                url: "/noAuth/postBury.json",
+                url: "/auth/postBury.json",
                 method: "POST",
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(params),
