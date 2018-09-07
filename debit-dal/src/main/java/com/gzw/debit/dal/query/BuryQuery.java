@@ -717,6 +717,76 @@ public class BuryQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andFromWhereIsNull() {
+            addCriterion("from_where is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereIsNotNull() {
+            addCriterion("from_where is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereEqualTo(Integer value) {
+            addCriterion("from_where =", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereNotEqualTo(Integer value) {
+            addCriterion("from_where <>", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereGreaterThan(Integer value) {
+            addCriterion("from_where >", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereGreaterThanOrEqualTo(Integer value) {
+            addCriterion("from_where >=", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereLessThan(Integer value) {
+            addCriterion("from_where <", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereLessThanOrEqualTo(Integer value) {
+            addCriterion("from_where <=", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereLike(Integer value) {
+            addCriterion("from_where like", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereNotLike(Integer value) {
+            addCriterion("from_where not like", value, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereIn(List<Integer> values) {
+            addCriterion("from_where in", values, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereNotIn(List<Integer> values) {
+            addCriterion("from_where not in", values, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereBetween(Integer value1, Integer value2) {
+            addCriterion("from_where between", value1, value2, "fromWhere");
+            return (Criteria) this;
+        }
+
+        public Criteria andFromWhereNotBetween(Integer value1, Integer value2) {
+            addCriterion("from_where not between", value1, value2, "fromWhere");
+            return (Criteria) this;
+        }
+
     }
 
     /**
