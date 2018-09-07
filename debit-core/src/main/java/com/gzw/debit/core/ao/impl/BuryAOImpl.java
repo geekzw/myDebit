@@ -54,7 +54,7 @@ public class BuryAOImpl implements BuryAO{
         }
 
         int isBanner = form.getIsBanner() == null?0:form.getIsBanner()?1:0;
-
+        int fromWhere = form.getFromWhere() == null?0:form.getFromWhere();
         BuryQuery query = new BuryQuery();
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
                 .andUserIdEqualTo(user.getUserId())
@@ -72,6 +72,7 @@ public class BuryAOImpl implements BuryAO{
             buryDO.setProductId(form.getProductId());
             buryDO.setIsBanner(isBanner);
             buryDO.setPackagetype(header.getPackageType());
+            buryDO.setFromWhere(fromWhere);
             if(type == 1){
                 buryDO.setListCount(1);
             }else{

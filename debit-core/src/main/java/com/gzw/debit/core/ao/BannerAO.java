@@ -15,6 +15,13 @@ import java.util.List;
  */
 public interface BannerAO {
 
+    /**
+     * 添加banner
+     * @param form
+     * @return
+     */
+    BaseResponse<Boolean> addBanner(EditBannerForm form);
+
 
     /**
      * 获取banner列表

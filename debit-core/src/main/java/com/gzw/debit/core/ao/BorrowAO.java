@@ -17,6 +17,13 @@ import java.util.List;
 public interface BorrowAO {
 
     /**
+     * 添加borrow
+     * @param form
+     * @return
+     */
+    BaseResponse<Boolean> addBorrow(EditBorrowForm form);
+
+    /**
      * 获取Borrow列表
      * @param form
      * @return

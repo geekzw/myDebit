@@ -83,15 +83,21 @@ public class FileAOImpl implements FileAO {
             return BaseResponse.create(Const.LOGIC_ERROR,"找不到对应的下载地址");
         }
 
-        if(form.getDevicesType() == 2){
-            try {
-                response.sendRedirect(downUrlDOS.get(0).getUrl());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }else{
-            downLoadAndroidFile(request,response);
+        try {
+            response.sendRedirect(downUrlDOS.get(0).getUrl());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+//        if(form.getDevicesType() == 2){
+//            try {
+//                response.sendRedirect(downUrlDOS.get(0).getUrl());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }else{
+//            downLoadAndroidFile(request,response);
+//        }
 
 
 

@@ -29,6 +29,19 @@ public class BannerController {
     @Autowired
     private BorrowAO borrowAO;
 
+
+    @PostMapping(value = "/auth/addBanner.json")
+    @Admin
+    public BaseResponse<Boolean> addBanner(@RequestBody EditBannerForm form){
+        return bannerAO.addBanner(form);
+    }
+
+    @PostMapping(value = "/auth/addBorrow.json")
+    @Admin
+    public BaseResponse<Boolean> addBorrow(@RequestBody EditBorrowForm form){
+        return borrowAO.addBorrow(form);
+    }
+
     @GetMapping(value = "/auth/getBannerList.json")
     @Admin
     public BaseResponse<List<BannerDO>> getBannerList(@ModelAttribute ListSearchForm form){

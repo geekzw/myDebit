@@ -70,4 +70,10 @@ public class BuryDO implements Serializable {
      */
     private Integer isBanner;
 
+    /**
+     * 0是app，1是h5，2是小程序
+     * debit_bury.from_where
+     */
+    private Integer fromWhere;
+
 }
