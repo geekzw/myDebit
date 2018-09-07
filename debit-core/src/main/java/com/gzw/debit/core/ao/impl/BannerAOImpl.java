@@ -1,6 +1,7 @@
 package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.core.ao.BannerAO;
+import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.ListSearchForm;
@@ -30,6 +31,8 @@ public class BannerAOImpl implements BannerAO {
 
     @Autowired
     private BannerManager bannerManager;
+    @Autowired
+    private RedisAO redisAO;
 
     @Override
     public BaseResponse<List<BannerDO>> getBannerList(ListSearchForm form) {
@@ -99,7 +102,7 @@ public class BannerAOImpl implements BannerAO {
         if(col < 1){
             return BaseResponse.create(Const.LOGIC_ERROR,"banner信息更新失败");
         }
-
+        redisAO.del("MainData::1");
         return BaseResponse.create(true);
     }
 

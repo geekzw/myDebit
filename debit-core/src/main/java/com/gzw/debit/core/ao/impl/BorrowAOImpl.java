@@ -1,7 +1,9 @@
 package com.gzw.debit.core.ao.impl;
 
 import com.gzw.debit.core.ao.BorrowAO;
+import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.entry.Const;
+import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.EditBorrowForm;
 import com.gzw.debit.core.form.ListSearchForm;
@@ -11,6 +13,7 @@ import com.gzw.debit.core.manager.BorrowManager;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.BorrowDO;
 import com.gzw.debit.dal.query.BorrowQuery;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,20 @@ public class BorrowAOImpl implements BorrowAO {
 
     @Autowired
     private BorrowManager borrowManager;
+    @Autowired
+    private RedisAO redisAO;
+
+    @Override
+    public BaseResponse<Boolean> addBorrow(EditBorrowForm form) {
+        BorrowDO borrowDO = new BorrowDO();
+        BeanUtils.copyProperties(form,borrowDO);
+        long col = borrowManager.insertSelective(borrowDO);
+        if(col == 1){
+            return BaseResponse.create(true);
+        }else{
+            return BaseResponse.create(ErrorEnum.SERVE_ERROR);
+        }
+    }
 
     @Override
     public BaseResponse<List<BorrowDO>> getBannerList(ListSearchForm form) {
@@ -81,7 +98,7 @@ public class BorrowAOImpl implements BorrowAO {
         if(col < 1){
             return BaseResponse.create(Const.LOGIC_ERROR,"borrow信息更新失败");
         }
-
+        redisAO.del("MainData::1");
         return BaseResponse.create(true);
     }
 
