@@ -70,24 +70,26 @@ class BorrowEditForm extends Component {
             if (error) {
                 return;
             }
-            var isModify = false;
-            var keys = columns.map(r => r.dataIndex);
-            for (var i = 0; i < keys.length; i++) {
-                if (record[keys[i]] !== row[keys[i]]) {
-                    isModify = true;
-                    break;
+            if(!this.state.isAdding){
+                var isModify = false;
+                var keys = columns.map(r => r.dataIndex);
+                for (var i = 0; i < keys.length; i++) {
+                    if (record[keys[i]] !== row[keys[i]]) {
+                        isModify = true;
+                        break;
+                    }
+                }
+                if (!isModify) {
+                    notifyPop('提示', '数据无变更', <Icon type="smile-circle" style={{ color: 'blue' }} />);
+                    this.setState({ editingKey: '' });
+                    return;
                 }
             }
-            if (!isModify) {
-                notifyPop('提示', '数据无变更', <Icon type="smile-circle" style={{ color: 'blue' }} />);
-                this.setState({ editingKey: '' });
-                return;
-            }
             var params = {
-                ...row,
-                id: record.id
+                ...row
             }
             if(this.state.isAdding){
+                console.log(params);
                 addBorrow(params).then(
                     resp => {
                         console.log(params);
@@ -100,6 +102,7 @@ class BorrowEditForm extends Component {
                 ).catch(err => notifyPop('错误', err, <Icon type="frown" />));
                 return;
             }
+            params["id"]=record.id;
             editBorrow(params).then(
                 resp => {
                     console.log(params);
@@ -119,6 +122,9 @@ class BorrowEditForm extends Component {
     textOnChange(key) {
         return (e) => {
             var value = e.target ? e.target.value : e;
+            if(this.state.isAdding){
+                return;
+            }
             var rec = JSON.parse(localStorage.getItem('editingBorrow'));
             rec[key] = value;
             localStorage.setItem('editingBorrow', JSON.stringify(rec));

@@ -285,7 +285,7 @@ class BorrowList extends MerchantList {
     }
     render() {
         var content = this.state.editingRecord ? <BorrowEditForm isChecking={this.state.isChecking} record={this.state.editingRecord} finished={this.finishedEdit} /> : this.tableContent();
-        content = this.state.isAddingItem ? <BorrowEditForm isAdding="true" finished={this.finishedAdding} /> : content;
+        content = this.state.isAddingItem ? <BorrowEditForm isAdding="true" finished={this.finishedEdit} /> : content;
         return content;
     }
 }

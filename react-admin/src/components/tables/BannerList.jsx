@@ -321,7 +321,7 @@ class BannerList extends MerchantList {
         });
     }
     addButton() {
-        return <AddBannerForm />
+        return <AddBannerForm finished={this.start} />
     }
 }
 

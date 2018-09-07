@@ -77,6 +77,7 @@ class AddBannerForm extends Component {
                     if (resp.success) {
                         form.resetFields();
                         this.setState({ visible: false });
+                        this.props.finished();
                     }
                 }
             ).catch(err => notifyPop('错误', err, <Icon type="frown" />));
