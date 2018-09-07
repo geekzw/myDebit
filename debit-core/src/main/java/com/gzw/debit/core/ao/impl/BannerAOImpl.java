@@ -40,6 +40,7 @@ public class BannerAOImpl implements BannerAO {
     public BaseResponse<Boolean> addBanner(EditBannerForm form) {
         BannerDO bannerDO = new BannerDO();
         BeanUtils.copyProperties(form,bannerDO);
+
         long col = bannerManager.insertSelective(bannerDO);
         if(col == 1){
             redisAO.del("MainData::1");

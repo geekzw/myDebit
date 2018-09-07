@@ -41,6 +41,13 @@ public class BorrowAOImpl implements BorrowAO {
     public BaseResponse<Boolean> addBorrow(EditBorrowForm form) {
         BorrowDO borrowDO = new BorrowDO();
         BeanUtils.copyProperties(form,borrowDO);
+        try{
+            java.math.BigDecimal bigDecimal = new BigDecimal(form.getMonthyRate());
+            borrowDO.setMonthyRate(bigDecimal);
+        }catch (Exception e){
+            return BaseResponse.create(ErrorEnum.SERVE_ERROR.getCode(),"利率格式不正确");
+        }
+
         long col = borrowManager.insertSelective(borrowDO);
         if(col == 1){
             redisAO.del("MainData::1");
