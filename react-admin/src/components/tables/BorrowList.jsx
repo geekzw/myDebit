@@ -56,7 +56,8 @@ class BorrowList extends MerchantList {
     }
     finishedEdit = () => {
         this.setState({
-            editingRecord: null
+            editingRecord: null,
+            isAddingItem: false,
         });
         this.start();
     }
