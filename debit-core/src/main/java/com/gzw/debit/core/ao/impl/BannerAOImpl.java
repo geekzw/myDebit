@@ -3,6 +3,7 @@ package com.gzw.debit.core.ao.impl;
 import com.gzw.debit.core.ao.BannerAO;
 import com.gzw.debit.core.ao.RedisAO;
 import com.gzw.debit.core.entry.Const;
+import com.gzw.debit.core.enums.ErrorEnum;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.ListSearchForm;
 import com.gzw.debit.core.form.EditBannerForm;
@@ -12,6 +13,7 @@ import com.gzw.debit.core.manager.BannerManager;
 import com.gzw.debit.core.utils.StringUtil;
 import com.gzw.debit.dal.model.BannerDO;
 import com.gzw.debit.dal.query.BannerQuery;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,18 @@ public class BannerAOImpl implements BannerAO {
     private BannerManager bannerManager;
     @Autowired
     private RedisAO redisAO;
+
+    @Override
+    public BaseResponse<Boolean> addBanner(EditBannerForm form) {
+        BannerDO bannerDO = new BannerDO();
+        BeanUtils.copyProperties(form,bannerDO);
+        long col = bannerManager.insertSelective(bannerDO);
+        if(col == 1){
+            redisAO.del("MainData::1");
+            return BaseResponse.create(true);
+        }
+        return BaseResponse.create(ErrorEnum.SERVE_ERROR);
+    }
 
     @Override
     public BaseResponse<List<BannerDO>> getBannerList(ListSearchForm form) {

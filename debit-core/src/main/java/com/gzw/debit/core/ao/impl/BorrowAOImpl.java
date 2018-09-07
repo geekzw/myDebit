@@ -43,6 +43,7 @@ public class BorrowAOImpl implements BorrowAO {
         BeanUtils.copyProperties(form,borrowDO);
         long col = borrowManager.insertSelective(borrowDO);
         if(col == 1){
+            redisAO.del("MainData::1");
             return BaseResponse.create(true);
         }else{
             return BaseResponse.create(ErrorEnum.SERVE_ERROR);
