@@ -12,6 +12,8 @@ import { getMerchant, editMerchant, deleteMerchant, notifyPop } from '../../axio
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import '../../style/table.less';
 
+const { Fragment } = React;
+
 const types = {
     "0" : "超级管理员",
     "1" : "普通商家",
@@ -357,6 +359,9 @@ class MerchantList extends React.Component {
         );
       },
     }];
+    addButton() {
+        return <Button type="primary" onClick={this.toAddItem}>增加</Button>
+    }
     tableHeaderArea = () => (
         <Row style={{ marginBottom: 16 }} type="flex" justify="space-between">
             <Col md={16}>
@@ -371,11 +376,12 @@ class MerchantList extends React.Component {
                     />
                     </Col>
                     <Col md={12}>
-                    <Button type="primary" onClick={this.onSearch}>Search</Button>
+                    <Button type="primary" onClick={this.onSearch}>搜索</Button>
                     </Col>
                 </Row>
             </Col>
             <Col>
+            {this.state.canAddItem ? this.addButton() : <Fragment/>}
             <Button type="primary" onClick={this.reload}
                     disabled={this.state.loading} loading={this.state.loading}
             >

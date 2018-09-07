@@ -70,6 +70,11 @@ export const getBorrowList = (params) =>
         baseURL+'/auth/getBorrowList.json', 
         params
     );
+export const addBorrow = (params) =>
+    post(
+        baseURL+'/auth/addBorrow.json', 
+        params
+    );
 export const editBorrow = (params) => 
     post(
         baseURL+'/auth/editBorrow.json', 
@@ -85,6 +90,11 @@ export const deleteBorrow = (params) =>
 export const getBannerList = (params) =>
     get(
         baseURL+'/auth/getBannerList.json', 
+        params
+    );
+export const addBanner = (params) => 
+    post(
+        baseURL+'/auth/addBanner.json', 
         params
     );
 export const editBanner = (params) => 

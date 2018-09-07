@@ -4,7 +4,7 @@
 import React from 'react';
 import {
     Row, Popconfirm, Col, Card, Table,
-    Icon, BackTop, Button, 
+    Icon, BackTop, Button, Input, 
 } from 'antd';
 import { Link } from 'react-router-dom';
 import { getBorrowList, editBorrow, deleteBorrow, notifyPop } from '../../axios';
@@ -32,7 +32,8 @@ class BorrowList extends MerchantList {
     state = {
         ...(super.state) || {},
         data: [],
-        editingRecord: JSON.parse(localStorage.getItem('editingBorrow'))
+        editingRecord: JSON.parse(localStorage.getItem('editingBorrow')),
+        canAddItem: true,
     };
     // 属性相关
     breadcrumbCustom() {
@@ -41,18 +42,12 @@ class BorrowList extends MerchantList {
     tableTitle() {
         return "借贷列表";
     }
-    // // 控件相关
-    // tableHeaderArea = () => (
-    //     <div>
-    //         <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
-    //             <Button type="primary" onClick={this.reload}
-    //                 disabled={this.state.loading} loading={this.state.loading}
-    //             >
-    //                 {this.state.loading ? '正在加载' : '刷新'}
-    //             </Button>
-    //         </Row>
-    //     </div>
-    // );
+    toAddItem = () => 
+        this.setState({
+            editingRecord: null,
+            isChecking: false,
+            isAddingItem: true
+        });
     toBorrow(r){
         this.setState({
             editingRecord: r,
@@ -289,8 +284,8 @@ class BorrowList extends MerchantList {
         </div>);
     }
     render() {
-        var content = this.state.editingRecord ?
-            <BorrowEditForm isChecking={this.state.isChecking} record={this.state.editingRecord} finished={this.finishedEdit} /> : this.tableContent()
+        var content = this.state.editingRecord ? <BorrowEditForm isChecking={this.state.isChecking} record={this.state.editingRecord} finished={this.finishedEdit} /> : this.tableContent();
+        content = this.state.isAddingItem ? <BorrowEditForm isAdding="true" finished={this.finishedAdding} /> : content;
         return content;
     }
 }

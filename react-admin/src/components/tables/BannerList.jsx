@@ -11,6 +11,7 @@ import { getBannerList, editBanner, deleteBanner, notifyPop } from '../../axios'
 import '../../style/table.less';
 import MerchantList, { } from './MerchantList';
 import BreadcrumbCustom from '../BreadcrumbCustom';
+import AddBannerForm from '../forms/AddBannerForm';
 const { TextArea } = Input;
 
 const routes = [{
@@ -84,7 +85,8 @@ class EditableCell extends React.Component {
 class BannerList extends MerchantList {
     state = {
         ...(super.state)||{},
-        data: []
+        data: [],
+        canAddItem: true,
     };
     // 属性相关
     breadcrumbCustom() {
@@ -93,18 +95,12 @@ class BannerList extends MerchantList {
     tableTitle() {
         return "Banner列表";
     }
-    // 控件相关
-    // tableHeaderArea = () => (
-    //     <div>
-    //         <Row style={{ marginBottom: 16, marginTop: 12 }} type="flex" justify="space-between">
-    //             <Button type="primary" onClick={this.reload}
-    //                         disabled={this.state.loading} loading={this.state.loading}
-    //                 >
-    //                 {this.state.loading ? '正在加载' : '刷新'}
-    //             </Button>
-    //         </Row>
-    //     </div>
-    // );
+    toAddItem = () => 
+        this.setState({
+            editingRecord: null,
+            isChecking: false,
+            isAddingItem: true
+        });
     columns = [
         {
             title: 'id',
@@ -323,6 +319,9 @@ class BannerList extends MerchantList {
             }),
             };
         });
+    }
+    addButton() {
+        return <AddBannerForm />
     }
 }
 

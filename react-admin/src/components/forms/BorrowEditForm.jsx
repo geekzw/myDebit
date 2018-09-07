@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { Row, Col, Card, Button, Icon, Form, Input, InputNumber, Popconfirm } from 'antd';
 import BreadcrumbCustom from '../BreadcrumbCustom';
 import { itemRender } from '../tables/BorrowList';
-import { notifyPop, editBorrow } from '../../axios';
+import { notifyPop, editBorrow, addBorrow } from '../../axios';
 
 const routes = [{
     path: 'app',
@@ -43,7 +43,8 @@ class BorrowEditForm extends Component {
         super(props);
         this.state = {
             record: props.record,
-            isChecking: props.isChecking
+            isChecking: props.isChecking,
+            isAdding: props.isAdding
         };
     }
     // 属性相关
@@ -86,6 +87,19 @@ class BorrowEditForm extends Component {
                 ...row,
                 id: record.id
             }
+            if(this.state.isAdding){
+                addBorrow(params).then(
+                    resp => {
+                        console.log(params);
+                        console.log(resp);
+                        notifyPop('提示', resp.success ? '新增成功' : resp.desc);
+                        if (resp.success) {
+                            this.props.finished();
+                        }
+                    }
+                ).catch(err => notifyPop('错误', err, <Icon type="frown" />));
+                return;
+            }
             editBorrow(params).then(
                 resp => {
                     console.log(params);
@@ -125,7 +139,7 @@ class BorrowEditForm extends Component {
                                     {
                                         !isChecking ? getFieldDecorator(r.dataIndex, {
                                             rules: [{ required: true, message: '请输入' + r.title + '!' }],
-                                            initialValue: record[r.dataIndex],
+                                            initialValue: record?record[r.dataIndex]:null,
                                         })(r.inputType === 'number' ?
                                             <InputNumber onChange={this.textOnChange(r.dataIndex)} /> :
                                             <TextArea onChange={this.textOnChange(r.dataIndex)} autosize />) :
@@ -155,7 +169,7 @@ class BorrowEditForm extends Component {
                 <Row gutter={16}>
                     <Col className="gutter-row" md={24}>
                         <div className="gutter-box">
-                            <Card title="借贷详情" bordered={false}>
+                            <Card title={this.state.isAdding?"增加借贷项目":"借贷详情"} bordered={false}>
                                 <FormArea />
                             </Card>
                         </div>
