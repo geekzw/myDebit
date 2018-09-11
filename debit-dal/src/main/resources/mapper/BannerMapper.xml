@@ -10,6 +10,7 @@
         <result column="banner_order" jdbcType="INTEGER" property="bannerOrder" />
         <result column="status" jdbcType="TINYINT" property="status" />
         <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="click_count" jdbcType="INTEGER" property="clickCount" />
     </resultMap>
 
     <sql id="Query_Where_Clause">
@@ -73,7 +74,7 @@
     </sql>
 
     <sql id="Base_Column_List">
-        id,gmt_create,gmt_modified,url,image,banner_order,status,product_name
+        id,gmt_create,gmt_modified,url,image,banner_order,status,product_name,click_count
     </sql>
 
     <select id="selectByQuery" parameterType="com.gzw.debit.dal.query.BannerQuery" resultMap="BaseResultMap">
@@ -129,6 +130,9 @@
             <if test="productName != null">
                 product_name,
             </if>
+            <if test="clickCount != null">
+                click_count,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             now(),now(),
@@ -146,6 +150,9 @@
             </if>
             <if test="productName != null">
                 #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="clickCount != null">
+                #{clickCount,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -176,6 +183,9 @@
             <if test="record.productName != null">
                 product_name = #{record.productName,jdbcType=VARCHAR},
             </if>
+            <if test="record.clickCount != null">
+                click_count = #{record.clickCount,jdbcType=INTEGER},
+            </if>
         </set>
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -189,6 +199,7 @@
         banner_order = #{record.bannerOrder,jdbcType=INTEGER},
         status = #{record.status,jdbcType=TINYINT},
         product_name = #{record.productName,jdbcType=VARCHAR},
+        click_count = #{record.clickCount,jdbcType=INTEGER},
         gmt_modified = now()
         <if test="_parameter != null">
             <include refid="Update_By_Query_Where_Clause" />
@@ -213,6 +224,9 @@
             </if>
             <if test="productName != null">
                 product_name = #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="clickCount != null">
+                click_count = #{clickCount,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}

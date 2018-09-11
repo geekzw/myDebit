@@ -51,12 +51,21 @@ public class BorrowListVO implements Serializable{
      */
     private String url;
 
-
-
     /**
      * 放贷人数
      */
     private Integer peopleNumber;
+
+    /**
+     * 列表点击次数
+     */
+    private Integer listClickCount;
+
+    /**
+     * 详情点击次数
+     */
+    private Integer detailClickCount;
+
 
 
     private java.math.BigDecimal monthyRate;

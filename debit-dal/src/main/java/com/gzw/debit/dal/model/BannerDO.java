@@ -58,4 +58,10 @@ public class BannerDO implements Serializable {
      */
     private String productName;
 
+    /**
+     * 点击次数
+     * debit_banner.click_count
+     */
+    private Integer clickCount;
+
 }

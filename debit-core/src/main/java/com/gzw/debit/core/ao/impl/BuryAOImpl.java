@@ -8,15 +8,20 @@ import com.gzw.debit.core.entry.Const;
 import com.gzw.debit.core.enums.StatusEnum;
 import com.gzw.debit.core.form.BuryForm;
 import com.gzw.debit.core.form.base.BaseResponse;
+import com.gzw.debit.core.manager.BannerManager;
+import com.gzw.debit.core.manager.BorrowManager;
 import com.gzw.debit.core.manager.BuryManager;
 import com.gzw.debit.core.utils.DateUtil;
 import com.gzw.debit.core.utils.UserUtil;
+import com.gzw.debit.dal.model.BannerDO;
+import com.gzw.debit.dal.model.BorrowDO;
 import com.gzw.debit.dal.model.BuryDO;
 import com.gzw.debit.dal.query.BuryQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
@@ -35,6 +40,13 @@ public class BuryAOImpl implements BuryAO{
     @Autowired
     private BuryManager buryManager;
 
+    @Autowired
+    private BannerManager bannerManager;
+
+    @Autowired
+    private BorrowManager borrowManager;
+
+    @Transactional
     @Override
     public BaseResponse<Boolean> insertBury(BuryForm form) {
         HeaderEntry header = WebSessionUtil.getHeader();
@@ -81,7 +93,7 @@ public class BuryAOImpl implements BuryAO{
             Long col = buryManager.insertSelective(buryDO);
             if(col < 1){
                 logger.error("插入埋点信息出错，userId={}",user.getUserId());
-                return BaseResponse.create(Const.LOGIC_ERROR,"插入埋点信息出错");
+                throw new RuntimeException("插入埋点信息出错");
             }
 
         }else{
@@ -94,8 +106,26 @@ public class BuryAOImpl implements BuryAO{
             int col = buryManager.updateByPrimaryKeySelective(buryDO);
             if(col < 1){
                 logger.error("更新埋点信息出错，userId={}",user.getUserId());
-                return BaseResponse.create(Const.LOGIC_ERROR,"插入埋点信息出错");
+                throw new RuntimeException("更新埋点信息出错");
             }
+        }
+        if(form.getIsBanner()){
+            BannerDO bannerDO = bannerManager.selectByPrimaryKey(form.getProductId());
+            if(bannerDO!=null){
+                bannerDO.setClickCount(bannerDO.getClickCount()+1);
+                bannerManager.updateByPrimaryKeySelective(bannerDO);
+            }
+        }else{
+            BorrowDO borrowDO = borrowManager.selectByPrimaryKey(form.getProductId());
+            if(borrowDO!=null){
+                if(form.getType()==1){
+                    borrowDO.setListClickCount(borrowDO.getListClickCount()+1);
+                }else{
+                    borrowDO.setDetailClickCount(borrowDO.getDetailClickCount()+1);
+                }
+                borrowManager.updateByPrimaryKeySelective(borrowDO);
+            }
+
         }
         return BaseResponse.create(true);
     }

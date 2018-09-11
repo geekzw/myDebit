@@ -1207,6 +1207,146 @@ public class BorrowQuery extends BaseQuery implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andListClickCountIsNull() {
+            addCriterion("list_click_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountIsNotNull() {
+            addCriterion("list_click_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountEqualTo(Integer value) {
+            addCriterion("list_click_count =", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountNotEqualTo(Integer value) {
+            addCriterion("list_click_count <>", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountGreaterThan(Integer value) {
+            addCriterion("list_click_count >", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("list_click_count >=", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountLessThan(Integer value) {
+            addCriterion("list_click_count <", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountLessThanOrEqualTo(Integer value) {
+            addCriterion("list_click_count <=", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountLike(Integer value) {
+            addCriterion("list_click_count like", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountNotLike(Integer value) {
+            addCriterion("list_click_count not like", value, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountIn(List<Integer> values) {
+            addCriterion("list_click_count in", values, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountNotIn(List<Integer> values) {
+            addCriterion("list_click_count not in", values, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountBetween(Integer value1, Integer value2) {
+            addCriterion("list_click_count between", value1, value2, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andListClickCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("list_click_count not between", value1, value2, "listClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountIsNull() {
+            addCriterion("detail_click_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountIsNotNull() {
+            addCriterion("detail_click_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountEqualTo(Integer value) {
+            addCriterion("detail_click_count =", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountNotEqualTo(Integer value) {
+            addCriterion("detail_click_count <>", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountGreaterThan(Integer value) {
+            addCriterion("detail_click_count >", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("detail_click_count >=", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountLessThan(Integer value) {
+            addCriterion("detail_click_count <", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountLessThanOrEqualTo(Integer value) {
+            addCriterion("detail_click_count <=", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountLike(Integer value) {
+            addCriterion("detail_click_count like", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountNotLike(Integer value) {
+            addCriterion("detail_click_count not like", value, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountIn(List<Integer> values) {
+            addCriterion("detail_click_count in", values, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountNotIn(List<Integer> values) {
+            addCriterion("detail_click_count not in", values, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountBetween(Integer value1, Integer value2) {
+            addCriterion("detail_click_count between", value1, value2, "detailClickCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDetailClickCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("detail_click_count not between", value1, value2, "detailClickCount");
+            return (Criteria) this;
+        }
+
     }
 
     /**

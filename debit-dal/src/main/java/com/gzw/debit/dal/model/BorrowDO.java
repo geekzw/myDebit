@@ -112,4 +112,16 @@ public class BorrowDO implements Serializable {
      */
     private LocalDateTime gmtModified;
 
+    /**
+     * 列表点击次数
+     * debit_borrow.list_click_count
+     */
+    private Integer listClickCount;
+
+    /**
+     * 详情点击次数
+     * debit_borrow.detail_click_count
+     */
+    private Integer detailClickCount;
+
 }

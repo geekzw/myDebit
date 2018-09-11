@@ -39,6 +39,11 @@ public class BannerVO implements Serializable{
      */
     private Integer bannerOrder;
 
+    /**
+     * 点击次数
+     */
+    private Integer clickCount;
+
 
     public static List<BannerVO> createListByDO(List<BannerDO> bannerDOS){
         if(CollectionUtils.isEmpty(bannerDOS)){
