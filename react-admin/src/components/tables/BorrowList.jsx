@@ -68,6 +68,18 @@ class BorrowList extends MerchantList {
         { title: '产品名称', dataIndex: 'productName', width: 120, 
             render: (text,record) => <a onClick={()=>this.toBorrow(record)}>{text}</a>
         },
+        {
+            title: '列表点击次数',
+            dataIndex: 'listClickCount',
+            width: 60,
+            editable: true,
+        },
+        {
+            title: '详情点击次数',
+            dataIndex: 'detailClickCount',
+            width: 60,
+            editable: true,
+        },
         // {
         //     title: '跳转链接', dataIndex: 'url', width: 200,
         //     render: (text, record) => (<a href={text} target="_blank" >{text}</a>)

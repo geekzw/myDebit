@@ -113,6 +113,12 @@ class BannerList extends MerchantList {
             width: 160
         },
         {
+            title: '点击次数',
+            dataIndex: 'clickCount',
+            width: 60,
+            editable: true,
+        },
+        {
             title: '跳转链接',
             dataIndex: 'url',
             width: 180,
