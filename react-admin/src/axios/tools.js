@@ -3,6 +3,7 @@
  * http通用工具函数
  */
 import axios from 'axios';
+import { receiveData, fetchData } from '../action';
 // import { message } from 'antd';
 
 export function dateFtt(fmt,date)   
@@ -42,7 +43,13 @@ const getHeader = () => {
  * @param params       参数
  */
 export const get = (url,params) => {
-    return axios.get(url,{params: params,headers: getHeader()}).then(response=>response.data).catch(err => err);
+    return axios.get(url,{params: params,headers: getHeader()}).then(response=>{
+        if(response.data == 1005){
+            receiveData({data:""}, 'resp');
+            return null;
+        }
+        return response.data;
+    }).catch(err => err);
 };
 /**
  * 公用get请求
@@ -67,7 +74,13 @@ export const post = (url,datas) => {
         url: url,
         data: datas,
         headers: getHeader()
-    }).then(response=>response.data).catch(err => err);
+    }).then(response => {
+        if(response.data == 1005){
+            receiveData({data:""}, 'resp');
+            return null;
+        }
+        return response.data;
+    }).catch(err => err);
 };
 /**
  * 公用post请求

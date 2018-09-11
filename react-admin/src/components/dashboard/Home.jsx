@@ -52,6 +52,10 @@ class Home extends React.Component {
         if (user && user.type === 0) {
             home().then(
                 resp => {
+                    if(!resp||!resp.data){
+                        console.log(resp);
+                        return;
+                    }
                     Object.keys(resp.data).forEach(k=>{
                         if(k==="registerDatas"){
                             (resp.data[k]||[]).forEach(r=>{

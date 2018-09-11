@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "闪电记账管理后台",
+  "name": "闪电记账，你的借贷管理首选",
   "icons": [
     {
       "src": "favicon.ico",
