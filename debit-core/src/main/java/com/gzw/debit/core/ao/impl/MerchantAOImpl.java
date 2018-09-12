@@ -301,6 +301,7 @@ public class MerchantAOImpl implements MerchantAO {
         UserQuery query = new UserQuery();
         query.setPageNo(form.getPageNo());
         query.setPageSize(form.getPageSize());
+        query.setOrderByClause("gmt_create desc");
         query.createCriteria().andStatusEqualTo(StatusEnum.NORMAL_STATUS.getCode())
                 .andChannelIdEqualTo(merchantDO.getChannelId());
 
