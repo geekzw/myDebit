@@ -73,8 +73,7 @@ public class BuryAOImpl implements BuryAO{
                 .andProductIdEqualTo(form.getProductId())
                 .andPackagetypeEqualTo(header.getPackageType())
                 .andIsBannerEqualTo(isBanner)
-                .andGmtCreateGreaterThanOrEqualTo(DateUtil.getToday0Time())
-                .andGmtCreateLessThanOrEqualTo(DateUtil.getTodayLastTime());
+                .andFromWhereEqualTo(fromWhere);
         List<BuryDO> buryDOS = buryManager.selectByQuery(query);
         BuryDO buryDO;
         int type = form.getType() == null?1:form.getType();
@@ -109,7 +108,7 @@ public class BuryAOImpl implements BuryAO{
                 throw new RuntimeException("更新埋点信息出错");
             }
         }
-        if(form.getIsBanner()){
+        if(fromWhere==1){
             BannerDO bannerDO = bannerManager.selectByPrimaryKey(form.getProductId());
             if(bannerDO!=null){
                 bannerDO.setClickCount(bannerDO.getClickCount()+1);
