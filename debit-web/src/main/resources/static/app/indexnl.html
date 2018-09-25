@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.bxslider.js"></script>
+    <title>管家记账</title>
+    <link href="css/jquery.bxslider.css" rel="stylesheet" type="text/css">
+    <!--Slider Style-->
+    <style>.bx-wrapper,.slide,body{margin:0 auto}.slide img{width:inherit}.bx-wrapper .bx-viewport{border:0;left:0}.bx-wrapper .bx-pager{bottom:5px}</style>
+    <!--List Style-->
+    <style>a:visited{color:unset}.list .text{font-size:14px;color:#999}.list p{display:inline-block;margin:0;padding:0}.list>a{height:5pc;border-bottom:1px solid #ccc;display:block}.list>a:hover{background:#e7f7ff}.list>a>img{width:4pc;height:4pc;position:absolute;margin-left:8px;margin-top:8px}.title{padding-left:5pc;padding-top:8px}.title>p{font-size:20px}.desc{padding-left:5pc;padding-top:8px}.count{display:inline-block;float:right;margin-right:8px}.count-text{color:#f33!important}</style>
+    <!--Tool Button-->
+    <style>
+        .tool{
+            text-decoration: none;
+            text-align: center;
+            background: #fff;
+            cursor: pointer;
+            width: 120px;
+            height: 28px;
+            position: fixed;
+            bottom: 44px;
+            right:8px;
+            border:1px #ccc solid;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            border-radius: 16px;
+            -moz-border-radius: 16px;
+            -webkit-border-radius: 16px;
+            padding-top: 4px;
+        }
+        .tool:hover,.tool:focus,.tool:active{
+            background: #e7f7ff;
+        }
+        .tool>p{
+            background: #333;
+            width: 16px;
+            height: 2px;
+            margin:4px auto;
+            padding: 0 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider"></div>
+<div id="product-list" class="list"></div>
+<a id="menu-button" style="display: none" class="tool" onclick="menuPress()"></a>
+
+<script type="text/javascript">
+    function setCookie(c_name,value,expiredays){var exdate=new Date();exdate.setDate(exdate.getDate()+expiredays);document.cookie=c_name+ "=" +escape(value)+((expiredays==null) ? "" : ";expires="+exdate.toGMTString());}
+    function getCookie(c_name){if(document.cookie.length>0){c_start=document.cookie.indexOf(c_name + "=");if(c_start!=-1){c_start=c_start + c_name.length+1;c_end=document.cookie.indexOf(";",c_start);if(c_end==-1)c_end=document.cookie.length;return unescape(document.cookie.substring(c_start,c_end));}}return "";}
+    var logined = getCookie("sessionId");
+    logined = !(logined == null || logined == '' || logined == undefined);
+    function menuPress(){
+        if(logined){
+            setCookie("sessionId","",-1);
+        }
+        window.location.href = "register.html";
+    }
+    function itemClick(label){
+        if(!logined){
+            alert("请先登录");
+            return;
+        }
+        var url = label.getAttribute("url");
+        var isBanner = label.getAttribute("banner") ? true : false;
+        var dataId = label.getAttribute("data-id");
+        if(url){
+            var params = {
+                productId: dataId,
+                isBanner: isBanner,
+                type: 3
+            };
+            $.ajax({
+                url: "/auth/postBury.json",
+                method: "POST",
+                contentType: 'application/json; charset=utf-8',
+                headers: {
+                    sessionId: getCookie("sessionId")
+                },
+                data: JSON.stringify(params),
+                complete: (res)=>{
+                    window.location.href = url;
+                }
+            });
+        }
+    }
+    function loginMind(){
+        alert("请先登录！");
+    }
+    var sliderOptions = {
+        auto: true,
+        pause: 3000,
+        autoHover: true,
+        minSlides: 1,
+        maxSlides: 1,
+        autoDelay: 1,
+        slideMargin: 10
+    };
+    var slider;
+    function reloadList(){
+        $.ajax({
+            url:"/mainView.json",
+            success: (resp)=>{
+                if(resp.code==1000){
+                    var bannerList = resp.data.bannerVOList;
+                    var imgStr = '';
+                    for(var i=0;i<bannerList.length;i++){
+                        var item = bannerList[i];
+                        imgStr += '<a class="slide" data-id="'+item.id+'" banner="true" url="'+item.url+'" onclick="itemClick(this)"><img src="'+item.image+'"></a>';
+                    }
+                    $('.slider').html(imgStr);
+                    slider && slider.destroySlider();
+                    slider = $('.slider').bxSlider(sliderOptions);
+
+                    var borrowList = resp.data.borrowVOList;
+                    var listStr = "";
+                    var aStyle = logined?'target="_blank"':'onclick="loginMind()"';
+                    for(var i=0;i<borrowList.length;i++){
+                        var item = borrowList[i];
+                        var title = item.productName;
+                        var count = item.peopleNumber;
+                        var desc = item.productDetail;
+                        var img = item.image;
+                        listStr += '<a  onclick="itemClick(this)" data-id="'+item.id+'" url="'+item.url+'" '+aStyle+' ><img src="'+img+'"/><div class="title">\
+                            <p>'+title+'</p>\
+                            <div class="count"><p class="count-text text">'+count+'</p><p class="count-mind text">人已放款</p></div>\
+                            </div>\
+                            <div class="desc text"><p>'+desc+'</p></div></a>';
+                    }
+                    $('#product-list').html(listStr);
+                }
+            }
+        });
+    }
+    $(document).ready(function(){
+        reloadList();
+        if(logined){
+            $('#menu-button').html("注销");
+        }else{
+            $('#menu-button').html("马上注册/登录");
+        }
+        $('#menu-button').css('display','block');
+    });
+</script>
+
+
+</body>
+</html>
