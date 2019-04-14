@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    private String myUrlAPI = "http://";
+
     @Autowired
     private TestAO testAO;
     @Autowired
@@ -47,6 +49,12 @@ public class TestController {
 
     @GetMapping("/html.json")
     public String getHtml(){
-        return htmlReplace.htmlUrlReplace("http://ybqbzc.newhopeai.com/?channel=yuebang","http://ybqbzc.newhopeai.com/","http");
+        /**
+         * 替换改成数组
+         * /user/verification_code/sendmobilecode.html  -> myapi?url=转码(/user/verification_code/sendmobilecode.html)
+         * /mobile/public/doregister.html               -> myapi?url=转码(/mobile/public/doregister.html)
+         *
+         * */
+        return htmlReplace.htmlUrlReplace("http://ybqbzc.newhopeai.com/?channel=yuebang","/mobile/public/doregister.html",myUrlAPI+"?url=xxxx");
     }
 }
